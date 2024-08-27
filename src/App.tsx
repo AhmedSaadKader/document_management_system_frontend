@@ -10,6 +10,7 @@ import { ThemeProvider } from './context/theme_context';
 import Dashboard from './pages/Dashboard';
 import ProfilePage from './pages/Profile';
 import { CircularProgress } from '@mui/material';
+import WorkspacePage from './pages/Workspace';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -54,6 +55,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/workspace/:workspaceId'
+              element={
+                <ProtectedRoute>
+                  <WorkspacePage />
                 </ProtectedRoute>
               }
             />

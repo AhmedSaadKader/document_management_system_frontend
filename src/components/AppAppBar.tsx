@@ -128,7 +128,14 @@ function AppAppBar() {
               >
                 <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={signOut}>Logout</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    signOut();
+                  }}
+                >
+                  Logout
+                </MenuItem>
               </Menu>
             </div>
           ) : (

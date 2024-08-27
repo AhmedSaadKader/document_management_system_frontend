@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Grid, Paper } from '@mui/material';
 import { useAuth } from '../context/auth_context';
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -65,14 +66,20 @@ const Dashboard = () => {
             <Typography variant='h6'>My Workspaces</Typography>
             {workspaces.length > 0 ? (
               workspaces.map((workspace) => (
-                <Box key={workspace._id} sx={{ mb: 2 }}>
-                  <Typography variant='h6'>
-                    {workspace.workspaceName}
-                  </Typography>
-                  <Typography variant='body2'>
-                    {workspace.description}
-                  </Typography>
-                </Box>
+                <Link
+                  to={`/workspace/${workspace._id}`}
+                  key={workspace._id}
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                >
+                  <Box key={workspace._id} sx={{ mb: 2 }}>
+                    <Typography variant='h6'>
+                      {workspace.workspaceName}
+                    </Typography>
+                    <Typography variant='body2'>
+                      {workspace.description}
+                    </Typography>
+                  </Box>
+                </Link>
               ))
             ) : (
               <Typography>No workspaces available.</Typography>
