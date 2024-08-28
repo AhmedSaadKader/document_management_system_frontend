@@ -18,11 +18,11 @@ import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AccountCircle } from '@mui/icons-material';
 import { useAuth } from '../context/auth_context';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
-const navItems = ['Home', 'About', 'Contact'];
+// const navItems = ['Home'];
 
 function AppAppBar() {
   const { isAuthenticated, signOut } = useAuth();
@@ -54,13 +54,21 @@ function AppAppBar() {
       </Typography>
       <Divider />
       <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <ListItem>
+          <ListItemButton component={Link} to='/workspaces'>
+            <ListItemText primary='All Workspaces' />
+          </ListItemButton>
+        </ListItem>
+        <ListItem>
+          <ListItemButton component={Link} to='/documents'>
+            <ListItemText primary='All Documents' />
+          </ListItemButton>
+        </ListItem>
+        <ListItem>
+          <ListItemButton component={Link} to='/recycle-bin'>
+            <ListItemText primary='Recycle Bin' />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );
@@ -78,26 +86,36 @@ function AppAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant='h6'
-            component='div'
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-          >
-            Document Management System
-          </Typography>
-          <Typography
-            variant='h6'
-            component='div'
-            sx={{ flexGrow: 1, display: { xs: 'block', sm: 'none' } }}
-          >
-            DMS
-          </Typography>
+          <Link to={`/`} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Typography
+              variant='h6'
+              component='div'
+              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            >
+              Document Management System
+            </Typography>
+          </Link>
+          <Link to={`/`} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Typography
+              variant='h6'
+              component='div'
+              sx={{ flexGrow: 1, display: { xs: 'block', sm: 'none' } }}
+            >
+              DMS
+            </Typography>
+          </Link>
+          <Box sx={{ flexGrow: 1 }} />
+
           <Box sx={{ display: { sm: 'none', md: 'block' } }}>
-            {navItems.map((item) => (
-              <Button key={item} sx={{ color: '#fff' }}>
-                {item}
-              </Button>
-            ))}
+            <Button sx={{ color: '#fff' }} href='/workspaces'>
+              Workspaces
+            </Button>
+            <Button sx={{ color: '#fff' }} href='/documents'>
+              Documents
+            </Button>
+            <Button sx={{ color: '#fff' }} href='/recycle-bin'>
+              Recycle Bin
+            </Button>
           </Box>
           {isAuthenticated ? (
             <div>

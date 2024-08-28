@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Typography, Grid, Paper, Button, TextField } from '@mui/material';
+import DocumentPreviewModal from '../components/DocumentPreviewModal';
+import DeleteDocumentButton from '../components/DeleteDocumentButton';
 
 const WorkspacePage = () => {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const { workspaceId } = useParams<{ workspaceId: string }>();
   const [workspace, setWorkspace] = useState<any>(null);
   const [newDocumentName, setNewDocumentName] = useState('');
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewName, setPreviewName] = useState('');
 
   useEffect(() => {
     const fetchWorkspace = async () => {
@@ -35,7 +40,22 @@ const WorkspacePage = () => {
     fetchWorkspace();
   }, [workspaceId]);
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setSelectedFile(e.target.files[0]);
+    }
+  };
+
   const handleAddDocument = async () => {
+    if (!selectedFile) {
+      console.error('No file selected');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+    formData.append('documentName', newDocumentName);
+
     try {
       const response = await fetch(
         `http://localhost:5000/api/v1/workspaces/${workspaceId}/documents`,
@@ -43,9 +63,8 @@ const WorkspacePage = () => {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-            'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ name: newDocumentName }),
+          body: formData,
         }
       );
 
@@ -53,7 +72,6 @@ const WorkspacePage = () => {
         throw new Error('Failed to add document');
       }
 
-      // Fetch workspace again to update the document list
       const addedDocument = await response.json();
 
       setWorkspace((prevWorkspace: any) => ({
@@ -61,36 +79,95 @@ const WorkspacePage = () => {
         documents: [...prevWorkspace.documents, addedDocument],
       }));
       setNewDocumentName('');
+      setSelectedFile(null);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleDeleteDocument = async (documentId: string) => {
+  const handleDownloadDocument = async (documentId: string) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/workspaces/${workspaceId}/documents/${documentId}`,
+        `http://localhost:5000/api/v1/workspaces/${workspaceId}/documents/${documentId}/download`,
         {
-          method: 'DELETE',
+          method: 'GET',
           headers: {
             Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-            'Content-Type': 'application/json',
           },
         }
       );
 
       if (!response.ok) {
-        throw new Error('Failed to delete document');
+        throw new Error('Failed to download document');
       }
 
-      // Fetch workspace again to update the document list
-      // const updatedWorkspace = await response.json();
-      setWorkspace((prevWorkspace: any) => ({
-        ...prevWorkspace,
-        documents: prevWorkspace.documents.filter(
-          (doc: any) => doc._id !== documentId
-        ),
-      }));
+      // Extract the filename from the Content-Disposition header
+      const contentDisposition = response.headers.get('Content-Disposition');
+      let filename = 'downloaded-file.pdf'; // Default filename
+      if (contentDisposition) {
+        const match = contentDisposition.match(/filename="?([^"]+)"?/);
+        if (match) {
+          filename = match[1];
+        }
+      }
+
+      console.log('s', contentDisposition);
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const [previewUrl, setPreviewUrl] = useState('');
+
+  const handlePreviewDocument = async (
+    documentId: string,
+    documentName: string
+  ) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/v1/documents/${documentId}/preview`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch document preview');
+      }
+
+      const data = await response.json();
+
+      if (data && data.base64) {
+        // Decode base64 to binary data
+        const binaryData = atob(data.base64);
+        const arrayBuffer = new Uint8Array(binaryData.length);
+        for (let i = 0; i < binaryData.length; i++) {
+          arrayBuffer[i] = binaryData.charCodeAt(i);
+        }
+
+        // Create a Blob from the arrayBuffer
+        const blob = new Blob([arrayBuffer], { type: 'application/pdf' });
+
+        // Create a URL from the Blob
+        const url = URL.createObjectURL(blob);
+
+        setPreviewUrl(url);
+        setPreviewName(documentName);
+        setPreviewOpen(true);
+      } else {
+        console.error('No base64 data received');
+      }
     } catch (error) {
       console.error(error);
     }
@@ -112,6 +189,7 @@ const WorkspacePage = () => {
             onChange={(e) => setNewDocumentName(e.target.value)}
             fullWidth
           />
+          <input type='file' onChange={handleFileChange} />
           <Button
             variant='contained'
             onClick={handleAddDocument}
@@ -129,18 +207,24 @@ const WorkspacePage = () => {
                     </Typography>
                     <Button
                       variant='outlined'
-                      // onClick={() => /* Open document logic */}
+                      onClick={() => handleDownloadDocument(document._id)}
                       sx={{ mr: 1 }}
                     >
-                      Open
+                      Download
                     </Button>
                     <Button
                       variant='outlined'
-                      color='error'
-                      onClick={() => handleDeleteDocument(document._id)}
+                      onClick={() =>
+                        handlePreviewDocument(
+                          document._id,
+                          document.documentName
+                        )
+                      }
+                      sx={{ mr: 1 }}
                     >
-                      Delete
+                      Preview
                     </Button>
+                    <DeleteDocumentButton documentId={document._id} />
                   </Paper>
                 </Grid>
               ))
@@ -148,6 +232,12 @@ const WorkspacePage = () => {
               <Typography>No documents available.</Typography>
             )}
           </Grid>
+          <DocumentPreviewModal
+            open={previewOpen}
+            handleClose={() => setPreviewOpen(false)}
+            documentUrl={previewUrl}
+            documentName={previewName}
+          />
         </>
       ) : (
         <Typography>Loading workspace...</Typography>

@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Grid, Paper } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Grid,
+  Paper,
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+} from '@mui/material';
 import { useAuth } from '../context/auth_context';
 import { Link } from 'react-router-dom';
 
@@ -63,7 +72,16 @@ const Dashboard = () => {
         </Grid>
         <Grid item xs={12}>
           <Paper elevation={3} sx={{ p: 2 }}>
-            <Typography variant='h6'>My Workspaces</Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Typography variant='h6'>Workspaces</Typography>
+              <Button color='inherit' href='/create-workspace'>
+                Create Workspace
+              </Button>
+              <Button color='inherit' component={Link} to='/workspaces'>
+                All Workspaces
+              </Button>
+            </Box>
+            {/* 
             {workspaces.length > 0 ? (
               workspaces.map((workspace) => (
                 <Link
@@ -71,19 +89,50 @@ const Dashboard = () => {
                   key={workspace._id}
                   style={{ textDecoration: 'none', color: 'inherit' }}
                 >
-                  <Box key={workspace._id} sx={{ mb: 2 }}>
-                    <Typography variant='h6'>
-                      {workspace.workspaceName}
-                    </Typography>
-                    <Typography variant='body2'>
-                      {workspace.description}
-                    </Typography>
-                  </Box>
+                  <Card
+                    sx={{
+                      mb: 2,
+                      transition: '0.3s',
+                      '&:hover': { boxShadow: 6 },
+                    }}
+                  >
+                    <CardContent>
+                      <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
+                        {workspace.workspaceName}
+                      </Typography>
+                      <Typography variant='body2' color='textSecondary'>
+                        {workspace.description}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button size='small' color='primary'>
+                        View Details
+                      </Button>
+                    </CardActions>
+                  </Card>
                 </Link>
               ))
             ) : (
-              <Typography>No workspaces available.</Typography>
-            )}
+              <Typography variant='body2' color='textSecondary'>
+                No workspaces available.
+              </Typography>
+            )} */}
+          </Paper>
+          <Paper elevation={3} sx={{ p: 2 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Typography variant='h6'>Documents</Typography>
+              <Button color='inherit' href='/create-workspace'>
+                Create Document
+              </Button>
+              <Button color='inherit' component={Link} to='/documents'>
+                All Documents
+              </Button>
+            </Box>
+          </Paper>
+          <Paper elevation={3} sx={{ p: 2 }}>
+            <Button color='inherit' component={Link} to='/recycle-bin'>
+              Recycle Bin
+            </Button>
           </Paper>
         </Grid>
       </Grid>

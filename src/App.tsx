@@ -11,6 +11,10 @@ import Dashboard from './pages/Dashboard';
 import ProfilePage from './pages/Profile';
 import { CircularProgress } from '@mui/material';
 import WorkspacePage from './pages/Workspace';
+import CreateWorkspaceForm from './pages/CreateWorkspaceForm';
+import AllWorkspacesPage from './pages/AllWorkspaces';
+import AllDocumentsPage from './pages/AllDocuments';
+import RecycleBinPage from './pages/RecycleBin';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -55,6 +59,40 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path='/workspaces'
+              element={
+                <ProtectedRoute>
+                  <AllWorkspacesPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/documents'
+              element={
+                <ProtectedRoute>
+                  <AllDocumentsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/recycle-bin'
+              element={
+                <ProtectedRoute>
+                  <RecycleBinPage />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path='/create-workspace'
+              element={
+                <ProtectedRoute>
+                  <CreateWorkspaceForm />
                 </ProtectedRoute>
               }
             />
