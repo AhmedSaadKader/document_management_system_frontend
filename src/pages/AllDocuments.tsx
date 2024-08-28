@@ -12,8 +12,8 @@ import {
   MenuItem,
   TextField,
 } from '@mui/material';
-import DeleteDocumentButton from '../components/DeleteDocumentButton';
-import DocumentDetailsModal from '../components/DocumentDetailModal';
+import DeleteDocumentButton from '../components/DocumentButtons/DeleteDocumentButton';
+import DocumentDetailsModal from '../components/DocumentModals/DocumentDetailModal';
 
 const AllDocumentsPage = () => {
   const [documents, setDocuments] = useState<any[]>([]);

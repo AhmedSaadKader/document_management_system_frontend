@@ -121,7 +121,7 @@ const Dashboard = () => {
           <Paper elevation={3} sx={{ p: 2 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
               <Typography variant='h6'>Documents</Typography>
-              <Button color='inherit' href='/create-workspace'>
+              <Button color='inherit' href='/create-document'>
                 Create Document
               </Button>
               <Button color='inherit' component={Link} to='/documents'>
