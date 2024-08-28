@@ -3,9 +3,13 @@ import { Button } from '@mui/material';
 
 interface DeleteDocumentButtonProps {
   documentId: string;
+  onDelete: (documentId: string) => void;
 }
 
-const DeleteDocumentButton = ({ documentId }: DeleteDocumentButtonProps) => {
+const DeleteDocumentButton = ({
+  documentId,
+  onDelete,
+}: DeleteDocumentButtonProps) => {
   const handleDelete = async () => {
     try {
       const response = await fetch(
@@ -22,8 +26,8 @@ const DeleteDocumentButton = ({ documentId }: DeleteDocumentButtonProps) => {
         throw new Error('Failed to delete document');
       }
 
+      onDelete(documentId);
       alert('Document deleted successfully');
-      // Optionally, refresh the list or redirect
     } catch (error) {
       console.error('Error deleting document:', error);
       alert('Error deleting document');

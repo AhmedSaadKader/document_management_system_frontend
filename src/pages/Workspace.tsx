@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Typography, Grid, Paper, Button, TextField } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Grid,
+  Paper,
+  Button,
+  TextField,
+  Input,
+} from '@mui/material';
 import DocumentPreviewModal from '../components/DocumentPreviewModal';
 import DeleteDocumentButton from '../components/DeleteDocumentButton';
 
@@ -76,8 +84,9 @@ const WorkspacePage = () => {
 
       setWorkspace((prevWorkspace: any) => ({
         ...prevWorkspace,
-        documents: [...prevWorkspace.documents, addedDocument],
+        documents: [...prevWorkspace.documents, addedDocument.document],
       }));
+
       setNewDocumentName('');
       setSelectedFile(null);
     } catch (error) {
@@ -103,15 +112,13 @@ const WorkspacePage = () => {
 
       // Extract the filename from the Content-Disposition header
       const contentDisposition = response.headers.get('Content-Disposition');
-      let filename = 'downloaded-file.pdf'; // Default filename
+      let filename = 'downloaded-file.pdf';
       if (contentDisposition) {
         const match = contentDisposition.match(/filename="?([^"]+)"?/);
         if (match) {
           filename = match[1];
         }
       }
-
-      console.log('s', contentDisposition);
 
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
@@ -173,6 +180,15 @@ const WorkspacePage = () => {
     }
   };
 
+  const handleDocumentDeleted = (documentId: string) => {
+    setWorkspace((prevWorkspace: any) => ({
+      ...prevWorkspace,
+      documents: prevWorkspace.documents.filter(
+        (document: any) => document._id !== documentId
+      ),
+    }));
+  };
+
   return (
     <Box sx={{ p: 3 }}>
       {workspace ? (
@@ -189,7 +205,7 @@ const WorkspacePage = () => {
             onChange={(e) => setNewDocumentName(e.target.value)}
             fullWidth
           />
-          <input type='file' onChange={handleFileChange} />
+          <Input type='file' onChange={handleFileChange} />
           <Button
             variant='contained'
             onClick={handleAddDocument}
@@ -224,12 +240,17 @@ const WorkspacePage = () => {
                     >
                       Preview
                     </Button>
-                    <DeleteDocumentButton documentId={document._id} />
+                    <DeleteDocumentButton
+                      documentId={document._id}
+                      onDelete={handleDocumentDeleted}
+                    />
                   </Paper>
                 </Grid>
               ))
             ) : (
-              <Typography>No documents available.</Typography>
+              <Typography sx={{ p: 2, ml: 5 }}>
+                No documents available.
+              </Typography>
             )}
           </Grid>
           <DocumentPreviewModal
