@@ -9,10 +9,12 @@ import React, {
 const api_url = 'http://localhost:5000/api/v1/users';
 
 const register = async (userData: {
+  national_id: string;
+  first_name: string;
+  last_name: string;
   email: string;
+  username: string;
   password: string;
-  firstName: string;
-  lastName: string;
 }) => {
   const response = await fetch(`${api_url}/register`, {
     method: 'POST',
@@ -82,10 +84,12 @@ interface AuthContextProps {
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => void;
   signUp: (userData: {
+    national_id: string;
+    first_name: string;
+    last_name: string;
     email: string;
+    username: string;
     password: string;
-    firstName: string;
-    lastName: string;
   }) => Promise<void>;
 }
 
@@ -143,14 +147,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const signUp = async (userData: {
+    national_id: string;
+    first_name: string;
+    last_name: string;
     email: string;
+    username: string;
     password: string;
-    firstName: string;
-    lastName: string;
   }): Promise<void> => {
     try {
       await register(userData);
-      await login(userData.email, userData.password);
     } catch (error) {
       console.error(error);
     }

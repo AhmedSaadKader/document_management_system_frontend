@@ -12,6 +12,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useAuth } from '../context/auth_context';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props: any) {
   return (
@@ -35,14 +37,26 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    console.log('hi');
+  const navigate = useNavigate();
+  const { signUp } = useAuth();
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const userData = {
+      national_id: data.get('national_id') as string,
+      first_name: data.get('firstName') as string,
+      last_name: data.get('lastName') as string,
+      email: data.get('email') as string,
+      username: data.get('username') as string,
+      password: data.get('password') as string,
+    };
+    try {
+      await signUp(userData);
+      navigate('/dashboard');
+    } catch (error) {
+      console.error('Failed to sign in:', error);
+    }
   };
 
   return (
@@ -70,6 +84,16 @@ export default function SignUp() {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id='national_id'
+                  label='National ID'
+                  name='national_id'
+                  autoComplete='national-id'
+                />
+              </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete='given-name'
@@ -89,6 +113,16 @@ export default function SignUp() {
                   label='Last Name'
                   name='lastName'
                   autoComplete='family-name'
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id='username'
+                  label='Username'
+                  name='username'
+                  autoComplete='username'
                 />
               </Grid>
               <Grid item xs={12}>
@@ -138,7 +172,6 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
   );
