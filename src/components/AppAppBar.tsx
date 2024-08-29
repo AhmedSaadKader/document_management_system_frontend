@@ -75,7 +75,7 @@ function AppAppBar() {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar component='nav'>
+      <AppBar position='sticky' component='nav'>
         <Toolbar>
           <IconButton
             edge='start'

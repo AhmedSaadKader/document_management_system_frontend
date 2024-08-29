@@ -1,25 +1,46 @@
-import React from 'react';
-import { Grid, Paper, Typography, Button } from '@mui/material';
+import React, { useState } from 'react';
+import { Grid, Paper, Typography } from '@mui/material';
 import DeleteDocumentButton from './DocumentButtons/DeleteDocumentButton';
+import DownloadDocumentButton from './DocumentButtons/DownloadDocumentButton';
+import PreviewDocumentButton from './DocumentButtons/PreviewDocumentButton';
+import DetailsDocumentButton from './DocumentButtons/DetailsDocumentbutton';
+import DocumentDetailsModal from './DocumentModals/DocumentDetailModal';
+import DocumentPreviewModal from './DocumentModals/DocumentPreviewModal';
 
 interface Document {
+  wokspaceId: string;
   _id: string;
   documentName: string;
 }
 
 interface DocumentListProps {
   documents: Document[];
-  onDownload: (documentId: string) => void;
-  onPreview: (documentId: string, documentName: string) => void;
   onDelete: (documentId: string) => void;
 }
 
-const DocumentList: React.FC<DocumentListProps> = ({
-  documents,
-  onDownload,
-  onPreview,
-  onDelete,
-}) => {
+const DocumentList: React.FC<DocumentListProps> = ({ documents, onDelete }) => {
+  const [selectedDocument, setSelectedDocument] = useState<any | null>(null);
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState('');
+  const [previewName, setPreviewName] = useState('');
+
+  const handlePreviewDocument = (documentName: string, url: string) => {
+    setPreviewUrl(url);
+    setPreviewName(documentName);
+    setPreviewOpen(true);
+  };
+
+  const handleViewDetails = async (data: string) => {
+    setSelectedDocument(data);
+    setDetailsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setDetailsOpen(false);
+    setSelectedDocument(null);
+  };
+
   return (
     <Grid container spacing={3} sx={{ mr: 3 }}>
       {documents.length > 0 ? (
@@ -27,20 +48,19 @@ const DocumentList: React.FC<DocumentListProps> = ({
           <Grid item xs={12} sm={6} md={4} key={document._id}>
             <Paper elevation={3} sx={{ p: 2 }}>
               <Typography variant='h6'>{document.documentName}</Typography>
-              <Button
-                variant='outlined'
-                onClick={() => onDownload(document._id)}
-                sx={{ mr: 1 }}
-              >
-                Download
-              </Button>
-              <Button
-                variant='outlined'
-                onClick={() => onPreview(document._id, document.documentName)}
-                sx={{ mr: 1 }}
-              >
-                Preview
-              </Button>
+              <DownloadDocumentButton
+                documentId={document._id}
+                workspaceId={document.wokspaceId}
+              />
+              <PreviewDocumentButton
+                documentId={document._id}
+                documentName={document.documentName}
+                onPreview={handlePreviewDocument}
+              />
+              <DetailsDocumentButton
+                documentId={document._id}
+                onDetails={handleViewDetails}
+              />
               <DeleteDocumentButton
                 documentId={document._id}
                 onDelete={onDelete}
@@ -51,6 +71,19 @@ const DocumentList: React.FC<DocumentListProps> = ({
       ) : (
         <Typography sx={{ p: 2, ml: 5 }}>No documents available.</Typography>
       )}
+      {selectedDocument && (
+        <DocumentDetailsModal
+          open={detailsOpen}
+          onClose={handleCloseModal}
+          document={selectedDocument}
+        />
+      )}
+      <DocumentPreviewModal
+        open={previewOpen}
+        handleClose={() => setPreviewOpen(false)}
+        documentUrl={previewUrl}
+        documentName={previewName}
+      />
     </Grid>
   );
 };

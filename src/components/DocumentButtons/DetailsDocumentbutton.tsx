@@ -10,31 +10,6 @@ const DetailsDocumentButton = ({
   documentId,
   onDetails,
 }: DetailsDocumentButtonProps) => {
-  // const handleViewDetails = async (documentId: string) => {
-  //   try {
-  //     const response = await fetch(
-  //       `http://localhost:5000/api/v1/documents/${documentId}`,
-  //       {
-  //         method: 'GET',
-  //         headers: {
-  //           Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-  //           'Content-Type': 'application/json',
-  //         },
-  //       }
-  //     );
-
-  //     if (!response.ok) {
-  //       throw new Error('Failed to fetch document details');
-  //     }
-
-  //     const data = await response.json();
-  //     setSelectedDocument(data);
-  //     setModalOpen(true);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
   const handleDetails = async () => {
     try {
       const response = await fetch(
@@ -50,15 +25,16 @@ const DetailsDocumentButton = ({
       if (!response.ok) {
         throw new Error('Failed to get document');
       }
+      const data = await response.json();
 
-      onDetails(documentId);
+      onDetails(data);
     } catch (error) {
       console.error('Error fetching document:', error);
     }
   };
 
   return (
-    <Button color='error' onClick={handleDetails}>
+    <Button color='primary' variant='outlined' onClick={handleDetails}>
       View Details
     </Button>
   );
