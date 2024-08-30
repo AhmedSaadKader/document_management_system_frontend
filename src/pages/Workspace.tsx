@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Grid, Typography } from '@mui/material';
 import WorkspaceHeader from '../components/WorkspaceHeader';
-import DocumentForm from '../components/DocumentForm';
-import DocumentList from '../components/DocumentList';
-import DocumentSearchFilter from '../components/DocumentSearchFilter';
+import DocumentForm from '../components/DocumentComponents/DocumentForm';
+import DocumentList from '../components/DocumentComponents/DocumentList';
+import DocumentSearchFilter from '../components/DocumentComponents/DocumentSearchFilter';
 
 const WorkspacePage: React.FC = () => {
   const [workspace, setWorkspace] = useState<any>(null);

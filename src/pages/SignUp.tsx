@@ -1,44 +1,32 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import {
+  Avatar,
+  Button,
+  CssBaseline,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Link,
+  Grid,
+  Box,
+  Typography,
+  Container,
+  Alert,
+} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useAuth } from '../context/auth_context';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import Copyright from '../components/Copyright';
 
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant='body2'
-      color='text.secondary'
-      align='center'
-      {...props}
-    >
-      {'Copyright © '}
-      <Link color='inherit' href='https://mui.com/'>
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { signUp } = useAuth();
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -55,7 +43,9 @@ export default function SignUp() {
       await signUp(userData);
       navigate('/dashboard');
     } catch (error) {
-      console.error('Failed to sign in:', error);
+      setErrorMessage(
+        `${t('authPage.signUpError')} ${(error as Error).message}`
+      );
     }
   };
 
@@ -75,8 +65,13 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component='h1' variant='h5'>
-            Sign up
+            {t('authPage.signUp')}
           </Typography>
+          {errorMessage && (
+            <Alert severity='error' sx={{ mt: 2 }}>
+              {errorMessage}
+            </Alert>
+          )}
           <Box
             component='form'
             noValidate
@@ -89,7 +84,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id='national_id'
-                  label='National ID'
+                  label={t('authPage.nationalID')}
                   name='national_id'
                   autoComplete='national-id'
                 />
@@ -101,7 +96,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id='firstName'
-                  label='First Name'
+                  label={t('authPage.firstName')}
                   autoFocus
                 />
               </Grid>
@@ -110,7 +105,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id='lastName'
-                  label='Last Name'
+                  label={t('authPage.lastName')}
                   name='lastName'
                   autoComplete='family-name'
                 />
@@ -120,7 +115,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id='username'
-                  label='Username'
+                  label={t('authPage.username')}
                   name='username'
                   autoComplete='username'
                 />
@@ -130,7 +125,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id='email'
-                  label='Email Address'
+                  label={t('authPage.email')}
                   name='email'
                   autoComplete='email'
                 />
@@ -140,7 +135,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   name='password'
-                  label='Password'
+                  label={t('authPage.password')}
                   type='password'
                   id='password'
                   autoComplete='new-password'
@@ -151,7 +146,7 @@ export default function SignUp() {
                   control={
                     <Checkbox value='allowExtraEmails' color='primary' />
                   }
-                  label='I want to receive inspiration, marketing promotions and updates via email.'
+                  label={t('authPage.newsletter')}
                 />
               </Grid>
             </Grid>
@@ -161,17 +156,18 @@ export default function SignUp() {
               variant='contained'
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              {t('authPage.signUp')}
             </Button>
             <Grid container justifyContent='flex-end'>
               <Grid item>
-                <Link href='#' variant='body2'>
-                  Already have an account? Sign in
+                <Link href='/signin' variant='body2'>
+                  {t('authPage.alreadyAccount')}
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
+        <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
   );

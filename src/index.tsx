@@ -1,16 +1,34 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
+
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n';
+
+// Determine if the current language is RTL
+const direction = i18n.language === 'ar' ? 'rtl' : 'ltr';
+
+// Create a theme with the correct direction
+const theme = createTheme({
+  direction: direction,
+});
+
+// Update the body and root elements to use the correct direction
+document.body.dir = direction;
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement,
+  document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <I18nextProvider i18n={i18n}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <App />
+    </ThemeProvider>
+  </I18nextProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

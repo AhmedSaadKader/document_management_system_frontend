@@ -1,41 +1,28 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import {
+  Avatar,
+  Button,
+  CssBaseline,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Link,
+  Grid,
+  Box,
+  Typography,
+  Container,
+} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/auth_context';
-
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant='body2'
-      color='text.secondary'
-      align='center'
-      {...props}
-    >
-      {'Copyright © '}
-      <Link color='inherit' href='https://mui.com/'>
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import { useTranslation } from 'react-i18next';
+import { Copyright } from '@mui/icons-material';
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { signIn } = useAuth();
 
@@ -48,7 +35,7 @@ export default function SignIn() {
       await signIn(username, password);
       navigate('/dashboard');
     } catch (error) {
-      console.error('Failed to sign in:', error);
+      console.error(t('authPage.signInError'), error);
     }
   };
 
@@ -68,7 +55,7 @@ export default function SignIn() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component='h1' variant='h5'>
-            Sign in
+            {t('authPage.signIn')}
           </Typography>
           <Box
             component='form'
@@ -81,7 +68,7 @@ export default function SignIn() {
               required
               fullWidth
               id='username'
-              label='Username'
+              label={t('authPage.username')}
               name='username'
               autoComplete='username'
               autoFocus
@@ -91,14 +78,14 @@ export default function SignIn() {
               required
               fullWidth
               name='password'
-              label='Password'
+              label={t('authPage.password')}
               type='password'
               id='password'
               autoComplete='current-password'
             />
             <FormControlLabel
               control={<Checkbox value='remember' color='primary' />}
-              label='Remember me'
+              label={t('authPage.rememberMe')}
             />
             <Button
               type='submit'
@@ -106,17 +93,17 @@ export default function SignIn() {
               variant='contained'
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              {t('authPage.signIn')}
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href='#' variant='body2'>
-                  Forgot password?
+                  {t('authPage.forgotPassword')}
                 </Link>
               </Grid>
               <Grid item>
                 <Link href='/signup' variant='body2'>
-                  {"Don't have an account? Sign Up"}
+                  {t('authPage.noAccount')}
                 </Link>
               </Grid>
             </Grid>

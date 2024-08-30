@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Grid } from '@mui/material';
-import DocumentList from '../components/DocumentList';
-import DocumentSearchFilter from '../components/DocumentSearchFilter';
+import DocumentList from '../components/DocumentComponents/DocumentList';
+import DocumentSearchFilter from '../components/DocumentComponents/DocumentSearchFilter';
 
 const AllDocumentsPage = () => {
   const [documents, setDocuments] = useState<any[]>([]);

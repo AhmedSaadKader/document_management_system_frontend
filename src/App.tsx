@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import LandingPage from './pages/LandingPage';
-import AppAppBar from './components/AppAppBar';
+import AppAppBar from './components/AppAppBarComponents/AppAppBar';
 import { Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/auth_context';
 import { ThemeProvider } from './context/theme_context';

@@ -8,7 +8,7 @@ import {
   InputLabel,
   SelectChangeEvent,
 } from '@mui/material';
-import DocumentForm from '../components/DocumentForm';
+import DocumentForm from '../components/DocumentComponents/DocumentForm';
 
 const DocumentCreatePage = () => {
   const [workspaces, setWorkspaces] = useState<any[]>([]);

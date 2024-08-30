@@ -25,10 +25,15 @@ const register = async (userData: {
   });
 
   if (!response.ok) {
-    throw new Error('Sign up failed');
+    const errorData = await response.json();
+    throw new Error(errorData.error);
   }
 
   const data = await response.json();
+  console.log(data);
+  localStorage.setItem('authToken', data.token);
+  localStorage.setItem('username', data.username);
+  localStorage.setItem('national_id', data.national_id);
   return data;
 };
 
@@ -156,8 +161,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }): Promise<void> => {
     try {
       await register(userData);
+      const user = await fetchUser(userData.username);
+      setUser(user);
+      setIsAuthenticated(true);
     } catch (error) {
-      console.error(error);
+      throw new Error((error as Error).message);
     }
   };
 

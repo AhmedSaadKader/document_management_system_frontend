@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Box,
   Container,
@@ -7,8 +8,10 @@ import {
   useTheme,
   useMediaQuery,
 } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 function LandingPage() {
+  const { t } = useTranslation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -16,7 +19,7 @@ function LandingPage() {
     <Box
       sx={{
         minHeight: '100vh',
-        backgroundImage: 'url("/background-image.jpg")', // Add your background image here
+        backgroundImage: 'url("/background-image.jpg")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         display: 'flex',
@@ -37,20 +40,19 @@ function LandingPage() {
               color='primary'
               gutterBottom
             >
-              Welcome to Your Document Management System
+              {t('landingPage.welcome')}
             </Typography>
             <Typography variant='body1' color='textSecondary' paragraph>
-              Manage your documents with ease and efficiency. Securely store,
-              access, and share your documents from anywhere.
+              {t('landingPage.description')}
             </Typography>
             <Button
               href='/signin'
               variant='contained'
               color='primary'
               size='large'
-              sx={{ mr: 2 }}
+              sx={{ mr: 2, ml: 1 }}
             >
-              Login
+              {t('landingPage.login')}
             </Button>
             <Button
               href='/signup'
@@ -58,26 +60,9 @@ function LandingPage() {
               color='secondary'
               size='large'
             >
-              Register
+              {t('landingPage.register')}
             </Button>
           </Grid>
-          {/* <Grid item xs={12} md={6}> */}
-          {/* You can add an illustration or graphic related to document management here */}
-          {/* <Box
-              sx={{
-                height: 250,
-                backgroundColor: 'rgba(255,255,255,0.7)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: 2,
-              }}
-            >
-              <Typography variant='h6' color='textSecondary'>
-                Your secure document solution
-              </Typography>
-            </Box>
-          </Grid> */}
         </Grid>
       </Container>
       <Box sx={{ py: 2, textAlign: 'center', backgroundColor: 'primary.main' }}>
