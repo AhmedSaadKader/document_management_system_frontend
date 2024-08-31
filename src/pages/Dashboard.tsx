@@ -9,6 +9,9 @@ const Dashboard = () => {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant='h4' gutterBottom>
+        {t('dashboard.greeting')} {localStorage.getItem('first_name')}
+      </Typography>
+      <Typography variant='h4' gutterBottom>
         {t('dashboard.title')}
       </Typography>
       <Grid container spacing={3}>

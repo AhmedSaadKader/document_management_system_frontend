@@ -48,9 +48,28 @@ function AppAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
+          <Typography
+            variant='h6'
+            component='div'
+            sx={{
+              flexGrow: 1,
+              display: { xs: 'none', sm: 'none', md: 'block' },
+            }}
+          >
             <Link to={`/`} style={{ textDecoration: 'none', color: 'inherit' }}>
               {t('appBar.title')}
+            </Link>
+          </Typography>
+          <Typography
+            variant='h6'
+            component='div'
+            sx={{
+              flexGrow: 1,
+              display: { xs: 'block', sm: 'block', md: 'none' },
+            }}
+          >
+            <Link to={`/`} style={{ textDecoration: 'none', color: 'inherit' }}>
+              DMS
             </Link>
           </Typography>
           <Box sx={{ flexGrow: 1 }} />

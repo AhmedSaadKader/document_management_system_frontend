@@ -8,7 +8,7 @@ import {
   InputLabel,
   SelectChangeEvent,
 } from '@mui/material';
-import DocumentForm from '../components/DocumentComponents/DocumentForm';
+import DocumentForm from '../components/DocumentComponents/DocumentModals/DocumentFormModal';
 import { useTranslation } from 'react-i18next';
 
 const DocumentCreatePage = () => {

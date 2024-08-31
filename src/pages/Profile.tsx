@@ -21,9 +21,6 @@ const ProfilePage: React.FC = () => {
         <CardContent>
           <Typography variant='h5'>{t('profile.profile')}</Typography>
           <Typography variant='body1'>
-            {t('profile.username')}: {user.username}
-          </Typography>
-          <Typography variant='body1'>
             {t('profile.firstName')}: {user.first_name}
           </Typography>
           <Typography variant='body1'>

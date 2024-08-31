@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Grid, Typography } from '@mui/material';
-import WorkspaceHeader from '../components/WorkspaceHeader';
-import DocumentForm from '../components/DocumentComponents/DocumentForm';
+import WorkspaceHeader from '../components/WorkspaceComponents/WorkspaceHeader';
+import DocumentForm from '../components/DocumentComponents/DocumentModals/DocumentFormModal';
 import DocumentList from '../components/DocumentComponents/DocumentList';
 import DocumentSearchFilter from '../components/DocumentComponents/DocumentSearchFilter';
 import { useTranslation } from 'react-i18next';
@@ -80,10 +80,11 @@ const WorkspacePage: React.FC = () => {
 
   return (
     <Box sx={{ p: 3 }}>
-      {workspace ? (
+      {workspace && workspaceId ? (
         <>
           <WorkspaceHeader
             workspaceName={workspace.workspaceName}
+            workspaceId={workspaceId}
             description={workspace.description}
           />
           <DocumentSearchFilter

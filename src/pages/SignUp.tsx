@@ -33,10 +33,9 @@ export default function SignUp() {
     const data = new FormData(event.currentTarget);
     const userData = {
       national_id: data.get('national_id') as string,
-      first_name: data.get('firstName') as string,
-      last_name: data.get('lastName') as string,
+      first_name: data.get('first_name') as string,
+      last_name: data.get('last_name') as string,
       email: data.get('email') as string,
-      username: data.get('username') as string,
       password: data.get('password') as string,
     };
     try {
@@ -108,16 +107,6 @@ export default function SignUp() {
                   label={t('authPage.lastName')}
                   name='lastName'
                   autoComplete='family-name'
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id='username'
-                  label={t('authPage.username')}
-                  name='username'
-                  autoComplete='username'
                 />
               </Grid>
               <Grid item xs={12}>

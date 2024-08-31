@@ -1,16 +1,24 @@
 import React, { useState } from 'react';
-import { Button, TextField, Input } from '@mui/material';
+import {
+  Modal,
+  Box,
+  Button,
+  TextField,
+  Input,
+  Typography,
+} from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-interface DocumentFormProps {
+interface DocumentFormModalProps {
   workspaceId: string;
   onDocumentAdded: (newDocument: any) => void;
 }
 
-const DocumentForm: React.FC<DocumentFormProps> = ({
+const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
   workspaceId,
   onDocumentAdded,
 }) => {
+  const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [documentName, setDocumentName] = useState('');
   const { t } = useTranslation();
@@ -51,6 +59,7 @@ const DocumentForm: React.FC<DocumentFormProps> = ({
       onDocumentAdded(addedDocument.document);
       setDocumentName('');
       setSelectedFile(null);
+      setOpen(false);
     } catch (error) {
       console.error(error);
     }
@@ -58,18 +67,39 @@ const DocumentForm: React.FC<DocumentFormProps> = ({
 
   return (
     <>
-      <TextField
-        label={t('document.documentFormNameLabel')}
-        value={documentName}
-        onChange={(e) => setDocumentName(e.target.value)}
-        fullWidth
-      />
-      <Input type='file' onChange={handleFileChange} />
-      <Button variant='contained' onClick={handleAddDocument} sx={{ mt: 2 }}>
+      <Button variant='contained' onClick={() => setOpen(true)}>
         {t('document.addDocument')}
       </Button>
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <Box
+          sx={{
+            p: 4,
+            backgroundColor: 'white',
+            margin: 'auto',
+            maxWidth: 500,
+            mt: 10,
+          }}
+        >
+          <Typography variant='h6'>{t('document.addDocument')}</Typography>
+          <TextField
+            label={t('document.documentFormNameLabel')}
+            value={documentName}
+            onChange={(e) => setDocumentName(e.target.value)}
+            fullWidth
+            margin='normal'
+          />
+          <Input type='file' onChange={handleFileChange} fullWidth />
+          <Button
+            variant='contained'
+            onClick={handleAddDocument}
+            sx={{ mt: 2 }}
+          >
+            {t('document.upload')}
+          </Button>
+        </Box>
+      </Modal>
     </>
   );
 };
 
-export default DocumentForm;
+export default DocumentFormModal;

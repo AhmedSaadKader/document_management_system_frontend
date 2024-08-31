@@ -41,7 +41,9 @@ i18n.use(initReactI18next).init({
           allDocuments: 'All Documents',
           createNewDocument: 'Create New Document',
           selectWorkspace: 'Select Workspace',
-          noDocumentsAvailable: 'No documents available.'
+          noDocumentsAvailable: 'No documents available.',
+          upload: 'Upload'
+
         },
         workspace: {
           allWorkspaces: 'All Workspaces',
@@ -50,9 +52,15 @@ i18n.use(initReactI18next).init({
           workspaceName: 'Workspace Name',
           description: 'Description',
           createWorkspace: 'Create Workspace',
-          loadWorkspace: 'Loading workspace...',
+          loadingWorkspace: 'Loading workspace...',
           viewDetails: 'View Details',
-          noWorkspaces: 'No workspaces available.'
+          noWorkspaces: 'No workspaces available.',
+          shareWorkspace: 'Share Workspace',
+          enterEmail: 'Enter email',
+          permission: 'Permission',
+          viewer: 'Viewer',
+          editor: 'Editor',
+          share: 'Share'
         },
         landingPage: {
           welcome: "Welcome to Your Document Management System",
@@ -63,7 +71,6 @@ i18n.use(initReactI18next).init({
         },
         authPage: {
           signIn: "Sign In",
-          username: "Username",
           password: "Password",
           rememberMe: "Remember Me",
           forgotPassword: "Forgot Password?",
@@ -79,6 +86,7 @@ i18n.use(initReactI18next).init({
           signUpError: "An error occurred while signing up. Please try again.",
         },
         dashboard: {
+          greeting: "Hello, ",
           title: "Dashboard",
           recentDocuments: "Recent Documents",
           favorites: "Favorites",
@@ -93,7 +101,6 @@ i18n.use(initReactI18next).init({
         },
         profile: {
           profile: 'Profile',
-          username: 'Username',
           firstName: 'First Name',
           lastName: 'Last Name',
           email: 'Email',
@@ -144,7 +151,8 @@ i18n.use(initReactI18next).init({
           allDocuments: 'Tous les documents',
           createNewDocument: 'Créer un nouveau document',
           selectWorkspace: 'Sélectionner un espace de travail',
-          noDocumentsAvailable: 'Aucun document disponible.'
+          noDocumentsAvailable: 'Aucun document disponible.',
+          upload: 'télécharger'
         },
         workspace: {
           allWorkspaces: 'Tous les espaces de travail',
@@ -153,9 +161,15 @@ i18n.use(initReactI18next).init({
           workspaceName: "Nom de l'espace de travail",
           description: 'Description',
           createWorkspace: 'Créer un espace de travail',
-          loadWorkspace: "Chargement de l'espace de travail...",
+          loadingWorkspace: "Chargement de l'espace de travail...",
           viewDetails: 'Voir les détails',
-          noWorkspaces: 'Aucun espace de travail disponible.'
+          noWorkspaces: 'Aucun espace de travail disponible.',
+          shareWorkspace: "Partager l'espace de travail",
+          enterEmail: 'Saisissez votre email',
+          permission: 'Permission',
+          viewer: 'Lecteur',
+          editor: 'Éditeur',
+          share: 'Partager'
         },
         landingPage: {
           welcome: 'Bienvenue dans votre système de gestion de documents',
@@ -166,7 +180,6 @@ i18n.use(initReactI18next).init({
         },
         authPage: {
           signIn: "Se connecter",
-          username: "Nom d'utilisateur",
           password: "Mot de passe",
           rememberMe: "Se souvenir de moi",
           forgotPassword: "Mot de passe oublié ?",
@@ -182,6 +195,7 @@ i18n.use(initReactI18next).init({
           signUpError: "Une erreur s'est produite lors de l'inscription. Veuillez réessayer.",
         },
         dashboard: {
+          greeting: "Bonjour, ",
           title: "Tableau de bord",
           recentDocuments: "Documents récents",
           favorites: "Favoris",
@@ -196,7 +210,6 @@ i18n.use(initReactI18next).init({
         },
         profile: {
           profile: 'Profil',
-          username: "Nom d'utilisateur",
           firstName: 'Prénom',
           lastName: 'Nom',
           email: 'Email',
@@ -248,6 +261,7 @@ i18n.use(initReactI18next).init({
           createNewDocument: 'إنشاء مستند جديد',
           selectWorkspace: 'اختر مساحة عمل',
           noDocumentsAvailable: 'لا توجد مستندات متاحة',
+          upload: 'اضافة المستند'
         },
         workspace: {
           allWorkspaces: 'كل مساحات العمل',
@@ -256,9 +270,15 @@ i18n.use(initReactI18next).init({
           workspaceName: 'اسم مساحة العمل',
           description: 'الوصف',
           createWorkspace: 'إنشاء مساحة عمل',
-          loadWorkspace: 'جارٍ تحميل مساحة العمل...',
+          loadingWorkspace: 'جارٍ تحميل مساحة العمل...',
           viewDetails: 'عرض التفاصيل',
-          noWorkspaces: 'لا توجد مساحات عمل متاحة'
+          noWorkspaces: 'لا توجد مساحات عمل متاحة',
+          shareWorkspace: 'مشاركة مساحة العمل',
+          enterEmail: 'أدخل البريد الإلكتروني',
+          permission: 'إذن',
+          viewer: 'عارض',
+          editor: 'محرر',
+          share: 'مشاركة'
         },
         landingPage: {
           welcome: 'أهلاً بك في نظام إدارة المستندات الخاص بك',
@@ -269,7 +289,6 @@ i18n.use(initReactI18next).init({
         },
         authPage: {
           signIn: "تسجيل الدخول",
-          username: "اسم المستخدم",
           password: "كلمة المرور",
           rememberMe: "تذكرني",
           forgotPassword: "نسيت كلمة المرور؟",
@@ -285,6 +304,7 @@ i18n.use(initReactI18next).init({
           signUpError: "حدث خطأ أثناء التسجيل. يرجى المحاولة مرة أخرى.",
         },
         dashboard: {
+          greeting: "مرحبا ",
           title: "لوحة المعلومات",
           recentDocuments: "المستندات الحديثة",
           favorites: "المفضلة",
@@ -299,7 +319,6 @@ i18n.use(initReactI18next).init({
         },
         profile: {
           profile: 'الملف الشخصي',
-          username: 'اسم المستخدم',
           firstName: 'الاسم الأول',
           lastName: 'الكنية',
           email: 'البريد الإلكتروني',

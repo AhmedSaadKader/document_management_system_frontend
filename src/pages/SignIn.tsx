@@ -29,10 +29,10 @@ export default function SignIn() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const username = data.get('username') as string;
+    const email = data.get('email') as string;
     const password = data.get('password') as string;
     try {
-      await signIn(username, password);
+      await signIn(email, password);
       navigate('/dashboard');
     } catch (error) {
       console.error(t('authPage.signInError'), error);
@@ -67,10 +67,10 @@ export default function SignIn() {
               margin='normal'
               required
               fullWidth
-              id='username'
-              label={t('authPage.username')}
-              name='username'
-              autoComplete='username'
+              id='email'
+              label={t('authPage.email')}
+              name='email'
+              autoComplete='email'
               autoFocus
             />
             <TextField

@@ -8,7 +8,7 @@ const NavLinks: React.FC = () => {
 
   const { isAuthenticated } = useAuth();
   return isAuthenticated ? (
-    <Box sx={{ display: { sm: 'none', md: 'block' } }}>
+    <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
       <Button sx={{ color: '#fff' }} href='/workspaces'>
         {t('appBar.workspaces')}
       </Button>

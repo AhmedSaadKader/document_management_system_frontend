@@ -13,7 +13,6 @@ const register = async (userData: {
   first_name: string;
   last_name: string;
   email: string;
-  username: string;
   password: string;
 }) => {
   const response = await fetch(`${api_url}/register`, {
@@ -30,10 +29,11 @@ const register = async (userData: {
   }
 
   const data = await response.json();
-  console.log(data);
   localStorage.setItem('authToken', data.token);
-  localStorage.setItem('username', data.username);
+  localStorage.setItem('email', data.email);
   localStorage.setItem('national_id', data.national_id);
+  localStorage.setItem('first_name', data.first_name);
+  localStorage.setItem('last_name', data.last_name);
   return data;
 };
 
@@ -43,7 +43,7 @@ const login = async (user_name: string, password: string): Promise<void> => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ username: user_name, password }),
+    body: JSON.stringify({ email: user_name, password }),
   });
 
   const contentType = response.headers.get('content-type');
@@ -57,16 +57,19 @@ const login = async (user_name: string, password: string): Promise<void> => {
     throw new Error('Login failed');
   }
 
-  const { token, username, national_id } = await response.json();
+  const { token, email, national_id, first_name, last_name } =
+    await response.json();
   localStorage.setItem('authToken', token);
-  localStorage.setItem('username', username);
+  localStorage.setItem('email', email);
   localStorage.setItem('national_id', national_id);
+  localStorage.setItem('first_name', first_name);
+  localStorage.setItem('last_name', last_name);
 };
 
-const fetchUser = async (username: string) => {
+const fetchUser = async (email: string) => {
   const token = localStorage.getItem('authToken');
   if (!token) throw new Error('No token found');
-  const response = await fetch(`${api_url}/${username}`, {
+  const response = await fetch(`${api_url}/${email}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -93,7 +96,6 @@ interface AuthContextProps {
     first_name: string;
     last_name: string;
     email: string;
-    username: string;
     password: string;
   }) => Promise<void>;
 }
@@ -112,17 +114,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     const initializeAuth = async () => {
       const token = localStorage.getItem('authToken');
-      const username = localStorage.getItem('username');
+      const email = localStorage.getItem('email');
 
-      if (token && username) {
+      if (token && email) {
         try {
-          const user = await fetchUser(username);
+          const user = await fetchUser(email);
           setUser(user);
           setIsAuthenticated(true);
         } catch (error) {
           console.error('Failed to fetch user:', error);
           localStorage.removeItem('authToken');
-          localStorage.removeItem('username');
+          localStorage.removeItem('email');
           localStorage.removeItem('national_id');
         }
       }
@@ -132,10 +134,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     initializeAuth();
   }, []);
 
-  const signIn = async (username: string, password: string): Promise<void> => {
+  const signIn = async (email: string, password: string): Promise<void> => {
     try {
-      await login(username, password);
-      const user = await fetchUser(username);
+      await login(email, password);
+      const user = await fetchUser(email);
       setUser(user);
       setIsAuthenticated(true);
     } catch (error) {
@@ -145,7 +147,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const signOut = () => {
     localStorage.removeItem('authToken');
-    localStorage.removeItem('username');
+    localStorage.removeItem('email');
     localStorage.removeItem('national_id');
     setUser(null);
     setIsAuthenticated(false);
@@ -156,12 +158,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     first_name: string;
     last_name: string;
     email: string;
-    username: string;
     password: string;
   }): Promise<void> => {
     try {
       await register(userData);
-      const user = await fetchUser(userData.username);
+      const user = await fetchUser(userData.email);
       setUser(user);
       setIsAuthenticated(true);
     } catch (error) {

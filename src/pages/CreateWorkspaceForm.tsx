@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Typography, Container } from '@mui/material';
+import { TextField, Button, Typography, Container, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -37,7 +37,7 @@ const CreateWorkspaceForm = () => {
   };
 
   return (
-    <Container maxWidth='sm'>
+    <Box sx={{ p: 3 }}>
       <Typography variant='h4' gutterBottom>
         {t('workspace.createNewWorkspace')}
       </Typography>
@@ -66,7 +66,7 @@ const CreateWorkspaceForm = () => {
           {t('workspace.createWorkspace')}
         </Button>
       </form>
-    </Container>
+    </Box>
   );
 };
 
