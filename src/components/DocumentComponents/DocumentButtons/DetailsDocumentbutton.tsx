@@ -1,5 +1,7 @@
 import React from 'react';
 import { Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { Info } from '@mui/icons-material';
 
 interface DetailsDocumentButtonProps {
   documentId: string;
@@ -10,6 +12,8 @@ const DetailsDocumentButton = ({
   documentId,
   onDetails,
 }: DetailsDocumentButtonProps) => {
+  const { t } = useTranslation();
+
   const handleDetails = async () => {
     try {
       const response = await fetch(
@@ -34,8 +38,8 @@ const DetailsDocumentButton = ({
   };
 
   return (
-    <Button color='primary' variant='outlined' onClick={handleDetails}>
-      View Details
+    <Button color='primary' onClick={handleDetails} startIcon={<Info />}>
+      {t('buttons.details')}
     </Button>
   );
 };

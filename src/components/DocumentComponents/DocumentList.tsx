@@ -6,6 +6,7 @@ import PreviewDocumentButton from './DocumentButtons/PreviewDocumentButton';
 import DetailsDocumentButton from './DocumentButtons/DetailsDocumentbutton';
 import DocumentDetailsModal from './DocumentModals/DocumentDetailModal';
 import DocumentPreviewModal from './DocumentModals/DocumentPreviewModal';
+import { useTranslation } from 'react-i18next';
 
 interface Document {
   wokspaceId: string;
@@ -24,6 +25,7 @@ const DocumentList: React.FC<DocumentListProps> = ({ documents, onDelete }) => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewUrl, setPreviewUrl] = useState('');
   const [previewName, setPreviewName] = useState('');
+  const { t } = useTranslation();
 
   const handlePreviewDocument = (documentName: string, url: string) => {
     setPreviewUrl(url);
@@ -69,7 +71,9 @@ const DocumentList: React.FC<DocumentListProps> = ({ documents, onDelete }) => {
           </Grid>
         ))
       ) : (
-        <Typography sx={{ p: 2, ml: 5 }}>No documents available.</Typography>
+        <Typography sx={{ p: 2, ml: 5 }}>
+          {t('document.noDocumentsAvailable')}
+        </Typography>
       )}
       {selectedDocument && (
         <DocumentDetailsModal

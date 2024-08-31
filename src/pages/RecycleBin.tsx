@@ -8,9 +8,12 @@ import {
   Button,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { Delete, Details, Restore } from '@mui/icons-material';
 
 const RecycleBinPage = () => {
   const [documents, setDocuments] = useState<any[]>([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchDocuments = async () => {
@@ -43,7 +46,7 @@ const RecycleBinPage = () => {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant='h4' gutterBottom>
-        Recycle Bin
+        {t('recycleBin.recycleBin')}
       </Typography>
       {documents.length > 0 ? (
         documents.map((document) => (
@@ -65,32 +68,27 @@ const RecycleBinPage = () => {
             </CardContent>
             <CardActions>
               <Button
-                size='small'
-                component={Link}
-                to={`/document/${document._id}`}
-              >
-                View Details
-              </Button>
-              <Button
+                startIcon={<Restore />}
                 size='small'
                 color='secondary'
                 onClick={() => restoreDocument(document._id)}
               >
-                Restore
+                {t('recycleBin.restore')}
               </Button>
               <Button
+                startIcon={<Delete />}
                 size='small'
                 color='error'
                 onClick={() => permanentlyDeleteDocument(document._id)}
               >
-                Delete Permanently
+                {t('recycleBin.deletePremanently')}
               </Button>
             </CardActions>
           </Card>
         ))
       ) : (
         <Typography variant='body2' color='textSecondary'>
-          No documents in the recycle bin.
+          {t('recycleBin.noDocumentInRecycleBin')}
         </Typography>
       )}
     </Box>

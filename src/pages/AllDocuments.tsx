@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Box, Typography, Grid } from '@mui/material';
 import DocumentList from '../components/DocumentComponents/DocumentList';
 import DocumentSearchFilter from '../components/DocumentComponents/DocumentSearchFilter';
+import { useTranslation } from 'react-i18next';
 
 const AllDocumentsPage = () => {
   const [documents, setDocuments] = useState<any[]>([]);
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState('');
   const [order, setOrder] = useState('asc');
+  const { t } = useTranslation();
 
   const updateSearchFilters = (
     e: { target: { value: React.SetStateAction<string> } },
@@ -65,7 +67,7 @@ const AllDocumentsPage = () => {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant='h4' gutterBottom>
-        All Documents
+        {t('document.allDocuments')}
       </Typography>
       <DocumentSearchFilter
         search={search}

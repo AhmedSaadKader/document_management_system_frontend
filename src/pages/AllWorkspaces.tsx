@@ -8,9 +8,11 @@ import {
   Button,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const AllWorkspacesPage = () => {
   const [workspaces, setWorkspaces] = useState<any[]>([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchWorkspaces = async () => {
@@ -43,7 +45,7 @@ const AllWorkspacesPage = () => {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant='h4' gutterBottom>
-        All Workspaces
+        {t('workspace.allWorkspaces')}
       </Typography>
       {workspaces.length > 0 ? (
         workspaces.map((workspace) => (
@@ -69,7 +71,7 @@ const AllWorkspacesPage = () => {
               </CardContent>
               <CardActions>
                 <Button size='small' color='primary'>
-                  View Details
+                  {t('workspace.viewDetails')}
                 </Button>
               </CardActions>
             </Card>
@@ -77,7 +79,7 @@ const AllWorkspacesPage = () => {
         ))
       ) : (
         <Typography variant='body2' color='textSecondary'>
-          No workspaces available.
+          {t('workspace.noWorkspaces')}
         </Typography>
       )}
     </Box>

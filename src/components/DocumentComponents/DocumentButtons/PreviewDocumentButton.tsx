@@ -1,5 +1,7 @@
 import React from 'react';
 import { Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { Preview } from '@mui/icons-material';
 
 interface PreviewDocumentButtonProps {
   documentId: string;
@@ -12,6 +14,8 @@ const PreviewDocumentButton = ({
   documentName,
   onPreview,
 }: PreviewDocumentButtonProps) => {
+  const { t } = useTranslation();
+
   const handlePreviewDocument = async () => {
     try {
       const response = await fetch(
@@ -49,8 +53,12 @@ const PreviewDocumentButton = ({
   };
 
   return (
-    <Button variant='outlined' onClick={handlePreviewDocument} sx={{ mr: 1 }}>
-      Preview
+    <Button
+      onClick={handlePreviewDocument}
+      sx={{ mr: 1 }}
+      startIcon={<Preview />}
+    >
+      {t('buttons.preview')}
     </Button>
   );
 };

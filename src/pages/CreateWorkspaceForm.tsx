@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const CreateWorkspaceForm = () => {
   const [workspaceName, setWorkspaceName] = useState('');
   const [description, setDescription] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -30,18 +32,18 @@ const CreateWorkspaceForm = () => {
       navigate(`/workspace/${data._id}`); // Redirect to the newly created workspace
     } catch (error) {
       console.error('Error creating workspace:', error);
-      setError('Failed to create workspace. Please try again.');
+      setError(`${t('workspace.workspaceCreateError')}`);
     }
   };
 
   return (
     <Container maxWidth='sm'>
       <Typography variant='h4' gutterBottom>
-        Create New Workspace
+        {t('workspace.createNewWorkspace')}
       </Typography>
       <form onSubmit={handleSubmit}>
         <TextField
-          label='Workspace Name'
+          label={t('workspace.workspaceName')}
           fullWidth
           margin='normal'
           value={workspaceName}
@@ -49,7 +51,7 @@ const CreateWorkspaceForm = () => {
           required
         />
         <TextField
-          label='Description'
+          label={t('workspace.description')}
           fullWidth
           margin='normal'
           value={description}
@@ -61,7 +63,7 @@ const CreateWorkspaceForm = () => {
           </Typography>
         )}
         <Button type='submit' variant='contained' color='primary'>
-          Create Workspace
+          {t('workspace.createWorkspace')}
         </Button>
       </form>
     </Container>

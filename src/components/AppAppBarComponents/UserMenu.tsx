@@ -2,6 +2,7 @@ import React from 'react';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import { AccountCircle } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface UserMenuProps {
   anchorEl: null | HTMLElement;
@@ -17,6 +18,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
   handleSignOut,
 }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleProfileClick = () => {
     navigate('/profile');
@@ -50,15 +52,17 @@ const UserMenu: React.FC<UserMenuProps> = ({
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={handleProfileClick}>
+          {t('userMenu.profile')}
+        </MenuItem>
+        <MenuItem onClick={handleClose}>{t('userMenu.myAccount')}</MenuItem>
         <MenuItem
           onClick={() => {
             handleClose();
             handleSignOut();
           }}
         >
-          Logout
+          {t('userMenu.logout')}
         </MenuItem>
       </Menu>
     </div>

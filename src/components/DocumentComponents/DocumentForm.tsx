@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, TextField, Input } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 interface DocumentFormProps {
   workspaceId: string;
@@ -12,6 +13,7 @@ const DocumentForm: React.FC<DocumentFormProps> = ({
 }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [documentName, setDocumentName] = useState('');
+  const { t } = useTranslation();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -57,14 +59,14 @@ const DocumentForm: React.FC<DocumentFormProps> = ({
   return (
     <>
       <TextField
-        label='New Document Name'
+        label={t('document.documentFormNameLabel')}
         value={documentName}
         onChange={(e) => setDocumentName(e.target.value)}
         fullWidth
       />
       <Input type='file' onChange={handleFileChange} />
       <Button variant='contained' onClick={handleAddDocument} sx={{ mt: 2 }}>
-        Add Document
+        {t('document.addDocument')}
       </Button>
     </>
   );

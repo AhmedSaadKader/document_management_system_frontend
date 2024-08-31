@@ -5,6 +5,7 @@ import WorkspaceHeader from '../components/WorkspaceHeader';
 import DocumentForm from '../components/DocumentComponents/DocumentForm';
 import DocumentList from '../components/DocumentComponents/DocumentList';
 import DocumentSearchFilter from '../components/DocumentComponents/DocumentSearchFilter';
+import { useTranslation } from 'react-i18next';
 
 const WorkspacePage: React.FC = () => {
   const [workspace, setWorkspace] = useState<any>(null);
@@ -12,6 +13,7 @@ const WorkspacePage: React.FC = () => {
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState('');
   const [order, setOrder] = useState('asc');
+  const { t } = useTranslation();
 
   const updateSearchFilters = (
     e: { target: { value: React.SetStateAction<string> } },
@@ -102,7 +104,7 @@ const WorkspacePage: React.FC = () => {
           </Grid>
         </>
       ) : (
-        <Typography>Loading workspace...</Typography>
+        <Typography>{t('workspace.loadingWorkspace')}</Typography>
       )}
     </Box>
   );

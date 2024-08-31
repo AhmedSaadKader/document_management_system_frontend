@@ -7,6 +7,7 @@ import {
   Select,
   MenuItem,
 } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 interface DocumentSearchFilterProps {
   search: string;
@@ -24,11 +25,11 @@ const DocumentSearchFilter = ({
   order,
   updateSearchFilters,
 }: DocumentSearchFilterProps) => {
+  const { t } = useTranslation();
   return (
     <Box sx={{ p: 3 }}>
-      {/* Search Input */}
       <TextField
-        label='Search Documents'
+        label={t('document.searchDocuments')}
         variant='outlined'
         fullWidth
         margin='normal'
@@ -39,28 +40,30 @@ const DocumentSearchFilter = ({
       {/* Sort and Order */}
       <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
         <FormControl fullWidth variant='outlined'>
-          <InputLabel>Sort By</InputLabel>
+          <InputLabel>{t('document.sort')}</InputLabel>
           <Select
             value={sortBy}
             onChange={(e) => updateSearchFilters(e, 'sort')}
-            label='Sort By'
+            label={t('document.sort')}
           >
-            <MenuItem value=''>None</MenuItem>
-            <MenuItem value='documentName'>Document Name</MenuItem>
-            <MenuItem value='createdAt'>Created At</MenuItem>
-            <MenuItem value='updatedAt'>Updated At</MenuItem>
+            <MenuItem value=''>{t('document.none')}</MenuItem>
+            <MenuItem value='documentName'>
+              {t('document.documentName')}
+            </MenuItem>
+            <MenuItem value='createdAt'>{t('document.createdAt')}</MenuItem>
+            <MenuItem value='updatedAt'>{t('document.updatedAt')}</MenuItem>
           </Select>
         </FormControl>
 
         <FormControl fullWidth variant='outlined'>
-          <InputLabel>Order</InputLabel>
+          <InputLabel>{t('document.order')}</InputLabel>
           <Select
             value={order}
             onChange={(e) => updateSearchFilters(e, 'order')}
-            label='Order'
+            label={t('document.order')}
           >
-            <MenuItem value='asc'>Ascending</MenuItem>
-            <MenuItem value='desc'>Descending</MenuItem>
+            <MenuItem value='asc'>{t('document.ascending')}</MenuItem>
+            <MenuItem value='desc'>{t('document.descending')}</MenuItem>
           </Select>
         </FormControl>
       </Box>

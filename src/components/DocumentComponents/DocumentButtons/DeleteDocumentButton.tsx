@@ -1,5 +1,7 @@
 import React from 'react';
 import { Button } from '@mui/material';
+import { Delete } from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
 
 interface DeleteDocumentButtonProps {
   documentId: string;
@@ -10,6 +12,8 @@ const DeleteDocumentButton = ({
   documentId,
   onDelete,
 }: DeleteDocumentButtonProps) => {
+  const { t } = useTranslation();
+
   const handleDelete = async () => {
     try {
       const response = await fetch(
@@ -35,8 +39,8 @@ const DeleteDocumentButton = ({
   };
 
   return (
-    <Button color='error' onClick={handleDelete}>
-      Delete Document
+    <Button color='error' onClick={handleDelete} startIcon={<Delete />}>
+      {t('buttons.delete')}
     </Button>
   );
 };

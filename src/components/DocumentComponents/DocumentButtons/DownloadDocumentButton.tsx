@@ -1,5 +1,7 @@
 import React from 'react';
 import { Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { Download } from '@mui/icons-material';
 
 interface DownloadDocumentButtonProps {
   documentId: string;
@@ -10,6 +12,8 @@ const DownloadDocumentButton = ({
   documentId,
   workspaceId,
 }: DownloadDocumentButtonProps) => {
+  const { t } = useTranslation();
+
   const handleDownload = async () => {
     try {
       const response = await fetch(
@@ -49,8 +53,8 @@ const DownloadDocumentButton = ({
   };
 
   return (
-    <Button variant='outlined' onClick={handleDownload} sx={{ mr: 1 }}>
-      Download
+    <Button onClick={handleDownload} sx={{ mr: 1 }} startIcon={<Download />}>
+      {t('buttons.download')}
     </Button>
   );
 };

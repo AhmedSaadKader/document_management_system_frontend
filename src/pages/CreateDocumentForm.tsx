@@ -9,10 +9,12 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import DocumentForm from '../components/DocumentComponents/DocumentForm';
+import { useTranslation } from 'react-i18next';
 
 const DocumentCreatePage = () => {
   const [workspaces, setWorkspaces] = useState<any[]>([]);
   const [selectedWorkspaceId, setSelectedWorkspaceId] = useState<string>('');
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchWorkspaces = async () => {
@@ -54,10 +56,10 @@ const DocumentCreatePage = () => {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant='h4' gutterBottom>
-        Create New Document
+        {t('document.createNewDocument')}
       </Typography>
       <FormControl fullWidth sx={{ mb: 2 }}>
-        <InputLabel>Select Workspace</InputLabel>
+        <InputLabel>{t('document.selectWorkspace')}</InputLabel>
         <Box height={8} />
         <Select value={selectedWorkspaceId} onChange={handleWorkspaceChange}>
           {workspaces.map((workspace) => (

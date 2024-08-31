@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Box, Typography, Button, Divider } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 interface DocumentDetailsModalProps {
   open: boolean;
@@ -12,6 +13,7 @@ const DocumentDetailsModal: React.FC<DocumentDetailsModalProps> = ({
   onClose,
   document,
 }) => {
+  const { t } = useTranslation();
   return (
     <Modal open={open} onClose={onClose} aria-labelledby='modal-title'>
       <Box
@@ -52,7 +54,7 @@ const DocumentDetailsModal: React.FC<DocumentDetailsModalProps> = ({
           color='primary'
           sx={{ mt: 2 }}
         >
-          Close
+          {t('buttons.close')}
         </Button>
       </Box>
     </Modal>
