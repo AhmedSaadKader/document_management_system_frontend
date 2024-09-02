@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
+import ApiClient from '../../../services/APIClient';
 
 interface DeleteDocumentButtonProps {
   documentId: string;
@@ -16,19 +17,7 @@ const DeleteDocumentButton = ({
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/v1/documents/${documentId}`,
-        {
-          method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error('Failed to delete document');
-      }
+      await ApiClient.deleteDocument(documentId);
 
       onDelete(documentId);
       alert('Document deleted successfully');

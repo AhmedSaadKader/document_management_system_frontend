@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import ApiClient from '../services/APIClient';
 
 const AllWorkspacesPage = () => {
   const [workspaces, setWorkspaces] = useState<any[]>([]);
@@ -17,22 +18,7 @@ const AllWorkspacesPage = () => {
   useEffect(() => {
     const fetchWorkspaces = async () => {
       try {
-        const response = await fetch(
-          'http://localhost:5000/api/v1/workspaces',
-          {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch workspaces');
-        }
-
-        const data = await response.json();
+        const data = await ApiClient.fetchAllWorkspaces();
         setWorkspaces(data);
       } catch (error) {
         console.error(error);

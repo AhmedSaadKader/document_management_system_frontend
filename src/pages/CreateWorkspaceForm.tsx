@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Typography, Container, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import ApiClient from '../services/APIClient';
 
 const CreateWorkspaceForm = () => {
   const [workspaceName, setWorkspaceName] = useState('');
@@ -14,22 +15,8 @@ const CreateWorkspaceForm = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5000/api/v1/workspaces', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-        },
-        body: JSON.stringify({ workspaceName, description }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create workspace');
-      }
-
-      const data = await response.json();
-      console.log('Workspace created:', data);
-      navigate(`/workspace/${data._id}`); // Redirect to the newly created workspace
+      const data = await ApiClient.createWorkspace({workspaceName, description});
+      navigate(`/workspace/${data._id}`);
     } catch (error) {
       console.error('Error creating workspace:', error);
       setError(`${t('workspace.workspaceCreateError')}`);

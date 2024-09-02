@@ -10,14 +10,13 @@ interface DownloadDocumentButtonProps {
 
 const DownloadDocumentButton = ({
   documentId,
-  workspaceId,
 }: DownloadDocumentButtonProps) => {
   const { t } = useTranslation();
 
   const handleDownload = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/workspaces/${workspaceId}/documents/${documentId}/download`,
+        `http://localhost:5000/api/v1/documents/${documentId}/download`,
         {
           method: 'GET',
           headers: {

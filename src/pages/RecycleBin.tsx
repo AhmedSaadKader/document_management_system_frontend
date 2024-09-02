@@ -10,6 +10,7 @@ import {
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Delete, Details, Restore } from '@mui/icons-material';
+import ApiClient from '../services/APIClient';
 
 const RecycleBinPage = () => {
   const [documents, setDocuments] = useState<any[]>([]);
@@ -18,28 +19,12 @@ const RecycleBinPage = () => {
   useEffect(() => {
     const fetchDocuments = async () => {
       try {
-        const response = await fetch(
-          'http://localhost:5000/api/v1/documents/recycle-bin',
-          {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch documents');
-        }
-
-        const data = await response.json();
+        const data = await ApiClient.fetchRecycleBin();
         setDocuments(data);
       } catch (error) {
         console.error(error);
       }
     };
-
     fetchDocuments();
   }, []);
 

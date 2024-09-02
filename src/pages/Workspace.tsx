@@ -6,13 +6,14 @@ import DocumentForm from '../components/DocumentComponents/DocumentModals/Docume
 import DocumentList from '../components/DocumentComponents/DocumentList';
 import DocumentSearchFilter from '../components/DocumentComponents/DocumentSearchFilter';
 import { useTranslation } from 'react-i18next';
+import ApiClient from '../services/APIClient';
 
 const WorkspacePage: React.FC = () => {
   const [workspace, setWorkspace] = useState<any>(null);
   const { workspaceId } = useParams<{ workspaceId: string }>();
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState('');
-  const [order, setOrder] = useState('asc');
+  const [order, setOrder] = useState<'asc' | 'desc'>('asc');
   const { t } = useTranslation();
 
   const updateSearchFilters = (
@@ -24,6 +25,7 @@ const WorkspacePage: React.FC = () => {
     } else if (state == 'sort') {
       setSortBy(e.target.value);
     } else if (state == 'order') {
+      if (e.target.value == 'asc' || e.target.value == 'desc')
       setOrder(e.target.value);
     }
   };
@@ -31,34 +33,16 @@ const WorkspacePage: React.FC = () => {
   useEffect(() => {
     const fetchWorkspace = async () => {
       try {
-        const queryParams = new URLSearchParams({
+        const data = await ApiClient.fetchWorkspace(workspaceId as string, {
           search,
           sortBy,
           order,
-        }).toString();
-
-        const response = await fetch(
-          `http://localhost:5000/api/v1/workspaces/${workspaceId}?${queryParams}`,
-          {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch workspace');
-        }
-
-        const data = await response.json();
+        });
         setWorkspace(data);
       } catch (error) {
         console.error(error);
       }
     };
-
     fetchWorkspace();
   }, [workspaceId, search, sortBy, order]);
 
