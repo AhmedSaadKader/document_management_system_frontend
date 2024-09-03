@@ -7,8 +7,6 @@ import React, {
 } from 'react';
 import ApiClient from '../services/APIClient';
 
-const api_url = 'http://localhost:5000/api/v1/users';
-
 interface AuthContextProps {
   isAuthenticated: boolean;
   isLoading: boolean;
@@ -50,6 +48,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           localStorage.removeItem('authToken');
           localStorage.removeItem('email');
           localStorage.removeItem('national_id');
+          localStorage.removeItem('first_name');
+          localStorage.removeItem('last_name');
+          setUser(null);
         }
       }
       setIsLoading(false);
@@ -73,6 +74,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.removeItem('authToken');
     localStorage.removeItem('email');
     localStorage.removeItem('national_id');
+    localStorage.removeItem('first_name');
+    localStorage.removeItem('last_name');
     setUser(null);
     setIsAuthenticated(false);
   };
@@ -86,6 +89,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }): Promise<void> => {
     try {
       await ApiClient.register(userData);
+
       const user = await ApiClient.fetchUser(userData.email);
       setUser(user);
       setIsAuthenticated(true);

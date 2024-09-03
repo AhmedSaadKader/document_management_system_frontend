@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Typography, Grid, Paper, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import ApiClient from '../services/APIClient';
 
 const Dashboard = () => {
   const { t } = useTranslation();
+  const [sharedWorkspaces, setSharedWorkspaces] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchSharedDocuments = async () => {
+      try {
+        const response = await ApiClient.fetchSharedWorkspaces();
+        setSharedWorkspaces(response);
+      } catch (error) {
+        console.error('Error fetching shared documents:', error);
+      }
+    };
+
+    fetchSharedDocuments();
+  }, []);
 
   return (
     <Box sx={{ p: 3 }}>
@@ -32,7 +47,13 @@ const Dashboard = () => {
         <Grid item xs={12} sm={6} md={4}>
           <Paper elevation={3} sx={{ p: 2 }}>
             <Typography variant='h6'>{t('dashboard.sharedWithMe')}</Typography>
-            {/* List shared documents here */}
+            {sharedWorkspaces.length > 0 ? (
+              sharedWorkspaces.map((workspace, index) => (
+                <Typography key={index}>{workspace.workspaceName}</Typography>
+              ))
+            ) : (
+              <Typography>{t('dashboard.nosharedWorkspaces')}</Typography>
+            )}
           </Paper>
         </Grid>
         <Grid item xs={12}>

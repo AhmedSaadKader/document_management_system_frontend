@@ -12,7 +12,7 @@ class ApiClient {
       method,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.token}`,
+        Authorization: `Bearer ${localStorage.getItem('authToken')}`,
       },
       body: body ? JSON.stringify(body) : undefined,
     });
@@ -99,6 +99,10 @@ class ApiClient {
 
   static async fetchDocumentDetails(documentId: string): Promise<any> {
     return this.request(`/documents/${documentId}`, 'GET');
+  }
+
+  static async fetchSharedWorkspaces(): Promise<any> {
+    return this.request(`/permissions/shared-workspaces`, 'GET');
   }
 }
 
