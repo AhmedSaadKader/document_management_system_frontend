@@ -15,7 +15,6 @@ import CreateWorkspaceForm from './pages/CreateWorkspaceForm';
 import AllWorkspacesPage from './pages/AllWorkspaces';
 import AllDocumentsPage from './pages/AllDocuments';
 import RecycleBinPage from './pages/RecycleBin';
-import CreateDocumentForm from './pages/CreateDocumentForm';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -104,7 +103,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
             <Route
               path='/profile'
               element={
