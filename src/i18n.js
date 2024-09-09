@@ -60,6 +60,7 @@ i18n.use(initReactI18next).init({
           viewer: 'Viewer',
           editor: 'Editor',
           share: 'Share',
+          cancel: 'Cancel',
         },
         landingPage: {
           welcome: 'Welcome to Your Document Management System',
@@ -172,6 +173,7 @@ i18n.use(initReactI18next).init({
           viewer: 'Lecteur',
           editor: 'Éditeur',
           share: 'Partager',
+          cancel: 'Annuler',
         },
         landingPage: {
           welcome: 'Bienvenue dans votre système de gestion de documents',
@@ -286,6 +288,7 @@ i18n.use(initReactI18next).init({
           viewer: 'عارض',
           editor: 'محرر',
           share: 'مشاركة',
+          cancel: 'الغاء',
         },
         landingPage: {
           welcome: 'أهلاً بك في نظام إدارة المستندات الخاص بك',

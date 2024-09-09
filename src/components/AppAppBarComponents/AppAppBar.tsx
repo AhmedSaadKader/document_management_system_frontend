@@ -6,6 +6,7 @@ import {
   Toolbar,
   Typography,
   Button,
+  Switch,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useAuth } from '../../context/auth_context';
@@ -15,6 +16,7 @@ import NavLinks from './NavLinks';
 import UserMenu from './UserMenu';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useThemeMode } from '../../context/theme_context';
 
 const drawerWidth = 240;
 
@@ -23,6 +25,7 @@ function AppAppBar() {
   const { isAuthenticated, signOut } = useAuth();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { mode, toggleColorMode } = useThemeMode();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -74,6 +77,12 @@ function AppAppBar() {
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <LanguageSelector />
+          <Switch
+            checked={mode === 'dark'}
+            onChange={toggleColorMode}
+            color='default'
+            inputProps={{ 'aria-label': 'toggle dark/light mode' }}
+          />
           <NavLinks />
           {isAuthenticated ? (
             <UserMenu
