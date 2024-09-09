@@ -64,6 +64,10 @@ class ApiClient {
     return this.request('/workspaces', 'POST', workspaceData);
   }
 
+  static async addDocument(workspaceId: string): Promise<any> {
+    return this.request(`/workspaces/${workspaceId}/documents`, 'POST');
+  }
+
   static async fetchDocuments(queryParams: {
     search?: string;
     sortBy?: string;
@@ -102,7 +106,27 @@ class ApiClient {
   }
 
   static async fetchSharedWorkspaces(): Promise<any> {
-    return this.request(`/permissions/shared-workspaces`, 'GET');
+    return this.request(`/workspaces/shared-workspaces`, 'GET');
+  }
+
+  static async addFavorite(workspaceId: string): Promise<any> {
+    return this.request(`/favorites/${workspaceId}`, 'POST');
+  }
+
+  static async removeFavorite(workspaceId: string): Promise<any> {
+    return this.request(`/favorites/${workspaceId}`, 'DELETE');
+  }
+
+  static async getAllFavorites(): Promise<any> {
+    return this.request(`/favorites`, 'GET');
+  }
+
+  static async checkIfFavorite(workspaceId: string): Promise<any> {
+    return this.request(`/favorites/${workspaceId}/check`, 'GET');
+  }
+
+  static async fetchRecentWorkspaces(): Promise<any> {
+    return this.request('/workspaces/recent', 'GET');
   }
 }
 

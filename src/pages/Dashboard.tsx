@@ -1,25 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Box, Typography, Grid, Paper, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import ApiClient from '../services/APIClient';
+import FavoritesList from '../components/DashboardComponents/FavoritesList';
+import SharedWorkspaces from '../components/DashboardComponents/SharedWorkspaces';
+import RecentWorkspaces from '../components/DashboardComponents/RecentWorkspaces';
+import DocumentFormModal from '../components/DocumentComponents/DocumentModals/DocumentFormModal';
 
 const Dashboard = () => {
   const { t } = useTranslation();
-  const [sharedWorkspaces, setSharedWorkspaces] = useState<any[]>([]);
-
-  useEffect(() => {
-    const fetchSharedDocuments = async () => {
-      try {
-        const response = await ApiClient.fetchSharedWorkspaces();
-        setSharedWorkspaces(response);
-      } catch (error) {
-        console.error('Error fetching shared documents:', error);
-      }
-    };
-
-    fetchSharedDocuments();
-  }, []);
 
   return (
     <Box sx={{ p: 3 }}>
@@ -31,30 +20,13 @@ const Dashboard = () => {
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6} md={4}>
-          <Paper elevation={3} sx={{ p: 2 }}>
-            <Typography variant='h6'>
-              {t('dashboard.recentDocuments')}
-            </Typography>
-            {/* List recent documents here */}
-          </Paper>
+          <RecentWorkspaces />
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
-          <Paper elevation={3} sx={{ p: 2 }}>
-            <Typography variant='h6'>{t('dashboard.favorites')}</Typography>
-            {/* List favorite documents here */}
-          </Paper>
+          <FavoritesList />
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
-          <Paper elevation={3} sx={{ p: 2 }}>
-            <Typography variant='h6'>{t('dashboard.sharedWithMe')}</Typography>
-            {sharedWorkspaces.length > 0 ? (
-              sharedWorkspaces.map((workspace, index) => (
-                <Typography key={index}>{workspace.workspaceName}</Typography>
-              ))
-            ) : (
-              <Typography>{t('dashboard.nosharedWorkspaces')}</Typography>
-            )}
-          </Paper>
+          <SharedWorkspaces />
         </Grid>
         <Grid item xs={12}>
           <Paper elevation={3} sx={{ p: 2 }}>
@@ -71,9 +43,12 @@ const Dashboard = () => {
           <Paper elevation={3} sx={{ p: 2 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
               <Typography variant='h6'>{t('dashboard.documents')}</Typography>
-              <Button color='inherit' href='/create-document'>
-                {t('dashboard.createDocument')}
-              </Button>
+              <DocumentFormModal
+                workspaceId={''}
+                onDocumentAdded={function (newDocument: any): void {
+                  throw new Error('Function not implemented.');
+                }}
+              />
               <Button color='inherit' component={Link} to='/documents'>
                 {t('dashboard.allDocuments')}
               </Button>

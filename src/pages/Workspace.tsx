@@ -10,6 +10,7 @@ import ApiClient from '../services/APIClient';
 
 const WorkspacePage: React.FC = () => {
   const [workspace, setWorkspace] = useState<any>(null);
+  const [role, setRole] = useState<string>('viewer');
   const { workspaceId } = useParams<{ workspaceId: string }>();
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState('');
@@ -26,19 +27,23 @@ const WorkspacePage: React.FC = () => {
       setSortBy(e.target.value);
     } else if (state == 'order') {
       if (e.target.value == 'asc' || e.target.value == 'desc')
-      setOrder(e.target.value);
+        setOrder(e.target.value);
     }
   };
 
   useEffect(() => {
     const fetchWorkspace = async () => {
       try {
-        const data = await ApiClient.fetchWorkspace(workspaceId as string, {
-          search,
-          sortBy,
-          order,
-        });
-        setWorkspace(data);
+        const { workspace, role } = await ApiClient.fetchWorkspace(
+          workspaceId as string,
+          {
+            search,
+            sortBy,
+            order,
+          }
+        );
+        setWorkspace(workspace);
+        setRole(role);
       } catch (error) {
         console.error(error);
       }
@@ -70,6 +75,7 @@ const WorkspacePage: React.FC = () => {
             workspaceName={workspace.workspaceName}
             workspaceId={workspaceId}
             description={workspace.description}
+            canShare={role === 'editor' || role === 'owner'}
           />
           <DocumentSearchFilter
             search={search}
@@ -77,14 +83,18 @@ const WorkspacePage: React.FC = () => {
             order={order}
             updateSearchFilters={updateSearchFilters}
           />
-          <DocumentForm
-            workspaceId={workspaceId!}
-            onDocumentAdded={onDocumentAdded}
-          />
+          {role !== 'viewer' && (
+            <DocumentForm
+              workspaceId={workspaceId!}
+              onDocumentAdded={onDocumentAdded}
+            />
+          )}
+
           <Grid container spacing={3} sx={{ mt: 3, mx: 1 }}>
             <DocumentList
               documents={workspace.documents}
               onDelete={handleDocumentDeleted}
+              canDelete={role === 'editor' || role === 'owner'}
             />
           </Grid>
         </>

@@ -88,7 +88,7 @@ i18n.use(initReactI18next).init({
         dashboard: {
           greeting: 'Hello, ',
           title: 'Dashboard',
-          recentDocuments: 'Recent Documents',
+          recentWorkspaces: 'Recent Workspaces',
           favorites: 'Favorites',
           sharedWithMe: 'Shared with Me',
           workspaces: 'Workspaces',
@@ -98,7 +98,7 @@ i18n.use(initReactI18next).init({
           createDocument: 'Create Document',
           allDocuments: 'All Documents',
           recycleBin: 'Recycle Bin',
-          nosharedWorkspaces: 'No shared workspaces',
+          noSharedWorkspaces: 'No shared workspaces',
         },
         profile: {
           profile: 'Profile',

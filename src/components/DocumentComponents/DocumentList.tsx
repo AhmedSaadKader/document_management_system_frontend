@@ -13,13 +13,17 @@ interface Document {
   _id: string;
   documentName: string;
 }
-
 interface DocumentListProps {
   documents: Document[];
   onDelete: (documentId: string) => void;
+  canDelete: boolean;
 }
 
-const DocumentList: React.FC<DocumentListProps> = ({ documents, onDelete }) => {
+const DocumentList: React.FC<DocumentListProps> = ({
+  documents,
+  onDelete,
+  canDelete,
+}) => {
   const [selectedDocument, setSelectedDocument] = useState<any | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -63,10 +67,12 @@ const DocumentList: React.FC<DocumentListProps> = ({ documents, onDelete }) => {
                 documentId={document._id}
                 onDetails={handleViewDetails}
               />
-              <DeleteDocumentButton
-                documentId={document._id}
-                onDelete={onDelete}
-              />
+              {canDelete && (
+                <DeleteDocumentButton
+                  documentId={document._id}
+                  onDelete={onDelete}
+                />
+              )}
             </Paper>
           </Grid>
         ))

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Modal,
   Box,
@@ -6,8 +6,14 @@ import {
   TextField,
   Input,
   Typography,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import ApiClient from '../../../services/APIClient';
 
 interface DocumentFormModalProps {
   workspaceId: string;
@@ -15,10 +21,14 @@ interface DocumentFormModalProps {
 }
 
 const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
-  workspaceId,
+  workspaceId = '',
   onDocumentAdded,
 }) => {
   const [open, setOpen] = useState(false);
+  const [selectedWorkspaceId, setSelectedWorkspaceId] =
+    useState<string>(workspaceId);
+  const [workspaces, setWorkspaces] = useState<any[]>([]);
+
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [documentName, setDocumentName] = useState('');
   const { t } = useTranslation();
@@ -27,6 +37,10 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
     if (e.target.files) {
       setSelectedFile(e.target.files[0]);
     }
+  };
+
+  const handleWorkspaceChange = (event: SelectChangeEvent<string>) => {
+    setSelectedWorkspaceId(event.target.value as string);
   };
 
   const handleAddDocument = async () => {
@@ -40,21 +54,10 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
     formData.append('documentName', documentName);
 
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/v1/workspaces/${workspaceId}/documents`,
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-          },
-          body: formData,
-        }
-      );
-
+      const response = await ApiClient.addDocument(selectedWorkspaceId);
       if (!response.ok) {
         throw new Error('Failed to add document');
       }
-
       const addedDocument = await response.json();
       onDocumentAdded(addedDocument.document);
       setDocumentName('');
@@ -64,6 +67,19 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    const fetchWorkspaces = async () => {
+      try {
+        const response = await ApiClient.fetchAllWorkspaces();
+        setWorkspaces(response);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchWorkspaces();
+  }, []);
 
   return (
     <>
@@ -81,21 +97,40 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
           }}
         >
           <Typography variant='h6'>{t('document.addDocument')}</Typography>
-          <TextField
-            label={t('document.documentFormNameLabel')}
-            value={documentName}
-            onChange={(e) => setDocumentName(e.target.value)}
-            fullWidth
-            margin='normal'
-          />
-          <Input type='file' onChange={handleFileChange} fullWidth />
-          <Button
-            variant='contained'
-            onClick={handleAddDocument}
-            sx={{ mt: 2 }}
-          >
-            {t('document.upload')}
-          </Button>
+          <Box height={10} />
+          <FormControl fullWidth sx={{ mb: 2 }}>
+            <InputLabel>{t('document.selectWorkspace')}</InputLabel>
+            <Box height={8} />
+            <Select
+              value={selectedWorkspaceId}
+              onChange={handleWorkspaceChange}
+            >
+              {workspaces.map((workspace) => (
+                <MenuItem key={workspace._id} value={workspace._id}>
+                  {workspace.workspaceName}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          {selectedWorkspaceId && (
+            <>
+              <TextField
+                label={t('document.documentFormNameLabel')}
+                value={documentName}
+                onChange={(e) => setDocumentName(e.target.value)}
+                fullWidth
+                margin='normal'
+              />
+              <Input type='file' onChange={handleFileChange} fullWidth />
+              <Button
+                variant='contained'
+                onClick={handleAddDocument}
+                sx={{ mt: 2 }}
+              >
+                {t('document.upload')}
+              </Button>
+            </>
+          )}
         </Box>
       </Modal>
     </>

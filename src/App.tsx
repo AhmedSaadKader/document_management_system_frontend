@@ -104,14 +104,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route
-              path='/create-document'
-              element={
-                <ProtectedRoute>
-                  <CreateDocumentForm />
-                </ProtectedRoute>
-              }
-            />
+
             <Route
               path='/profile'
               element={

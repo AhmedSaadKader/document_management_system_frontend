@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import DocumentForm from '../components/DocumentComponents/DocumentModals/DocumentFormModal';
 import { useTranslation } from 'react-i18next';
+import ApiClient from '../services/APIClient';
 
 const DocumentCreatePage = () => {
   const [workspaces, setWorkspaces] = useState<any[]>([]);
@@ -19,23 +20,10 @@ const DocumentCreatePage = () => {
   useEffect(() => {
     const fetchWorkspaces = async () => {
       try {
-        const response = await fetch(
-          'http://localhost:5000/api/v1/workspaces',
-          {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-              'Content-Type': 'application/json',
-            },
-          }
-        );
+        const response = await ApiClient.fetchAllWorkspaces();
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch workspaces');
-        }
-
-        const data = await response.json();
-        setWorkspaces(data);
+        console.log(response);
+        setWorkspaces(response);
       } catch (error) {
         console.error(error);
       }

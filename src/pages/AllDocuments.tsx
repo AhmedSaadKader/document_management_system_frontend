@@ -22,7 +22,7 @@ const AllDocumentsPage = () => {
       setSortBy(e.target.value);
     } else if (state == 'order') {
       if (e.target.value == 'asc' || e.target.value == 'desc')
-      setOrder(e.target.value);
+        setOrder(e.target.value);
     }
   };
 
@@ -60,7 +60,11 @@ const AllDocumentsPage = () => {
         updateSearchFilters={updateSearchFilters}
       />
       <Grid container spacing={3} sx={{ mt: 3, mx: 1 }}>
-        <DocumentList documents={documents} onDelete={handleDocumentDeleted} />
+        <DocumentList
+          documents={documents}
+          onDelete={handleDocumentDeleted}
+          canDelete={true}
+        />
       </Grid>
     </Box>
   );
