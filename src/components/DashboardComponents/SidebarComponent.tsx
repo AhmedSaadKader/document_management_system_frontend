@@ -9,17 +9,10 @@ import {
   ListItemText,
   Divider,
 } from '@mui/material';
-import {
-  Home,
-  Work,
-  Star,
-  Share,
-  Folder,
-  DocumentScanner,
-  Delete,
-  Add,
-} from '@mui/icons-material';
+import { Work, DocumentScanner, Delete } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import DocumentFormModal from '../DocumentComponents/DocumentModals/DocumentFormModal';
+import CreateWorkspaceForm from '../WorkspaceComponents/CreateWorkspaceForm';
 
 const Sidebar: React.FC = () => {
   return (
@@ -52,18 +45,6 @@ const Sidebar: React.FC = () => {
           </ListItemIcon>
           <ListItemText primary='Documents' />
         </ListItem>
-        <ListItem button component={Link} to='/shared'>
-          <ListItemIcon>
-            <Share />
-          </ListItemIcon>
-          <ListItemText primary='Shared Workspaces' />
-        </ListItem>
-        <ListItem button component={Link} to='/favorites'>
-          <ListItemIcon>
-            <Star />
-          </ListItemIcon>
-          <ListItemText primary='Favorites' />
-        </ListItem>
         <ListItem button component={Link} to='/recycle-bin'>
           <ListItemIcon>
             <Delete />
@@ -73,18 +54,14 @@ const Sidebar: React.FC = () => {
       </List>
       <Divider sx={{ my: 2 }} />
       <List>
-        <ListItem button component={Link} to='/create-workspace'>
-          <ListItemIcon>
-            <Add />
-          </ListItemIcon>
-          <ListItemText primary='Create Workspace' />
-        </ListItem>
-        <ListItem button component={Link} to='/create-document'>
-          <ListItemIcon>
-            <Add />
-          </ListItemIcon>
-          <ListItemText primary='Add Document' />
-        </ListItem>
+        <CreateWorkspaceForm isSidebar={true} />
+        <DocumentFormModal
+          isSidebar={true}
+          onDocumentAdded={function (): void {
+            throw new Error('Function not implemented.');
+          }}
+          workspaceId={''}
+        />
       </List>
     </Box>
   );

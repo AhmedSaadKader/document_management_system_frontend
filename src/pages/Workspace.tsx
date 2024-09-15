@@ -86,6 +86,7 @@ const WorkspacePage: React.FC = () => {
           {role !== 'viewer' && (
             <DocumentForm
               workspaceId={workspaceId!}
+              isSidebar={false}
               onDocumentAdded={onDocumentAdded}
             />
           )}

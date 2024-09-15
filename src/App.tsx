@@ -11,7 +11,6 @@ import Dashboard from './pages/Dashboard';
 import ProfilePage from './pages/Profile';
 import { CircularProgress } from '@mui/material';
 import WorkspacePage from './pages/Workspace';
-import CreateWorkspaceForm from './components/WorkspaceComponents/CreateWorkspaceForm';
 import AllWorkspacesPage from './pages/AllWorkspaces';
 import AllDocumentsPage from './pages/AllDocuments';
 import RecycleBinPage from './pages/RecycleBin';
@@ -84,14 +83,6 @@ function App() {
               element={
                 <ProtectedRoute>
                   <RecycleBinPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path='/create-workspace'
-              element={
-                <ProtectedRoute>
-                  <CreateWorkspaceForm />
                 </ProtectedRoute>
               }
             />

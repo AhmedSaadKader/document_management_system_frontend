@@ -1,10 +1,26 @@
 import React, { useState } from 'react';
-import { TextField, Button, Typography, Box, Modal } from '@mui/material';
+import {
+  TextField,
+  Button,
+  Typography,
+  Box,
+  Modal,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import ApiClient from '../../services/APIClient';
+import { Add } from '@mui/icons-material';
 
-const CreateWorkspaceForm = () => {
+interface CreateWorkspaceFormProps {
+  isSidebar: boolean;
+}
+
+const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
+  isSidebar = false,
+}) => {
   const [workspaceName, setWorkspaceName] = useState('');
   const [description, setDescription] = useState('');
   const [error, setError] = useState('');
@@ -32,9 +48,18 @@ const CreateWorkspaceForm = () => {
 
   return (
     <Box>
-      <Button variant='contained' onClick={handleOpen}>
-        {t('workspace.createNewWorkspace')}
-      </Button>
+      {isSidebar ? (
+        <ListItemButton onClick={handleOpen}>
+          <ListItemIcon>
+            <Add />
+          </ListItemIcon>
+          <ListItemText primary='Create Workspace' />
+        </ListItemButton>
+      ) : (
+        <Button variant='contained' onClick={handleOpen}>
+          {t('workspace.createNewWorkspace')}
+        </Button>
+      )}
 
       <Modal open={open} onClose={handleClose}>
         <Box

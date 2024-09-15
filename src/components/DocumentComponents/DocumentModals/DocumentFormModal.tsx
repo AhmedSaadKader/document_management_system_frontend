@@ -11,32 +11,39 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import ApiClient from '../../../services/APIClient';
+import { Add } from '@mui/icons-material';
 
 interface DocumentFormModalProps {
   workspaceId: string;
+  isSidebar: boolean;
   onDocumentAdded: (newDocument: any) => void;
 }
 
 const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
   workspaceId = '',
+  isSidebar = false,
   onDocumentAdded,
 }) => {
   const [open, setOpen] = useState(false);
   const [selectedWorkspaceId, setSelectedWorkspaceId] =
     useState<string>(workspaceId);
   const [workspaces, setWorkspaces] = useState<any[]>([]);
-
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [documentName, setDocumentName] = useState('');
+  const [tags, setTags] = useState<string>('');
   const { t } = useTranslation();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setSelectedFile(e.target.files[0]);
     }
+    console.log(selectedFile);
   };
 
   const handleWorkspaceChange = (event: SelectChangeEvent<string>) => {
@@ -52,15 +59,28 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
     const formData = new FormData();
     formData.append('file', selectedFile);
     formData.append('documentName', documentName);
+    formData.append('tags', tags);
 
     try {
-      const response = await ApiClient.addDocument(selectedWorkspaceId);
+      const response = await fetch(
+        `http://localhost:5000/api/v1/workspaces/${workspaceId}/documents`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+          body: formData,
+        }
+      );
+
       if (!response.ok) {
         throw new Error('Failed to add document');
       }
+
       const addedDocument = await response.json();
       onDocumentAdded(addedDocument.document);
       setDocumentName('');
+      setTags('');
       setSelectedFile(null);
       setOpen(false);
     } catch (error) {
@@ -83,9 +103,18 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
 
   return (
     <>
-      <Button variant='contained' onClick={() => setOpen(true)}>
-        {t('document.addDocument')}
-      </Button>
+      {isSidebar ? (
+        <ListItemButton onClick={() => setOpen(true)}>
+          <ListItemIcon>
+            <Add />
+          </ListItemIcon>
+          <ListItemText primary='Add Document' />
+        </ListItemButton>
+      ) : (
+        <Button variant='contained' onClick={() => setOpen(true)}>
+          {t('document.addDocument')}
+        </Button>
+      )}
       <Modal open={open} onClose={() => setOpen(false)}>
         <Box
           sx={{
@@ -118,6 +147,13 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
                 label={t('document.documentFormNameLabel')}
                 value={documentName}
                 onChange={(e) => setDocumentName(e.target.value)}
+                fullWidth
+                margin='normal'
+              />
+              <TextField
+                label='Tags (comma-separated)'
+                value={tags}
+                onChange={(e) => setTags(e.target.value)}
                 fullWidth
                 margin='normal'
               />

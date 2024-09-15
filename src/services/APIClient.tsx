@@ -64,8 +64,15 @@ class ApiClient {
     return this.request('/workspaces', 'POST', workspaceData);
   }
 
-  static async addDocument(workspaceId: string): Promise<any> {
-    return this.request(`/workspaces/${workspaceId}/documents`, 'POST');
+  static async addDocument(
+    workspaceId: string,
+    formData: FormData
+  ): Promise<any> {
+    return this.request(
+      `/workspaces/${workspaceId}/documents`,
+      'POST',
+      formData
+    );
   }
 
   static async fetchDocuments(queryParams: {
