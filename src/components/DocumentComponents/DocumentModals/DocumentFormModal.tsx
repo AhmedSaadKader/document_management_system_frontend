@@ -62,8 +62,9 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
     formData.append('tags', tags);
 
     try {
+      console.log(process.env.REACT_APP_API_URL);
       const response = await fetch(
-        `http://localhost:5000/api/v1/workspaces/${workspaceId}/documents`,
+        `${process.env.REACT_APP_API_URL}/workspaces/${workspaceId}/documents`,
         {
           method: 'POST',
           headers: {

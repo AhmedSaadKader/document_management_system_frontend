@@ -16,7 +16,7 @@ const DownloadDocumentButton = ({
   const handleDownload = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/documents/${documentId}/download`,
+        `${process.env.REACT_APP_API_URL}/documents/${documentId}/download`,
         {
           method: 'GET',
           headers: {

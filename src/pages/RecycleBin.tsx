@@ -82,7 +82,7 @@ const RecycleBinPage = () => {
   async function restoreDocument(documentId: string) {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/documents/${documentId}/restore`,
+        `${process.env.REACT_APP_API_URL}/documents/${documentId}/restore`,
         {
           method: 'PATCH',
           headers: {
@@ -105,7 +105,7 @@ const RecycleBinPage = () => {
   async function permanentlyDeleteDocument(documentId: string) {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/documents/${documentId}/delete`,
+        `${process.env.REACT_APP_API_URL}/documents/${documentId}/delete`,
         {
           method: 'DELETE',
           headers: {

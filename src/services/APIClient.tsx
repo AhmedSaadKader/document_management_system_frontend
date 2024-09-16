@@ -1,5 +1,5 @@
 class ApiClient {
-  private static readonly baseUrl = 'http://localhost:5000/api/v1';
+  private static readonly baseUrl = process.env.REACT_APP_API_URL;
   private static readonly itemsPerPage = 15;
   private static readonly token = localStorage.getItem('authToken') || '';
 
