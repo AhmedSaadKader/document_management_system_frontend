@@ -109,7 +109,7 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
           <ListItemIcon>
             <Add />
           </ListItemIcon>
-          <ListItemText primary='Add Document' />
+          <ListItemText primary={t('document.addDocument')} />
         </ListItemButton>
       ) : (
         <Button variant='contained' onClick={() => setOpen(true)}>

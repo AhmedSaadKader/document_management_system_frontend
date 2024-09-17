@@ -13,14 +13,11 @@ import {
   Container,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/auth_context';
 import { useTranslation } from 'react-i18next';
 import { Copyright } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
-
-const defaultTheme = createTheme();
 
 export default function SignIn() {
   const { t } = useTranslation();

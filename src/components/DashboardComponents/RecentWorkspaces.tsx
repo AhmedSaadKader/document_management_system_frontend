@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Box,
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
-  CircularProgress,
-  Paper,
-} from '@mui/material';
+import { Box, Typography, Paper } from '@mui/material';
 import ApiClient from '../../services/APIClient';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -16,7 +8,7 @@ const RecentWorkspaces: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [recentWorkspaces, setRecentWorkspaces] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  // const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -26,15 +18,12 @@ const RecentWorkspaces: React.FC = () => {
         setRecentWorkspaces(data);
       } catch (err) {
         setError('Failed to fetch recent workspaces');
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchRecentWorkspaces();
   }, []);
 
-  if (loading) return <CircularProgress />;
   if (error) return <Typography color='error'>{error}</Typography>;
 
   const handleWorkspaceClick = (workspaceId: string) => {

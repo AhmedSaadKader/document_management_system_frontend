@@ -28,9 +28,8 @@ const LanguageSelector: React.FC = () => {
       sx={{ color: '#fff', marginRight: 2 }}
     >
       <MenuItem value='en'>En</MenuItem>
-      <MenuItem value='ar'>ar</MenuItem>
-      <MenuItem value='fr'>fr</MenuItem>
-      {/* Add more languages as needed */}
+      <MenuItem value='ar'>Ar</MenuItem>
+      <MenuItem value='fr'>Fr</MenuItem>
     </Select>
   );
 };

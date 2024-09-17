@@ -10,8 +10,8 @@ i18n.use(initReactI18next).init({
         appBar: {
           title: 'Document Management System',
           login: 'Login',
-          workspaces: 'All Workspaces',
-          documents: 'All Documents',
+          workspaces: 'Workspaces',
+          documents: 'Documents',
           recycleBin: 'Recycle Bin',
         },
         userMenu: {
@@ -205,6 +205,7 @@ i18n.use(initReactI18next).init({
           greeting: 'Bonjour, ',
           title: 'Tableau de bord',
           recentDocuments: 'Documents récents',
+          recentWorkspaces: 'Espaces de travail récents',
           favorites: 'Favoris',
           sharedWithMe: 'Partagé avec moi',
           workspaces: 'Espaces de travail',
@@ -318,6 +319,7 @@ i18n.use(initReactI18next).init({
           greeting: 'مرحبا ',
           title: 'لوحة المعلومات',
           recentDocuments: 'المستندات الحديثة',
+          recentWorkspaces: 'مساحات العمل الأخيرة',
           favorites: 'المفضلة',
           sharedWithMe: 'مشاركة معي',
           workspaces: 'مساحات العمل',

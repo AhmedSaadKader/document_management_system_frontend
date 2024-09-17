@@ -12,14 +12,12 @@ const Dashboard = () => {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <Sidebar />
       <Box
         component='main'
         sx={{
           flexGrow: 1,
           p: 3,
-          ml: 30, // Adjust margin left to make space for the sidebar
-          width: 'calc(100% - 240px)', // Adjust width to account for sidebar
+          width: 'calc(100% - 240px)',
         }}
       >
         <Typography variant='h4' gutterBottom>

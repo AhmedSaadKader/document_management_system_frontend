@@ -53,7 +53,7 @@ const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
           <ListItemIcon>
             <Add />
           </ListItemIcon>
-          <ListItemText primary='Create Workspace' />
+          <ListItemText primary={t('workspace.createNewWorkspace')} />
         </ListItemButton>
       ) : (
         <Button variant='contained' onClick={handleOpen}>
