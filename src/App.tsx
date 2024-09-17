@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from 'react-router-dom';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import LandingPage from './pages/LandingPage';
@@ -35,17 +40,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   return <>{children}</>;
 };
 
-const LandingRoute: React.FC = () => {
+const SidebarRoute: React.FC = () => {
   const { isAuthenticated } = useAuth();
-
-  if (isAuthenticated) {
-    return <Navigate to='/dashboard' />;
-  }
-
-  return <LandingPage />;
-};
-
-function App() {
+  const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const isMdUp = useMediaQuery((theme: any) => theme.breakpoints.up('md')); // 'md' breakpoint
 
@@ -53,86 +50,114 @@ function App() {
     setMobileOpen(!mobileOpen);
   };
 
+  const excludedRoutes = ['/signin', '/signup']; // Add routes where you don't want the sidebar
+
+  if (excludedRoutes.includes(location.pathname)) {
+    return null; // Don't render the sidebar on these routes
+  }
+
+  if (isAuthenticated && isMdUp) {
+    return (
+      <Box sx={{ mt: '64px' }}>
+        <Sidebar />
+      </Box>
+    );
+  }
+
+  return (
+    <MobileDrawer
+      mobileOpen={mobileOpen}
+      handleDrawerToggle={handleDrawerToggle}
+      drawerWidth={240}
+    />
+  );
+};
+
+const MainContent: React.FC = () => {
+  const location = useLocation();
+  const isMdUp = useMediaQuery((theme: any) => theme.breakpoints.up('md'));
+
+  const excludedRoutes = ['/signin', '/signup'];
+
+  return (
+    <Box
+      component='main'
+      sx={{
+        flexGrow: 1,
+        p: 3,
+        ml: excludedRoutes.includes(location.pathname)
+          ? '0px'
+          : isMdUp
+            ? '240px'
+            : '0px',
+      }}
+    >
+      <Routes>
+        <Route path='/' element={<LandingPage />} />
+        <Route path='/signin' element={<SignIn />} />
+        <Route path='/signup' element={<SignUp />} />
+        <Route
+          path='/dashboard'
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/workspaces'
+          element={
+            <ProtectedRoute>
+              <AllWorkspacesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/documents'
+          element={
+            <ProtectedRoute>
+              <AllDocumentsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/recycle-bin'
+          element={
+            <ProtectedRoute>
+              <RecycleBinPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/workspace/:workspaceId'
+          element={
+            <ProtectedRoute>
+              <WorkspacePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/profile'
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </Box>
+  );
+};
+
+function App() {
   return (
     <AuthProvider>
       <ThemeProvider>
         <Router>
-          <AppAppBar /> {/* Pass drawer toggle for AppBar */}
+          <AppAppBar />
           <Box sx={{ display: 'flex' }}>
-            {isMdUp ? (
-              <Box sx={{ mt: '64px' }}>
-                <Sidebar />
-              </Box>
-            ) : (
-              <MobileDrawer
-                mobileOpen={mobileOpen}
-                handleDrawerToggle={handleDrawerToggle}
-                drawerWidth={240}
-              />
-            )}
-            {/* Adjust the content area to accommodate Sidebar */}
-            <Box
-              component='main'
-              sx={{
-                flexGrow: 1,
-                p: 3,
-                ml: isMdUp ? '240px' : '0px',
-              }}
-            >
-              <Routes>
-                <Route path='/' element={<LandingRoute />} />
-                <Route path='/signin' element={<SignIn />} />
-                <Route path='/signup' element={<SignUp />} />
-                <Route
-                  path='/dashboard'
-                  element={
-                    <ProtectedRoute>
-                      <Dashboard />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path='/workspaces'
-                  element={
-                    <ProtectedRoute>
-                      <AllWorkspacesPage />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path='/documents'
-                  element={
-                    <ProtectedRoute>
-                      <AllDocumentsPage />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path='/recycle-bin'
-                  element={
-                    <ProtectedRoute>
-                      <RecycleBinPage />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path='/workspace/:workspaceId'
-                  element={
-                    <ProtectedRoute>
-                      <WorkspacePage />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path='/profile'
-                  element={
-                    <ProtectedRoute>
-                      <ProfilePage />
-                    </ProtectedRoute>
-                  }
-                />
-              </Routes>
-            </Box>
+            <SidebarRoute />
+            <MainContent />
           </Box>
         </Router>
       </ThemeProvider>

@@ -43,7 +43,7 @@ export default function SignIn() {
       <CssBaseline />
       <Box
         sx={{
-          marginTop: 8,
+          marginTop: 2,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -102,7 +102,6 @@ export default function SignIn() {
           </Grid>
         </Box>
       </Box>
-      <Copyright sx={{ mt: 8, mb: 4 }} />
     </Container>
   );
 }

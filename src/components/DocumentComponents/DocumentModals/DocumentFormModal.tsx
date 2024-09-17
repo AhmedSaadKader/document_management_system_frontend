@@ -18,6 +18,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import ApiClient from '../../../services/APIClient';
 import { Add } from '@mui/icons-material';
+import { useAuth } from '../../../context/auth_context';
 
 interface DocumentFormModalProps {
   workspaceId: string;
@@ -30,6 +31,7 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
   isSidebar = false,
   onDocumentAdded,
 }) => {
+  const { isAuthenticated } = useAuth();
   const [open, setOpen] = useState(false);
   const [selectedWorkspaceId, setSelectedWorkspaceId] =
     useState<string>(workspaceId);
@@ -62,7 +64,6 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
     formData.append('tags', tags);
 
     try {
-      console.log(process.env.REACT_APP_API_URL);
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/workspaces/${workspaceId}/documents`,
         {
@@ -90,6 +91,7 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
   };
 
   useEffect(() => {
+    if (!isAuthenticated) return;
     const fetchWorkspaces = async () => {
       try {
         const response = await ApiClient.fetchAllWorkspaces();

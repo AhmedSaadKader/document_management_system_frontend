@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import FavoritesList from '../components/DashboardComponents/FavoritesList';
 import SharedWorkspaces from '../components/DashboardComponents/SharedWorkspaces';
 import RecentWorkspaces from '../components/DashboardComponents/RecentWorkspaces';
-import Sidebar from '../components/DashboardComponents/SidebarComponent';
 
 const Dashboard = () => {
   const { t } = useTranslation();
