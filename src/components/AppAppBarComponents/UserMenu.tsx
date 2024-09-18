@@ -55,7 +55,6 @@ const UserMenu: React.FC<UserMenuProps> = ({
         <MenuItem onClick={handleProfileClick}>
           {t('userMenu.profile')}
         </MenuItem>
-        <MenuItem onClick={handleClose}>{t('userMenu.myAccount')}</MenuItem>
         <MenuItem
           onClick={() => {
             handleClose();

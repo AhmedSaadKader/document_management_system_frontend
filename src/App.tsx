@@ -73,6 +73,14 @@ const SidebarRoute: React.FC = () => {
   );
 };
 
+const LandingRoute: React.FC = () => {
+  const { isAuthenticated } = useAuth();
+  if (isAuthenticated) {
+    return <Navigate to='/dashboard' />;
+  }
+  return <LandingPage />;
+};
+
 const MainContent: React.FC = () => {
   const location = useLocation();
   const isMdUp = useMediaQuery((theme: any) => theme.breakpoints.up('md'));
@@ -93,7 +101,7 @@ const MainContent: React.FC = () => {
       }}
     >
       <Routes>
-        <Route path='/' element={<LandingPage />} />
+        <Route path='/' element={<LandingRoute />} />
         <Route path='/signin' element={<SignIn />} />
         <Route path='/signup' element={<SignUp />} />
         <Route
