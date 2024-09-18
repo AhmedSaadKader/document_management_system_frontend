@@ -1,3 +1,5 @@
+import { UserData } from '../pages/SignUp';
+
 class ApiClient {
   private static readonly baseUrl = process.env.REACT_APP_API_URL;
   private static readonly itemsPerPage = 15;
@@ -25,13 +27,18 @@ class ApiClient {
     return response.json();
   }
 
-  static async register(userData: {
-    national_id: string;
-    first_name: string;
-    last_name: string;
+  static async generateOtp(userData: UserData): Promise<void> {
+    return this.request('/otp/generate', 'POST', userData);
+  }
+
+  static async verifyOtp(otpData: {
     email: string;
-    password: string;
-  }): Promise<any> {
+    otp: string;
+  }): Promise<void> {
+    return this.request('/otp/verify', 'POST', otpData);
+  }
+
+  static async register(userData: UserData): Promise<any> {
     const data = await this.request('/users/register', 'POST', userData);
     localStorage.setItem('authToken', data.token);
     localStorage.setItem('email', data.email);
