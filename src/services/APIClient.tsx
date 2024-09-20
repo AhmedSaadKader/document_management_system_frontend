@@ -68,6 +68,7 @@ class ApiClient {
   static async createWorkspace(workspaceData: {
     workspaceName: string;
     description: string;
+    isPublic: boolean;
   }): Promise<any> {
     return this.request('/workspaces', 'POST', workspaceData);
   }

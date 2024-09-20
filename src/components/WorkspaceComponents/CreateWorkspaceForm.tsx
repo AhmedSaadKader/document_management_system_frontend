@@ -9,6 +9,10 @@ import {
   ListItemIcon,
   ListItemText,
   useTheme,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -26,6 +30,7 @@ const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
   const [description, setDescription] = useState('');
   const [error, setError] = useState('');
   const [open, setOpen] = useState(false);
+  const [isPublic, setIsPublic] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
   const theme = useTheme();
@@ -39,6 +44,7 @@ const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
       const data = await ApiClient.createWorkspace({
         workspaceName,
         description,
+        isPublic,
       });
       navigate(`/workspace/${data._id}`);
       handleClose();
@@ -94,6 +100,17 @@ const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
+            <FormControl fullWidth margin='normal'>
+              <InputLabel>{t('workspace.public')}</InputLabel>
+              <Select
+                label={t('workspace.public')}
+                value={isPublic ? 'Yes' : 'No'}
+                onChange={(e) => setIsPublic(e.target.value === 'Yes')}
+              >
+                <MenuItem value='Yes'>{t('workspace.yes')}</MenuItem>
+                <MenuItem value='No'>{t('workspace.no')}</MenuItem>
+              </Select>
+            </FormControl>
             {error && (
               <Typography color='error' variant='body2' gutterBottom>
                 {error}
