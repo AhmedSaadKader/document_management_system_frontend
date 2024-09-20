@@ -1,17 +1,30 @@
-// components/Sidebar.tsx
 import React from 'react';
 import {
   Box,
   List,
-  ListItemIcon,
-  ListItemText,
-  Divider,
   ListItemButton,
+  ListItemText,
+  ListItemIcon,
+  Divider,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
 } from '@mui/material';
-import { Work, DocumentScanner, Delete } from '@mui/icons-material';
+import {
+  Work,
+  DocumentScanner,
+  Delete,
+  ExpandMore,
+  Favorite,
+  Share,
+} from '@mui/icons-material';
 import { Link } from 'react-router-dom';
-import DocumentFormModal from '../DocumentComponents/DocumentModals/DocumentFormModal';
-import CreateWorkspaceForm from '../WorkspaceComponents/CreateWorkspaceForm';
+import DocumentFormModal from './DocumentComponents/DocumentModals/DocumentFormModal';
+import CreateWorkspaceForm from './WorkspaceComponents/CreateWorkspaceForm';
+import FavoritesList from './DashboardComponents/FavoritesList';
+import RecentWorkspaces from './DashboardComponents/RecentWorkspaces';
+import SharedWorkspaces from './DashboardComponents/SharedWorkspaces';
 import { useTranslation } from 'react-i18next';
 
 const Sidebar: React.FC = () => {
@@ -29,6 +42,7 @@ const Sidebar: React.FC = () => {
         borderRight: '1px solid',
         borderColor: 'divider',
         p: 2,
+        overflowY: 'auto',
       }}
     >
       <List>
@@ -51,7 +65,9 @@ const Sidebar: React.FC = () => {
           <ListItemText primary={t('appBar.recycleBin')} />
         </ListItemButton>
       </List>
+
       <Divider sx={{ my: 2 }} />
+
       <List>
         <CreateWorkspaceForm isSidebar={true} />
         <DocumentFormModal
@@ -62,6 +78,22 @@ const Sidebar: React.FC = () => {
           workspaceId={''}
         />
       </List>
+
+      <Divider sx={{ my: 2 }} />
+
+      <ListItemButton component={Link} to='/favorites'>
+        <ListItemIcon>
+          <Favorite />
+        </ListItemIcon>
+        <ListItemText>{t('dashboard.favorites')}</ListItemText>
+      </ListItemButton>
+
+      <ListItemButton component={Link} to='/shared-workspaces'>
+        <ListItemIcon>
+          <Share />
+        </ListItemIcon>
+        <ListItemText>{t('dashboard.sharedWithMe')}</ListItemText>
+      </ListItemButton>
     </Box>
   );
 };

@@ -3,19 +3,22 @@ import { Typography, Box, IconButton } from '@mui/material';
 import ShareWorkspaceModal from './ShareWorkspaceModal';
 import ApiClient from '../../services/APIClient';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
+import EditWorkspaceModal from './EditWorkspaceModal';
+import { Workspace } from '../../models/Workspace';
+import WorkspaceDetailsModal from './WorkspaceDetailsModal';
 
 interface WorkspaceHeaderProps {
-  workspaceName: string;
-  workspaceId: string;
-  description: string;
+  workspace: Workspace;
   canShare: boolean;
+  owner: string;
+  canEdit: boolean;
 }
 
 const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
-  workspaceName,
-  workspaceId,
-  description,
+  workspace,
   canShare,
+  owner,
+  canEdit,
 }) => {
   const [isFavorited, setIsFavorited] = useState(false);
 
@@ -23,8 +26,7 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
     // Check if the workspace is already favorited
     const checkIfFavorite = async () => {
       try {
-        const favorite = await ApiClient.checkIfFavorite(workspaceId);
-        console.log(favorite);
+        const favorite = await ApiClient.checkIfFavorite(workspace._id);
 
         if (favorite.isFavorited) {
           setIsFavorited(true);
@@ -35,20 +37,21 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
     };
 
     checkIfFavorite();
-  }, [workspaceId]);
+  }, [workspace._id]);
 
   const handleFavoriteClick = async () => {
     try {
       if (isFavorited) {
-        await ApiClient.removeFavorite(workspaceId);
+        await ApiClient.removeFavorite(workspace._id);
       } else {
-        await ApiClient.addFavorite(workspaceId);
+        await ApiClient.addFavorite(workspace._id);
       }
       setIsFavorited(!isFavorited);
     } catch (error) {
       console.error('Error updating favorites:', error);
     }
   };
+
   return (
     <Box
       sx={{
@@ -57,10 +60,18 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
         alignItems: 'center',
       }}
     >
-      <Typography variant='h4'>{workspaceName}</Typography>
-      <Typography variant='subtitle1'>{description}</Typography>
-      <Box sx={{ display: 'flex' }}>
-        {canShare && <ShareWorkspaceModal workspaceId={workspaceId} />}
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+        <Typography variant='h4'>{workspace.workspaceName}</Typography>
+        <Typography variant='subtitle1'>{workspace.description}</Typography>
+        <Typography variant='body2' color='textSecondary'>
+          {owner}
+        </Typography>
+      </Box>
+
+      <Box sx={{ display: 'flex', gap: 1 }}>
+        {canEdit && <WorkspaceDetailsModal workspace={workspace} />}
+        {canEdit && <EditWorkspaceModal workspace={workspace} />}
+        {canShare && <ShareWorkspaceModal workspaceId={workspace._id} />}
         <IconButton onClick={handleFavoriteClick}>
           {isFavorited ? <Favorite color='error' /> : <FavoriteBorder />}
         </IconButton>

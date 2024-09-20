@@ -14,6 +14,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  useTheme,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import ApiClient from '../../../services/APIClient';
@@ -40,6 +41,7 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
   const [documentName, setDocumentName] = useState('');
   const [tags, setTags] = useState<string>('');
   const { t } = useTranslation();
+  const theme = useTheme();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -122,7 +124,7 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
         <Box
           sx={{
             p: 4,
-            backgroundColor: 'white',
+            backgroundColor: theme.palette.background.paper,
             margin: 'auto',
             maxWidth: 500,
             mt: 10,

@@ -8,6 +8,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  useTheme,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -27,6 +28,7 @@ const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const theme = useTheme();
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -65,7 +67,7 @@ const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
         <Box
           sx={{
             p: 4,
-            backgroundColor: 'white',
+            backgroundColor: theme.palette.background.paper,
             margin: 'auto',
             maxWidth: 500,
             mt: 10,

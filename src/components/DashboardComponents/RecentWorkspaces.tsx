@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Paper } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import ApiClient from '../../services/APIClient';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-const RecentWorkspaces: React.FC = () => {
+interface RecentWorkspacesProps {
+  limit?: number; // Add limit prop to control how many items are displayed
+}
+
+const RecentWorkspaces: React.FC<RecentWorkspacesProps> = ({ limit }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [recentWorkspaces, setRecentWorkspaces] = useState<any[]>([]);
-  // const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -17,12 +20,12 @@ const RecentWorkspaces: React.FC = () => {
         const data = await ApiClient.fetchRecentWorkspaces();
         setRecentWorkspaces(data);
       } catch (err) {
-        setError('Failed to fetch recent workspaces');
+        setError(t('dashboard.errorFetchingRecentWorkspaces'));
       }
     };
 
     fetchRecentWorkspaces();
-  }, []);
+  }, [t]);
 
   if (error) return <Typography color='error'>{error}</Typography>;
 
@@ -30,25 +33,36 @@ const RecentWorkspaces: React.FC = () => {
     navigate(`/workspace/${workspaceId}`);
   };
 
+  // Use the limit prop to control how many workspaces are displayed
+  const displayedWorkspaces = limit
+    ? recentWorkspaces.slice(0, limit)
+    : recentWorkspaces;
+
   return (
-    <Paper elevation={3} sx={{ p: 2 }}>
-      <Typography variant='h6'> {t('dashboard.recentWorkspaces')}</Typography>
+    <Box>
+      <Typography variant='h6'>{t('dashboard.recentWorkspaces')}</Typography>
       <Box>
-        {recentWorkspaces.map((workspace) => (
-          <Box key={workspace._id}>
+        {displayedWorkspaces.length > 0 ? (
+          displayedWorkspaces.map((workspace) => (
             <Typography
+              key={workspace._id}
               variant='subtitle1'
               onClick={() => handleWorkspaceClick(workspace._id)}
               sx={{
                 cursor: 'pointer',
+                mb: 1, // Add spacing between items
               }}
             >
               {workspace.workspaceName}
             </Typography>
-          </Box>
-        ))}
+          ))
+        ) : (
+          <Typography variant='body1'>
+            {t('dashboard.noRecentWorkspaces')}
+          </Typography>
+        )}
       </Box>
-    </Paper>
+    </Box>
   );
 };
 

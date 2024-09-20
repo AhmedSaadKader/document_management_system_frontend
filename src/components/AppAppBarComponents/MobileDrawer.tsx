@@ -1,7 +1,7 @@
 import React from 'react';
 import { Drawer } from '@mui/material';
 
-import SidebarComponent from '../DashboardComponents/SidebarComponent';
+import SidebarComponent from '../SidebarComponent';
 
 interface MobileDrawerProps {
   mobileOpen: boolean;

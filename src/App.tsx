@@ -19,8 +19,10 @@ import WorkspacePage from './pages/Workspace';
 import AllWorkspacesPage from './pages/AllWorkspaces';
 import AllDocumentsPage from './pages/AllDocuments';
 import RecycleBinPage from './pages/RecycleBin';
-import Sidebar from './components/DashboardComponents/SidebarComponent';
+import Sidebar from './components/SidebarComponent';
 import MobileDrawer from './components/AppAppBarComponents/MobileDrawer';
+import SharedWorkspaces from './components/DashboardComponents/SharedWorkspaces';
+import FavoritesList from './components/DashboardComponents/FavoritesList';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -133,6 +135,22 @@ const MainContent: React.FC = () => {
           element={
             <ProtectedRoute>
               <RecycleBinPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/shared-workspaces'
+          element={
+            <ProtectedRoute>
+              <SharedWorkspaces />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/favorites'
+          element={
+            <ProtectedRoute>
+              <FavoritesList />
             </ProtectedRoute>
           }
         />

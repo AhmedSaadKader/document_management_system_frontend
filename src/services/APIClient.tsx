@@ -1,3 +1,4 @@
+import { WorkspaceWithRole } from '../models/Workspace';
 import { UserData } from '../pages/SignUp';
 
 class ApiClient {
@@ -7,7 +8,7 @@ class ApiClient {
 
   private static async request(
     endpoint: string,
-    method: 'GET' | 'POST' | 'DELETE',
+    method: 'GET' | 'POST' | 'DELETE' | 'PUT',
     body?: any
   ): Promise<any> {
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
@@ -91,6 +92,10 @@ class ApiClient {
     return this.request(`/documents/filter?${query}`, 'GET');
   }
 
+  static async getPublicWorkspaces() {
+    return this.request('/workspaces/public', 'GET');
+  }
+
   static async fetchWorkspace(
     workspaceId: string,
     queryParams: {
@@ -98,9 +103,13 @@ class ApiClient {
       sortBy?: string;
       order?: 'asc' | 'desc';
     }
-  ): Promise<any> {
+  ): Promise<WorkspaceWithRole> {
     const query = new URLSearchParams(queryParams as any).toString();
     return this.request(`/workspaces/${workspaceId}?${query}`, 'GET');
+  }
+
+  static async editWorkspace(workspaceId: string, formData: any): Promise<any> {
+    return this.request(`/workspaces/${workspaceId}`, 'PUT', formData);
   }
 
   static async fetchRecycleBin(): Promise<any> {

@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Paper } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import ApiClient from '../../services/APIClient';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import WorkspaceCard from '../WorkspaceComponents/WorkspaceCard';
 
-const FavoritesList = () => {
+interface FavoritesListProps {
+  limit?: number; // Add limit prop to control how many items are displayed
+}
+
+const FavoritesList: React.FC<FavoritesListProps> = ({ limit }) => {
   const [favorites, setFavorites] = useState<any[]>([]);
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -26,29 +31,25 @@ const FavoritesList = () => {
     navigate(`/workspace/${workspaceId}`);
   };
 
+  const displayedFavorites = limit ? favorites.slice(0, limit) : favorites;
+
   return (
-    <Paper elevation={3} sx={{ p: 2 }}>
-      <Typography variant='h6'>{t('dashboard.favorites')}</Typography>
-      {favorites.length > 0 ? (
+    <Box>
+      <Typography variant='h4' gutterBottom>
+        {t('dashboard.favorites')}
+      </Typography>
+      {displayedFavorites.length > 0 ? (
         <Box>
-          {favorites.map((favorite) => (
-            <Box key={favorite._id}>
-              <Typography
-                variant='subtitle1'
-                onClick={() => handleFavoriteClick(favorite._id)}
-                sx={{
-                  cursor: 'pointer',
-                }}
-              >
-                {favorite.workspaceName}
-              </Typography>
-            </Box>
+          {displayedFavorites.map((favorite) => (
+            <Grid item xs={12} sm={6} md={4} key={favorite._id}>
+              <WorkspaceCard workspace={favorite} />
+            </Grid>
           ))}
         </Box>
       ) : (
-        <Typography variant='body1'>No favorites yet</Typography>
+        <Typography variant='body1'>{t('dashboard.noFavorites')}</Typography>
       )}
-    </Paper>
+    </Box>
   );
 };
 

@@ -2,9 +2,7 @@
 import React from 'react';
 import { Box, Typography, Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import FavoritesList from '../components/DashboardComponents/FavoritesList';
-import SharedWorkspaces from '../components/DashboardComponents/SharedWorkspaces';
-import RecentWorkspaces from '../components/DashboardComponents/RecentWorkspaces';
+import PublicWorkspaces from '../components/WorkspaceComponents/PublicWorkspaces';
 
 const Dashboard = () => {
   const { t } = useTranslation();
@@ -19,22 +17,14 @@ const Dashboard = () => {
           width: 'calc(100% - 240px)',
         }}
       >
-        <Typography variant='h4' gutterBottom>
+        <Typography variant='h5' color='textSecondary' gutterBottom>
           {t('dashboard.greeting')} {localStorage.getItem('first_name')}
         </Typography>
-        <Typography variant='h5' color='textSecondary' gutterBottom>
+        <Typography variant='h4' gutterBottom>
           {t('dashboard.title')}
         </Typography>
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={4}>
-            <RecentWorkspaces />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <FavoritesList />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <SharedWorkspaces />
-          </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <PublicWorkspaces />
         </Grid>
       </Box>
     </Box>

@@ -7,14 +7,10 @@ import DetailsDocumentButton from './DocumentButtons/DetailsDocumentbutton';
 import DocumentDetailsModal from './DocumentModals/DocumentDetailModal';
 import DocumentPreviewModal from './DocumentModals/DocumentPreviewModal';
 import { useTranslation } from 'react-i18next';
+import { DocumentInWorkspace } from '../../models/Document';
 
-interface Document {
-  wokspaceId: string;
-  _id: string;
-  documentName: string;
-}
 interface DocumentListProps {
-  documents: Document[];
+  documents: DocumentInWorkspace[];
   onDelete: (documentId: string) => void;
   canDelete: boolean;
 }

@@ -7,9 +7,10 @@ import DocumentList from '../components/DocumentComponents/DocumentList';
 import DocumentSearchFilter from '../components/DocumentComponents/DocumentSearchFilter';
 import { useTranslation } from 'react-i18next';
 import ApiClient from '../services/APIClient';
+import { Workspace } from '../models/Workspace';
 
 const WorkspacePage: React.FC = () => {
-  const [workspace, setWorkspace] = useState<any>(null);
+  const [workspace, setWorkspace] = useState<Workspace | null>(null);
   const [role, setRole] = useState<string>('viewer');
   const { workspaceId } = useParams<{ workspaceId: string }>();
   const [search, setSearch] = useState('');
@@ -49,7 +50,7 @@ const WorkspacePage: React.FC = () => {
       }
     };
     fetchWorkspace();
-  }, [workspaceId, search, sortBy, order]);
+  }, [search, sortBy, order, workspace]);
 
   const onDocumentAdded = (newDocument: any) => {
     setWorkspace((prevWorkspace: any) => ({
@@ -72,10 +73,10 @@ const WorkspacePage: React.FC = () => {
       {workspace && workspaceId ? (
         <>
           <WorkspaceHeader
-            workspaceName={workspace.workspaceName}
-            workspaceId={workspaceId}
-            description={workspace.description}
+            workspace={workspace}
             canShare={role === 'editor' || role === 'owner'}
+            owner={workspace.userEmail}
+            canEdit={role === 'editor' || role === 'owner'}
           />
           <DocumentSearchFilter
             search={search}

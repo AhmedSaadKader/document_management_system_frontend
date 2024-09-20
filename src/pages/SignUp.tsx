@@ -133,6 +133,7 @@ export default function SignUp() {
                   label={t('authPage.nationalID')}
                   name='national_id'
                   autoComplete='national-id'
+                  autoFocus
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -143,7 +144,6 @@ export default function SignUp() {
                   fullWidth
                   id='first_name'
                   label={t('authPage.firstName')}
-                  autoFocus
                 />
               </Grid>
               <Grid item xs={12} sm={6}>

@@ -53,13 +53,13 @@ const ShareWorkspaceModal: React.FC<ShareWorkspaceModalProps> = ({
   return (
     <>
       <Button variant='contained' onClick={() => setOpen(true)}>
-        {t('workspace.shareWorkspace')}
+        {t('workspace.share')}
       </Button>
       <Modal open={open} onClose={() => setOpen(false)}>
         <Box
           sx={{
             p: 4,
-            backgroundColor: 'white',
+            backgroundColor: 'background.paper',
             margin: 'auto',
             maxWidth: 500,
             mt: 10,
