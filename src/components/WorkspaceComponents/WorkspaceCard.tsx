@@ -32,7 +32,9 @@ const WorkspaceCard: React.FC<WorkspaceCardProps> = ({ workspace }) => {
           overflowWrap: 'anywhere',
         }}
       >
-        <CardContent sx={{ minHeight: 80 }}>
+        <CardContent
+          sx={{ minHeight: 80, overflowWrap: 'anywhere', height: 110 }}
+        >
           <Typography
             variant='h6'
             sx={{
