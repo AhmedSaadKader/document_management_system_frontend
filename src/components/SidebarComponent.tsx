@@ -18,13 +18,11 @@ import {
   ExpandMore,
   Favorite,
   Share,
+  Dashboard,
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import DocumentFormModal from './DocumentComponents/DocumentModals/DocumentFormModal';
 import CreateWorkspaceForm from './WorkspaceComponents/CreateWorkspaceForm';
-import FavoritesList from './DashboardComponents/FavoritesList';
-import RecentWorkspaces from './DashboardComponents/RecentWorkspaces';
-import SharedWorkspaces from './DashboardComponents/SharedWorkspaces';
 import { useTranslation } from 'react-i18next';
 
 const Sidebar: React.FC = () => {
@@ -36,7 +34,7 @@ const Sidebar: React.FC = () => {
         width: 240,
         position: 'fixed',
         left: 0,
-        top: '64px',
+        // top: '64px',
         height: 'calc(100% - 64px)',
         bgcolor: 'background.paper',
         borderRight: '1px solid',
@@ -46,6 +44,12 @@ const Sidebar: React.FC = () => {
       }}
     >
       <List>
+        <ListItemButton component={Link} to='/dashboard'>
+          <ListItemIcon>
+            <Dashboard />
+          </ListItemIcon>
+          <ListItemText primary={t('dashboard.title')} />
+        </ListItemButton>
         <ListItemButton component={Link} to='/workspaces'>
           <ListItemIcon>
             <Work />

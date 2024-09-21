@@ -31,11 +31,27 @@ const WorkspaceCard: React.FC<WorkspaceCardProps> = ({ workspace }) => {
           '&:hover': { boxShadow: 6 },
         }}
       >
-        <CardContent>
-          <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
+        <CardContent sx={{ minHeight: 80 }}>
+          <Typography
+            variant='h6'
+            sx={{
+              fontWeight: 'bold',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'normal',
+            }}
+          >
             {workspace.workspaceName}
           </Typography>
-          <Typography variant='body2' color='textSecondary'>
+          <Typography
+            variant='body2'
+            color='textSecondary'
+            sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'normal',
+            }}
+          >
             {workspace.description}
           </Typography>
         </CardContent>

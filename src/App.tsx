@@ -60,7 +60,7 @@ const SidebarRoute: React.FC = () => {
 
   if (isAuthenticated && isMdUp) {
     return (
-      <Box sx={{ mt: '64px' }}>
+      <Box sx={{ top: '64px' }}>
         <Sidebar />
       </Box>
     );

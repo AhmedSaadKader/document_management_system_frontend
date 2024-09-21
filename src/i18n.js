@@ -259,7 +259,6 @@ i18n.use(initReactI18next).init({
           allDocuments: 'Tous les documents',
           recycleBin: 'Corbeille',
           nosharedWorkspaces: "Pas d'espaces de travail partagés",
-          noFavorites: 'No workspaces favorited yet',
           publicWorkspaces: 'Espaces de travail publics',
         },
         profile: {

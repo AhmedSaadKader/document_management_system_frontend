@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Box, IconButton } from '@mui/material';
+import {
+  Typography,
+  Box,
+  IconButton,
+  useMediaQuery,
+  Theme,
+} from '@mui/material';
 import ShareWorkspaceModal from './ShareWorkspaceModal';
 import ApiClient from '../../services/APIClient';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
@@ -21,13 +27,14 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
   canEdit,
 }) => {
   const [isFavorited, setIsFavorited] = useState(false);
+  const isMobile = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down('sm')
+  );
 
   useEffect(() => {
-    // Check if the workspace is already favorited
     const checkIfFavorite = async () => {
       try {
         const favorite = await ApiClient.checkIfFavorite(workspace._id);
-
         if (favorite.isFavorited) {
           setIsFavorited(true);
         }
@@ -56,19 +63,53 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
     <Box
       sx={{
         display: 'flex',
+        flexDirection: isMobile ? 'column' : 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        alignItems: isMobile ? 'flex-start' : 'center',
+        gap: isMobile ? 2 : 0,
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-        <Typography variant='h4'>{workspace.workspaceName}</Typography>
-        <Typography variant='subtitle1'>{workspace.description}</Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          overflowWrap: 'anywhere',
+          flexDirection: 'column',
+          gap: 1,
+          width: '100%',
+          maxWidth: isMobile ? '100%' : 'calc(100% - 200px)',
+        }}
+      >
+        <Typography
+          variant={isMobile ? 'h5' : 'h4'}
+          sx={{
+            fontWeight: 'bold',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {workspace.workspaceName}
+        </Typography>
+        <Typography
+          variant='subtitle1'
+          sx={{
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            display: '-webkit-box',
+            WebkitBoxOrient: 'vertical',
+            WebkitLineClamp: 2,
+            lineHeight: '1.5em',
+            maxHeight: '3em',
+          }}
+        >
+          {workspace.description || 'No description available.'}
+        </Typography>
         <Typography variant='body2' color='textSecondary'>
           {owner}
         </Typography>
       </Box>
 
-      <Box sx={{ display: 'flex', gap: 1 }}>
+      <Box sx={{ display: 'flex', gap: 1, flexShrink: 0 }}>
         {canEdit && <WorkspaceDetailsModal workspace={workspace} />}
         {canEdit && <EditWorkspaceModal workspace={workspace} />}
         {canShare && <ShareWorkspaceModal workspaceId={workspace._id} />}
