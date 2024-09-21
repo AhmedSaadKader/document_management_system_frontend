@@ -29,6 +29,7 @@ const WorkspaceCard: React.FC<WorkspaceCardProps> = ({ workspace }) => {
           mb: 2,
           transition: '0.3s',
           '&:hover': { boxShadow: 6 },
+          overflowWrap: 'anywhere',
         }}
       >
         <CardContent sx={{ minHeight: 80 }}>
@@ -49,7 +50,11 @@ const WorkspaceCard: React.FC<WorkspaceCardProps> = ({ workspace }) => {
             sx={{
               overflow: 'hidden',
               textOverflow: 'ellipsis',
-              whiteSpace: 'normal',
+              display: '-webkit-box',
+              WebkitBoxOrient: 'vertical',
+              WebkitLineClamp: 2,
+              lineHeight: '1.5em',
+              maxHeight: '3em',
             }}
           >
             {workspace.description}
