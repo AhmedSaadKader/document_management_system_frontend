@@ -13,6 +13,7 @@ import { Delete, Favorite, FavoriteBorder } from '@mui/icons-material';
 import EditWorkspaceModal from './EditWorkspaceModal';
 import { Workspace } from '../../models/Workspace';
 import WorkspaceDetailsModal from './WorkspaceDetailsModal';
+import { Navigate } from 'react-router-dom';
 
 interface WorkspaceHeaderProps {
   workspace: Workspace;
@@ -52,7 +53,7 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
   const handleDeleteClick = async () => {
     try {
       await ApiClient.softDeleteWorkspace(workspace._id);
-      window.location.reload();
+      <Navigate to='/signin' />;
     } catch (error) {
       console.error('Error deleting workspace:', error);
     }
@@ -128,7 +129,7 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
         <IconButton onClick={handleFavoriteClick}>
           {isFavorited ? <Favorite color='error' /> : <FavoriteBorder />}
         </IconButton>
-        {canDelete && (
+        {!workspace.deleted && canDelete && (
           <IconButton
             // variant='outlined'
             // color='error'

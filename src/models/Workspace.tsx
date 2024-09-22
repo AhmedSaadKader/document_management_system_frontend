@@ -14,6 +14,7 @@ export interface Workspace {
   }>;
   createdAt?: string;
   updatedAt?: string;
+  deleted: boolean;
 }
 
 export type WorkspaceWithRole = {
