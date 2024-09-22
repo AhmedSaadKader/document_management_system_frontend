@@ -77,6 +77,7 @@ const WorkspacePage: React.FC = () => {
             canShare={role === 'editor' || role === 'owner'}
             owner={workspace.userEmail}
             canEdit={role === 'editor' || role === 'owner'}
+            canDelete={role === 'owner'}
           />
           <DocumentSearchFilter
             search={search}

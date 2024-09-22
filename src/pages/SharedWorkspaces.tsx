@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import ApiClient from '../../services/APIClient';
-import WorkspaceCard from '../WorkspaceComponents/WorkspaceCard';
+import ApiClient from '../services/APIClient';
+import WorkspaceCard from '../components/WorkspaceComponents/WorkspaceCard';
 
 interface SharedWorkspacesProps {
   limit?: number; // Add limit prop to control how many items are displayed

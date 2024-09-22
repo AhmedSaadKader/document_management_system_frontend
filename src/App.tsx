@@ -21,8 +21,8 @@ import AllDocumentsPage from './pages/AllDocuments';
 import RecycleBinPage from './pages/RecycleBin';
 import Sidebar from './components/SidebarComponent';
 import MobileDrawer from './components/AppAppBarComponents/MobileDrawer';
-import SharedWorkspaces from './components/DashboardComponents/SharedWorkspaces';
-import FavoritesList from './components/DashboardComponents/FavoritesList';
+import SharedWorkspaces from './pages/SharedWorkspaces';
+import FavoritesList from './pages/FavoritesList';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;

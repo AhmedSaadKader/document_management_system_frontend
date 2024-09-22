@@ -113,6 +113,25 @@ class ApiClient {
     return this.request(`/workspaces/${workspaceId}`, 'PUT', formData);
   }
 
+  static async softDeleteWorkspace(workspaceId: string): Promise<any> {
+    return this.request(`/workspaces/${workspaceId}`, 'DELETE');
+  }
+
+  static async permanentlyDeleteWorkspace(workspaceId: string): Promise<any> {
+    return this.request(
+      `/workspaces/${workspaceId}/permanent-delete`,
+      'DELETE'
+    );
+  }
+
+  static async restoreWorkspace(workspaceId: string): Promise<any> {
+    return this.request(`/workspaces/${workspaceId}/restore`, 'PUT');
+  }
+
+  static async fetchDeletedWorkspaces(): Promise<any> {
+    return this.request('/workspaces/deleted', 'GET');
+  }
+
   static async fetchRecycleBin(): Promise<any> {
     return this.request('/documents/recycle-bin', 'GET');
   }

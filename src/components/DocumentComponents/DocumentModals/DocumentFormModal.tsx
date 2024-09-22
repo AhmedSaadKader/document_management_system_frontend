@@ -22,7 +22,7 @@ import { Add } from '@mui/icons-material';
 import { useAuth } from '../../../context/auth_context';
 
 interface DocumentFormModalProps {
-  workspaceId: string;
+  workspaceId?: string; // Optional prop to differentiate between dashboard and workspace page
   isSidebar: boolean;
   onDocumentAdded: (newDocument: any) => void;
 }
@@ -67,7 +67,7 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/workspaces/${workspaceId}/documents`,
+        `${process.env.REACT_APP_API_URL}/workspaces/${selectedWorkspaceId}/documents`,
         {
           method: 'POST',
           headers: {
@@ -93,7 +93,8 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
   };
 
   useEffect(() => {
-    if (!isAuthenticated) return;
+    if (!isAuthenticated || workspaceId) return; // Skip fetching workspaces if we're on the workspace page
+
     const fetchWorkspaces = async () => {
       try {
         const response = await ApiClient.fetchAllWorkspaces();
@@ -104,7 +105,7 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
     };
 
     fetchWorkspaces();
-  }, []);
+  }, [isAuthenticated, workspaceId]);
 
   return (
     <>
@@ -132,20 +133,23 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
         >
           <Typography variant='h6'>{t('document.addDocument')}</Typography>
           <Box height={10} />
-          <FormControl fullWidth sx={{ mb: 2 }}>
-            <InputLabel>{t('document.selectWorkspace')}</InputLabel>
-            <Box height={8} />
-            <Select
-              value={selectedWorkspaceId}
-              onChange={handleWorkspaceChange}
-            >
-              {workspaces.map((workspace) => (
-                <MenuItem key={workspace._id} value={workspace._id}>
-                  {workspace.workspaceName}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          {/* Only show workspace selection if no workspaceId is provided */}
+          {!workspaceId && (
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <InputLabel>{t('document.selectWorkspace')}</InputLabel>
+              <Box height={8} />
+              <Select
+                value={selectedWorkspaceId}
+                onChange={handleWorkspaceChange}
+              >
+                {workspaces.map((workspace) => (
+                  <MenuItem key={workspace._id} value={workspace._id}>
+                    {workspace.workspaceName}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
           {selectedWorkspaceId && (
             <>
               <TextField

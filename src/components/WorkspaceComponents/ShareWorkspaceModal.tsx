@@ -9,8 +9,10 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  IconButton,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { Share } from '@mui/icons-material';
 
 interface ShareWorkspaceModalProps {
   workspaceId: string;
@@ -52,9 +54,9 @@ const ShareWorkspaceModal: React.FC<ShareWorkspaceModalProps> = ({
 
   return (
     <>
-      <Button variant='contained' onClick={() => setOpen(true)}>
-        {t('workspace.share')}
-      </Button>
+      <IconButton onClick={() => setOpen(true)}>
+        <Share />
+      </IconButton>
       <Modal open={open} onClose={() => setOpen(false)}>
         <Box
           sx={{

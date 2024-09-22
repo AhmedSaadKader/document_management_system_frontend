@@ -5,10 +5,11 @@ import {
   IconButton,
   useMediaQuery,
   Theme,
+  Button,
 } from '@mui/material';
 import ShareWorkspaceModal from './ShareWorkspaceModal';
 import ApiClient from '../../services/APIClient';
-import { Favorite, FavoriteBorder } from '@mui/icons-material';
+import { Delete, Favorite, FavoriteBorder } from '@mui/icons-material';
 import EditWorkspaceModal from './EditWorkspaceModal';
 import { Workspace } from '../../models/Workspace';
 import WorkspaceDetailsModal from './WorkspaceDetailsModal';
@@ -18,6 +19,7 @@ interface WorkspaceHeaderProps {
   canShare: boolean;
   owner: string;
   canEdit: boolean;
+  canDelete: boolean;
 }
 
 const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
@@ -25,6 +27,7 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
   canShare,
   owner,
   canEdit,
+  canDelete,
 }) => {
   const [isFavorited, setIsFavorited] = useState(false);
   const isMobile = useMediaQuery((theme: Theme) =>
@@ -45,6 +48,15 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
 
     checkIfFavorite();
   }, [workspace._id]);
+
+  const handleDeleteClick = async () => {
+    try {
+      await ApiClient.softDeleteWorkspace(workspace._id);
+      window.location.reload();
+    } catch (error) {
+      console.error('Error deleting workspace:', error);
+    }
+  };
 
   const handleFavoriteClick = async () => {
     try {
@@ -116,6 +128,15 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
         <IconButton onClick={handleFavoriteClick}>
           {isFavorited ? <Favorite color='error' /> : <FavoriteBorder />}
         </IconButton>
+        {canDelete && (
+          <IconButton
+            // variant='outlined'
+            // color='error'
+            onClick={handleDeleteClick}
+          >
+            <Delete />
+          </IconButton>
+        )}
       </Box>
     </Box>
   );

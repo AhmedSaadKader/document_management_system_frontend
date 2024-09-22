@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
-import ApiClient from '../../services/APIClient';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import ApiClient from '../services/APIClient';
 
 interface RecentWorkspacesProps {
   limit?: number; // Add limit prop to control how many items are displayed

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
-import ApiClient from '../../services/APIClient';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import WorkspaceCard from '../WorkspaceComponents/WorkspaceCard';
+import WorkspaceCard from '../components/WorkspaceComponents/WorkspaceCard';
+import ApiClient from '../services/APIClient';
 
 interface FavoritesListProps {
   limit?: number; // Add limit prop to control how many items are displayed
@@ -26,10 +26,6 @@ const FavoritesList: React.FC<FavoritesListProps> = ({ limit }) => {
 
     fetchFavorites();
   }, []);
-
-  const handleFavoriteClick = (workspaceId: string) => {
-    navigate(`/workspace/${workspaceId}`);
-  };
 
   const displayedFavorites = limit ? favorites.slice(0, limit) : favorites;
 
