@@ -7,6 +7,7 @@ interface DocumentPreviewModalProps {
   handleClose: () => void;
   documentUrl: string;
   documentName: string;
+  fileType: string;
 }
 
 const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({
@@ -14,6 +15,7 @@ const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({
   handleClose,
   documentUrl,
   documentName,
+  fileType,
 }) => {
   useEffect(() => {
     return () => {
@@ -21,7 +23,45 @@ const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({
         URL.revokeObjectURL(documentUrl);
       }
     };
-  }, []);
+  }, [documentUrl]);
+
+  const renderContent = () => {
+    if (fileType.startsWith('video/')) {
+      return (
+        <video controls style={{ width: '100%', height: '100%' }}>
+          <source src={documentUrl} type={fileType} />
+          Your browser does not support the video tag.
+        </video>
+      );
+    } else if (fileType.startsWith('audio/')) {
+      return (
+        <audio controls style={{ width: '100%' }}>
+          <source src={documentUrl} type={fileType} />
+          Your browser does not support the audio tag.
+        </audio>
+      );
+    } else if (fileType.startsWith('image/')) {
+      return (
+        <img
+          src={documentUrl}
+          alt={documentName}
+          style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+        />
+      );
+    } else if (fileType === 'application/pdf') {
+      return (
+        <iframe
+          src={documentUrl}
+          title={documentName}
+          width='100%'
+          height='100%'
+          style={{ border: 'none' }}
+        />
+      );
+    } else {
+      return <Typography>Unsupported file type.</Typography>;
+    }
+  };
 
   return (
     <Modal
@@ -52,17 +92,7 @@ const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({
             <CloseIcon />
           </IconButton>
         </Box>
-        <Box sx={{ height: 'calc(100% - 40px)' }}>
-          {documentUrl && (
-            <iframe
-              src={documentUrl}
-              title={documentName}
-              width='100%'
-              height='100%'
-              style={{ border: 'none' }}
-            />
-          )}
-        </Box>
+        <Box sx={{ height: 'calc(100% - 40px)' }}>{renderContent()}</Box>
       </Box>
     </Modal>
   );

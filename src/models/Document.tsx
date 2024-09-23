@@ -1,4 +1,5 @@
 export interface Document {
+  _id: string;
   documentName: string;
   userId: string;
   userEmail: string;

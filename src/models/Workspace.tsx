@@ -1,4 +1,4 @@
-import { DocumentInWorkspace } from './Document';
+import { Document } from './Document';
 
 export interface Workspace {
   _id: string;
@@ -7,7 +7,7 @@ export interface Workspace {
   userId: string;
   userEmail: string;
   isPublic: boolean;
-  documents: DocumentInWorkspace[];
+  documents: Document[];
   permissions: Array<{
     userEmail: string;
     permission: 'owner' | 'editor' | 'viewer';
