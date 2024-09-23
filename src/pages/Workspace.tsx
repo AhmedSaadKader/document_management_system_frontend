@@ -35,6 +35,7 @@ const WorkspacePage: React.FC = () => {
   useEffect(() => {
     const fetchWorkspace = async () => {
       try {
+        console.log('fetch workspace');
         const { workspace, role } = await ApiClient.fetchWorkspace(
           workspaceId as string,
           {
@@ -50,7 +51,7 @@ const WorkspacePage: React.FC = () => {
       }
     };
     fetchWorkspace();
-  }, [search, sortBy, order, workspace]);
+  }, [search, sortBy, order, workspaceId]);
 
   const onDocumentAdded = (newDocument: any) => {
     setWorkspace((prevWorkspace: any) => ({

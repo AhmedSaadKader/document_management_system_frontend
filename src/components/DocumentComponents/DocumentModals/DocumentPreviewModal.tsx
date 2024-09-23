@@ -17,12 +17,11 @@ const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({
 }) => {
   useEffect(() => {
     return () => {
-      // Clean up the object URL when the component is unmounted
       if (documentUrl) {
         URL.revokeObjectURL(documentUrl);
       }
     };
-  }, [documentUrl]);
+  }, []);
 
   return (
     <Modal

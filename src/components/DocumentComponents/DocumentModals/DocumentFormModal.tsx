@@ -47,7 +47,6 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
     if (e.target.files) {
       setSelectedFile(e.target.files[0]);
     }
-    console.log(selectedFile);
   };
 
   const handleWorkspaceChange = (event: SelectChangeEvent<string>) => {
