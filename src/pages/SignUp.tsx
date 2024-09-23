@@ -38,11 +38,25 @@ export default function SignUp() {
   const [otp, setOtp] = useState('');
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string | null }>({
+    national_id: null,
+    first_name: null,
+    last_name: null,
+    email: null,
+    password: null,
+  });
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
     setErrorMessage(null);
+    setErrors({
+      national_id: null,
+      first_name: null,
+      last_name: null,
+      email: null,
+      password: null,
+    }); // Reset errors
 
     const data = new FormData(event.currentTarget);
     const newUserData = {
@@ -52,6 +66,67 @@ export default function SignUp() {
       email: data.get('email') as string,
       password: data.get('password') as string,
     };
+
+    // Validation logic
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email regex
+    if (!newUserData.national_id) {
+      setErrors((prev) => ({
+        ...prev,
+        national_id: t('authPage.nationalIDRequired'),
+      }));
+      setIsLoading(false);
+      return;
+    }
+    if (!/^\d{14}$/.test(newUserData.national_id)) {
+      setErrors((prev) => ({
+        ...prev,
+        national_id: t('authPage.invalidNationalID'),
+      }));
+      setIsLoading(false);
+      return;
+    }
+    if (!newUserData.first_name) {
+      setErrors((prev) => ({
+        ...prev,
+        first_name: t('authPage.firstNameRequired'),
+      }));
+      setIsLoading(false);
+      return;
+    }
+    if (!newUserData.last_name) {
+      setErrors((prev) => ({
+        ...prev,
+        last_name: t('authPage.lastNameRequired'),
+      }));
+      setIsLoading(false);
+      return;
+    }
+    if (!newUserData.email) {
+      setErrors((prev) => ({ ...prev, email: t('authPage.emailRequired') }));
+      setIsLoading(false);
+      return;
+    }
+    if (!emailRegex.test(newUserData.email)) {
+      setErrors((prev) => ({ ...prev, email: t('authPage.invalidEmail') }));
+      setIsLoading(false);
+      return;
+    }
+    if (!newUserData.password) {
+      setErrors((prev) => ({
+        ...prev,
+        password: t('authPage.passwordRequired'),
+      }));
+      setIsLoading(false);
+      return;
+    }
+    if (newUserData.password.length < 6) {
+      setErrors((prev) => ({
+        ...prev,
+        password: t('authPage.passwordTooShort'),
+      }));
+      setIsLoading(false);
+      return;
+    }
 
     try {
       await ApiClient.generateOtp(newUserData);
@@ -134,6 +209,8 @@ export default function SignUp() {
                   name='national_id'
                   autoComplete='national-id'
                   autoFocus
+                  error={!!errors.national_id}
+                  helperText={errors.national_id}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -144,6 +221,8 @@ export default function SignUp() {
                   fullWidth
                   id='first_name'
                   label={t('authPage.firstName')}
+                  error={!!errors.first_name}
+                  helperText={errors.first_name}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -154,6 +233,8 @@ export default function SignUp() {
                   label={t('authPage.lastName')}
                   name='last_name'
                   autoComplete='family-name'
+                  error={!!errors.last_name}
+                  helperText={errors.last_name}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -164,6 +245,8 @@ export default function SignUp() {
                   label={t('authPage.email')}
                   name='email'
                   autoComplete='email'
+                  error={!!errors.email}
+                  helperText={errors.email}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -175,6 +258,8 @@ export default function SignUp() {
                   type='password'
                   id='password'
                   autoComplete='new-password'
+                  error={!!errors.password}
+                  helperText={errors.password}
                 />
               </Grid>
             </Grid>

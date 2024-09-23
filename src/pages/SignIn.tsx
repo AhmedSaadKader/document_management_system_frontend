@@ -39,13 +39,23 @@ export default function SignIn() {
     setGeneralError(null);
 
     // Basic validation before API call
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email regex
     if (!email) {
       setEmailError(t('authPage.emailRequired'));
+      return;
+    }
+    if (!emailRegex.test(email)) {
+      setEmailError(t('authPage.invalidEmail'));
       return;
     }
 
     if (!password) {
       setPasswordError(t('authPage.passwordRequired'));
+      return;
+    }
+    if (password.length < 6) {
+      // Example: minimum password length
+      setPasswordError(t('authPage.passwordTooShort'));
       return;
     }
 
