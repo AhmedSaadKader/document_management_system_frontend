@@ -4,63 +4,48 @@ import {
   Button,
   CssBaseline,
   TextField,
-  Link,
-  Grid,
   Box,
   Typography,
   Container,
   Alert,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/auth_context';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material/styles';
+import { useAuth } from '../context/auth_context';
 
-export default function SignIn() {
+export default function ResetPassword() {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const { signIn } = useAuth();
   const theme = useTheme();
+  const { resetPassword } = useAuth();
 
+  const [email, setEmail] = React.useState<string>('');
   const [emailError, setEmailError] = React.useState<string | null>(null);
-  const [passwordError, setPasswordError] = React.useState<string | null>(null);
   const [generalError, setGeneralError] = React.useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = React.useState<string | null>(
+    null
+  );
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const email = data.get('email') as string;
-    const password = data.get('password') as string;
-
-    // Reset errors
     setEmailError(null);
-    setPasswordError(null);
     setGeneralError(null);
+    setSuccessMessage(null);
 
-    // Basic validation before API call
+    // Basic validation for email
     if (!email) {
       setEmailError(t('authPage.emailRequired'));
       return;
     }
 
-    if (!password) {
-      setPasswordError(t('authPage.passwordRequired'));
-      return;
-    }
-
     try {
-      await signIn(email, password);
-      navigate('/dashboard');
+      await resetPassword(email);
+      setSuccessMessage(t('authPage.resetEmailSent'));
     } catch (error) {
       if (error instanceof Error) {
-        if (error.message.includes('The provided password is incorrect')) {
-          setGeneralError(t('authPage.invalidCredentials'));
-        } else {
-          setGeneralError(error.message);
-        }
+        setGeneralError(t('authPage.resetPasswordError'));
       } else {
-        setGeneralError(t('authPage.signInError'));
+        setGeneralError(t('authPage.resetPasswordError'));
       }
     }
   };
@@ -70,7 +55,7 @@ export default function SignIn() {
       <CssBaseline />
       <Box
         sx={{
-          marginTop: 2,
+          marginTop: 8,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -80,10 +65,15 @@ export default function SignIn() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component='h1' variant='h5'>
-          {t('authPage.signIn')}
+          {t('authPage.resetPassword')}
         </Typography>
 
-        {/* Display general error message */}
+        {/* Display success or error messages */}
+        {successMessage && (
+          <Alert severity='success' sx={{ width: '100%', mt: 2 }}>
+            {successMessage}
+          </Alert>
+        )}
         {generalError && (
           <Alert severity='error' sx={{ width: '100%', mt: 2 }}>
             {generalError}
@@ -100,20 +90,10 @@ export default function SignIn() {
             name='email'
             autoComplete='email'
             autoFocus
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             error={!!emailError}
             helperText={emailError}
-          />
-          <TextField
-            margin='normal'
-            required
-            fullWidth
-            name='password'
-            label={t('authPage.password')}
-            type='password'
-            id='password'
-            autoComplete='current-password'
-            error={!!passwordError}
-            helperText={passwordError}
           />
           <Button
             type='submit'
@@ -121,20 +101,8 @@ export default function SignIn() {
             variant='contained'
             sx={{ mt: 3, mb: 2 }}
           >
-            {t('authPage.signIn')}
+            {t('authPage.sendResetLink')}
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href='/reset-password' variant='body2'>
-                {t('authPage.forgotPassword')}
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href='/signup' variant='body2'>
-                {t('authPage.noAccount')}
-              </Link>
-            </Grid>
-          </Grid>
         </Box>
       </Box>
     </Container>

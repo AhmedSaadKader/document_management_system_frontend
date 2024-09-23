@@ -23,6 +23,7 @@ import Sidebar from './components/SidebarComponent';
 import MobileDrawer from './components/AppAppBarComponents/MobileDrawer';
 import SharedWorkspaces from './pages/SharedWorkspaces';
 import FavoritesList from './pages/FavoritesList';
+import ResetPassword from './pages/ResetPassword';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -52,18 +53,14 @@ const SidebarRoute: React.FC = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const excludedRoutes = ['/signin', '/signup']; // Add routes where you don't want the sidebar
+  const excludedRoutes = ['/signin', '/signup'];
 
   if (excludedRoutes.includes(location.pathname)) {
-    return null; // Don't render the sidebar on these routes
+    return null;
   }
 
   if (isAuthenticated && isMdUp) {
-    return (
-      <Box sx={{ top: '64px' }}>
-        <Sidebar />
-      </Box>
-    );
+    return <Sidebar />;
   }
 
   return (
@@ -87,7 +84,7 @@ const MainContent: React.FC = () => {
   const location = useLocation();
   const isMdUp = useMediaQuery((theme: any) => theme.breakpoints.up('md'));
 
-  const excludedRoutes = ['/signin', '/signup'];
+  const excludedRoutes = ['/signin', '/signup', '/reset-password'];
 
   return (
     <Box
@@ -100,11 +97,14 @@ const MainContent: React.FC = () => {
           : isMdUp
             ? '240px'
             : '0px',
+        mt: isMdUp ? '64px' : '0px',
       }}
     >
       <Routes>
         <Route path='/' element={<LandingRoute />} />
         <Route path='/signin' element={<SignIn />} />
+        <Route path='/reset-password' element={<ResetPassword />} />
+
         <Route path='/signup' element={<SignUp />} />
         <Route
           path='/dashboard'

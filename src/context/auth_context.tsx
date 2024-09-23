@@ -20,6 +20,7 @@ interface AuthContextProps {
     email: string;
     password: string;
   }) => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -58,6 +59,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     initializeAuth();
   }, []);
+
+  const resetPassword = async (email: string) => {
+    try {
+      await ApiClient.resetPassword(email); // Replace this with your API call
+    } catch (error) {
+      console.error('Error sending reset password email', error);
+      throw error;
+    }
+  };
 
   const signIn = async (email: string, password: string): Promise<void> => {
     try {
@@ -107,6 +117,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         signIn,
         signOut,
         signUp,
+        resetPassword,
       }}
     >
       {children}

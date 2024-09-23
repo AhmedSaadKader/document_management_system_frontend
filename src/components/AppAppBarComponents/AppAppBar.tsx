@@ -6,6 +6,7 @@ import {
   Toolbar,
   Typography,
   Button,
+  useMediaQuery,
 } from '@mui/material';
 
 import MenuIcon from '@mui/icons-material/Menu';
@@ -26,6 +27,7 @@ function AppAppBar() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { mode, toggleColorMode } = useThemeMode();
+  const isMdUp = useMediaQuery((theme: any) => theme.breakpoints.up('md'));
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -40,7 +42,7 @@ function AppAppBar() {
   };
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar position='sticky' component='nav'>
+      <AppBar position={isMdUp ? 'fixed' : 'static'} component='nav'>
         <Toolbar>
           <IconButton
             edge='start'

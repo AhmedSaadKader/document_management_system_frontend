@@ -104,6 +104,11 @@ i18n.use(initReactI18next).init({
           enterOtp: 'Enter OTP',
           verifyOtp: 'Verify OTP',
           resendOtp: 'Resend OTP',
+          resetPassword: 'Reset Password',
+          resetEmailSent: 'Password reset email sent!',
+          resetPasswordError: 'There was an issue sending the reset email.',
+          sendResetLink: 'Send Reset Link',
+          emailRequired: 'Email is required',
           returnToSignup: 'Return to Signup',
         },
         dashboard: {
@@ -241,6 +246,13 @@ i18n.use(initReactI18next).init({
           enterOtp: 'Entrez OTP',
           verifyOtp: 'Vérifier OTP',
           resendOtp: 'Renvoyer OTP',
+          resetPassword: 'Réinitialiser le mot de passe',
+          resetEmailSent:
+            "L'e-mail de réinitialisation du mot de passe a été envoyé !",
+          resetPasswordError:
+            "Il y a eu un problème lors de l'envoi de l'e-mail de réinitialisation.",
+          sendResetLink: 'Envoyer le lien de réinitialisation',
+          emailRequired: "L'e-mail est requis",
           returnToSignup: "Retour à l'inscription",
         },
         dashboard: {
@@ -377,6 +389,12 @@ i18n.use(initReactI18next).init({
           enterOtp: 'أدخل رمز التحقق',
           verifyOtp: 'تحقق من رمز التحقق',
           resendOtp: 'اعادة ارسال رمز التحقق',
+          resetPassword: 'إعادة تعيين كلمة المرور',
+          resetEmailSent: 'تم إرسال بريد إلكتروني لإعادة تعيين كلمة المرور!',
+          resetPasswordError:
+            'هناك مشكلة في إرسال بريد إعادة تعيين كلمة المرور.',
+          sendResetLink: 'إرسال رابط إعادة التعيين',
+          emailRequired: 'البريد الإلكتروني مطلوب',
           returnToSignup: 'العودة إلى التسجيل',
         },
         dashboard: {

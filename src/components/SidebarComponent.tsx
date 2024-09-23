@@ -10,6 +10,7 @@ import {
   AccordionSummary,
   AccordionDetails,
   Typography,
+  useMediaQuery,
 } from '@mui/material';
 import {
   Work,
@@ -27,6 +28,7 @@ import { useTranslation } from 'react-i18next';
 
 const Sidebar: React.FC = () => {
   const { t } = useTranslation();
+  const isMdUp = useMediaQuery((theme: any) => theme.breakpoints.up('md')); // 'md' breakpoint
 
   return (
     <Box
@@ -34,7 +36,7 @@ const Sidebar: React.FC = () => {
         width: 240,
         position: 'fixed',
         left: 0,
-        // top: '64px',
+        top: isMdUp ? '64px' : 0,
         height: 'calc(100% - 64px)',
         bgcolor: 'background.paper',
         borderRight: '1px solid',
