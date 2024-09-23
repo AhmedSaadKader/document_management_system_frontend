@@ -66,7 +66,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setUser(user);
       setIsAuthenticated(true);
     } catch (error) {
-      console.error(error);
+      throw new Error((error as Error).message);
     }
   };
 
