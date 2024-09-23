@@ -21,6 +21,11 @@ interface AuthContextProps {
     password: string;
   }) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
+  resetPasswordWithNewPassword: (
+    email: string,
+    otp: string,
+    newPassword: string
+  ) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -62,9 +67,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const resetPassword = async (email: string) => {
     try {
-      await ApiClient.resetPassword(email); // Replace this with your API call
+      await ApiClient.requestReset(email);
     } catch (error) {
       console.error('Error sending reset password email', error);
+      throw error;
+    }
+  };
+
+  const resetPasswordWithNewPassword = async (
+    email: string,
+    otp: string,
+    newPassword: string
+  ) => {
+    try {
+      await ApiClient.updatePassword(email, otp, newPassword);
+    } catch (error) {
+      console.error('Error resetting password', error);
       throw error;
     }
   };
@@ -99,7 +117,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }): Promise<void> => {
     try {
       await ApiClient.register(userData);
-
       const user = await ApiClient.fetchUser(userData.email);
       setUser(user);
       setIsAuthenticated(true);
@@ -118,6 +135,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         signOut,
         signUp,
         resetPassword,
+        resetPasswordWithNewPassword,
       }}
     >
       {children}

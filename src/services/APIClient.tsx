@@ -61,8 +61,20 @@ class ApiClient {
     localStorage.setItem('last_name', data.last_name);
   }
 
-  static async resetPassword(email: string): Promise<void> {
-    return this.request(`/users/reset-password`, 'POST', email);
+  static async requestReset(email: string): Promise<void> {
+    return this.request(`/users/request-reset`, 'POST', { email });
+  }
+
+  static async updatePassword(
+    email: string,
+    otp: string,
+    password: string
+  ): Promise<void> {
+    return this.request(`/users/reset-password`, 'POST', {
+      email,
+      otp,
+      password,
+    });
   }
 
   static async fetchUser(email: string): Promise<any> {
