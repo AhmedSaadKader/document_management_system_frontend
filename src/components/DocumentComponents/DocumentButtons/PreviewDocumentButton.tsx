@@ -2,23 +2,23 @@ import React, { useState } from 'react';
 import { Button, CircularProgress } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Preview } from '@mui/icons-material';
+import DocumentPreviewModal from '../DocumentModals/DocumentPreviewModal';
+import { Document } from '../../../models/Document';
 
 interface PreviewDocumentButtonProps {
-  documentId: string;
-  documentName: string;
-  onPreview: (documentName: string, url: string, mimeType: string) => void;
+  document: Document;
 }
 
-const PreviewDocumentButton = ({
-  documentId,
-  documentName,
-  onPreview,
-}: PreviewDocumentButtonProps) => {
+const PreviewDocumentButton = ({ document }: PreviewDocumentButtonProps) => {
+  const documentId = document._id;
   const { t } = useTranslation();
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState('');
+  const [previewName, setPreviewName] = useState('');
 
   const handlePreviewDocument = async () => {
-    setLoading(true); // Set loading to true when the preview starts
+    setLoading(true);
     try {
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/documents/${documentId}/preview`,
@@ -35,16 +35,21 @@ const PreviewDocumentButton = ({
       }
 
       // Handle content-disposition for streamed files (audio/video)
-      const contentDisposition = response.headers.get('Content-Disposition');
-      const fileType = response.headers.get('Content-Type') || '';
+      // const contentDisposition = response.headers.get('Content-Disposition');
+      // const fileType = response.headers.get('Content-Type') || '';
+      const fileType = document.fileType;
+      console.log(fileType);
 
       // Handle streaming (audio/video)
       if (fileType.startsWith('audio/') || fileType.startsWith('video/')) {
         const blob = await response.blob();
         const url = URL.createObjectURL(blob);
 
-        // Pass the URL and MIME type to the onPreview handler
-        onPreview(documentName, url, fileType);
+        setPreviewUrl(url);
+        setPreviewName(document.documentName);
+        setPreviewOpen(true);
+        setLoading(false);
+
         return;
       }
 
@@ -68,9 +73,15 @@ const PreviewDocumentButton = ({
 
           const blob = new Blob([arrayBuffer], { type: 'application/pdf' });
           url = URL.createObjectURL(blob);
+          setPreviewUrl(url);
+          setPreviewName(document.documentName);
+          setPreviewOpen(true);
+          setLoading(false);
         }
-
-        onPreview(documentName, url, fileType);
+        setPreviewUrl(url);
+        setPreviewName(document.documentName);
+        setPreviewOpen(true);
+        setLoading(false);
       } else {
         console.error('No base64 data received');
       }
@@ -82,14 +93,25 @@ const PreviewDocumentButton = ({
   };
 
   return (
-    <Button
-      onClick={handlePreviewDocument}
-      sx={{ mr: 1 }}
-      startIcon={loading ? <CircularProgress size={20} /> : <Preview />} // Show spinner when loading
-      disabled={loading} // Disable the button while loading
-    >
-      {t('buttons.preview')}
-    </Button>
+    <>
+      <Button
+        onClick={handlePreviewDocument}
+        sx={{ mr: 1 }}
+        startIcon={loading ? <CircularProgress size={20} /> : <Preview />} // Show spinner when loading
+        disabled={loading} // Disable the button while loading
+      >
+        {t('buttons.preview')}
+      </Button>
+      {previewOpen && (
+        <DocumentPreviewModal
+          open={previewOpen}
+          handleClose={() => setPreviewOpen(false)}
+          documentUrl={previewUrl}
+          documentName={previewName}
+          fileType={document.fileType}
+        />
+      )}
+    </>
   );
 };
 

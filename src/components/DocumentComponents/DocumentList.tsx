@@ -5,7 +5,6 @@ import DownloadDocumentButton from './DocumentButtons/DownloadDocumentButton';
 import PreviewDocumentButton from './DocumentButtons/PreviewDocumentButton';
 import DetailsDocumentButton from './DocumentButtons/DetailsDocumentbutton';
 import DocumentDetailsModal from './DocumentModals/DocumentDetailModal';
-import DocumentPreviewModal from './DocumentModals/DocumentPreviewModal';
 import { useTranslation } from 'react-i18next';
 import { Document } from '../../models/Document';
 
@@ -21,23 +20,9 @@ const DocumentList: React.FC<DocumentListProps> = ({
   canDelete,
 }) => {
   const [selectedDocument, setSelectedDocument] = useState<any | null>(null);
-  const [fileType, setFileType] = useState<string | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState('');
-  const [previewName, setPreviewName] = useState('');
-  const { t } = useTranslation();
 
-  const handlePreviewDocument = (
-    documentName: string,
-    url: string,
-    fileType: string
-  ) => {
-    setPreviewUrl(url);
-    setPreviewName(documentName);
-    setPreviewOpen(true);
-    setFileType(fileType);
-  };
+  const { t } = useTranslation();
 
   const handleViewDetails = async (data: string) => {
     setSelectedDocument(data);
@@ -60,11 +45,7 @@ const DocumentList: React.FC<DocumentListProps> = ({
                 documentId={document._id}
                 workspaceId={document.workspace}
               />
-              <PreviewDocumentButton
-                documentId={document._id}
-                documentName={document.documentName}
-                onPreview={handlePreviewDocument}
-              />
+              <PreviewDocumentButton document={document} />
               <DetailsDocumentButton
                 documentId={document._id}
                 onDetails={handleViewDetails}
@@ -88,15 +69,6 @@ const DocumentList: React.FC<DocumentListProps> = ({
           open={detailsOpen}
           onClose={handleCloseModal}
           document={selectedDocument}
-        />
-      )}
-      {fileType && previewOpen && (
-        <DocumentPreviewModal
-          open={previewOpen}
-          handleClose={() => setPreviewOpen(false)}
-          documentUrl={previewUrl}
-          documentName={previewName}
-          fileType={fileType as string}
         />
       )}
     </Grid>

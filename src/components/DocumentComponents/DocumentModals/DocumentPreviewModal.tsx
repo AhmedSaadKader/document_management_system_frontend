@@ -59,7 +59,7 @@ const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({
         />
       );
     } else {
-      return <Typography>Unsupported file type.</Typography>;
+      return <Typography>Unsupported file type. {fileType}</Typography>;
     }
   };
 
