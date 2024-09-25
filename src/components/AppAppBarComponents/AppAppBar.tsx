@@ -19,7 +19,13 @@ import { useTranslation } from 'react-i18next';
 import { useThemeMode } from '../../context/theme_context';
 import ThemeToggle from './ThemeToggle';
 import { Tour } from '@mui/icons-material';
+import { useTutorial } from '../../tutorial/TutorialContext';
 import { driverObj } from '../../tutorial/Tutorial';
+import {
+  appBarTutorialSteps,
+  darkModeTutorialSteps,
+  languageTutorialSteps,
+} from '../../tutorial/TutorialSteps';
 
 const drawerWidth = 240;
 
@@ -30,7 +36,7 @@ function AppAppBar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { mode, toggleColorMode } = useThemeMode();
   const isMdUp = useMediaQuery((theme: any) => theme.breakpoints.up('md'));
-  const [isTutorialMode, setIsTutorialMode] = useState(false);
+  const { isTutorialMode, setIsTutorialMode } = useTutorial();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -44,14 +50,19 @@ function AppAppBar() {
     setAnchorEl(null);
   };
   return (
-    <Box onClick={isTutorialMode ? () => driverObj.drive() : undefined}>
+    <Box
+      onClick={
+        isTutorialMode
+          ? () => driverObj(appBarTutorialSteps).drive()
+          : undefined
+      }
+    >
       <AppBar
         position={isMdUp ? 'fixed' : 'static'}
         component='nav'
         sx={{
           display: 'flex',
-          border: isTutorialMode ? '5px solid red' : 'none',
-          // width: '100%',
+          border: isTutorialMode ? '2px solid red' : 'none',
         }}
       >
         <Toolbar>
@@ -94,14 +105,27 @@ function AppAppBar() {
             startIcon={<Tour />}
             onClick={(event) => {
               event.stopPropagation();
-              driverObj.destroy();
+              driverObj(appBarTutorialSteps).destroy();
               setIsTutorialMode(!isTutorialMode);
             }}
             sx={{ mr: 2 }}
           >
             {t('appBar.takeTour')}
           </Button>
-          <LanguageSelector />
+          <Box
+            id='language-selector'
+            onClick={
+              isTutorialMode
+                ? (event) => {
+                    event.stopPropagation();
+                    // driverObj(languageTutorialSteps).drive();
+                    // driverObj(languageTutorialSteps).moveNext();
+                  }
+                : undefined
+            }
+          >
+            <LanguageSelector />
+          </Box>
           <ThemeToggle mode={mode} toggleColorMode={toggleColorMode} />
           {isAuthenticated ? (
             <UserMenu

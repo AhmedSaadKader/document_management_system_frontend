@@ -6,17 +6,12 @@ import {
   ListItemText,
   ListItemIcon,
   Divider,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Typography,
   useMediaQuery,
 } from '@mui/material';
 import {
   Work,
   DocumentScanner,
   Delete,
-  ExpandMore,
   Favorite,
   Share,
   Dashboard,
