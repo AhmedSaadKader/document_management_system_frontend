@@ -18,6 +18,8 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useThemeMode } from '../../context/theme_context';
 import ThemeToggle from './ThemeToggle';
+import { Tour } from '@mui/icons-material';
+import { driverObj } from '../../tutorial/Tutorial';
 
 const drawerWidth = 240;
 
@@ -28,6 +30,7 @@ function AppAppBar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { mode, toggleColorMode } = useThemeMode();
   const isMdUp = useMediaQuery((theme: any) => theme.breakpoints.up('md'));
+  const [isTutorialMode, setIsTutorialMode] = useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -41,8 +44,16 @@ function AppAppBar() {
     setAnchorEl(null);
   };
   return (
-    <Box sx={{ display: 'flex' }}>
-      <AppBar position={isMdUp ? 'fixed' : 'static'} component='nav'>
+    <Box onClick={isTutorialMode ? () => driverObj.drive() : undefined}>
+      <AppBar
+        position={isMdUp ? 'fixed' : 'static'}
+        component='nav'
+        sx={{
+          display: 'flex',
+          border: isTutorialMode ? '5px solid red' : 'none',
+          // width: '100%',
+        }}
+      >
         <Toolbar>
           <IconButton
             edge='start'
@@ -78,6 +89,18 @@ function AppAppBar() {
             </Link>
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
+          <Button
+            color='inherit'
+            startIcon={<Tour />}
+            onClick={(event) => {
+              event.stopPropagation();
+              driverObj.destroy();
+              setIsTutorialMode(!isTutorialMode);
+            }}
+            sx={{ mr: 2 }}
+          >
+            {t('appBar.takeTour')}
+          </Button>
           <LanguageSelector />
           <ThemeToggle mode={mode} toggleColorMode={toggleColorMode} />
           {isAuthenticated ? (

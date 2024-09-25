@@ -110,7 +110,9 @@ const MainContent: React.FC = () => {
           path='/dashboard'
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <div id='dashboard'>
+                <Dashboard />
+              </div>
             </ProtectedRoute>
           }
         />
@@ -118,7 +120,9 @@ const MainContent: React.FC = () => {
           path='/workspaces'
           element={
             <ProtectedRoute>
-              <AllWorkspacesPage />
+              <div id='workspaces'>
+                <AllWorkspacesPage />
+              </div>
             </ProtectedRoute>
           }
         />
@@ -126,7 +130,9 @@ const MainContent: React.FC = () => {
           path='/documents'
           element={
             <ProtectedRoute>
-              <AllDocumentsPage />
+              <div id='documents'>
+                <AllDocumentsPage />
+              </div>{' '}
             </ProtectedRoute>
           }
         />

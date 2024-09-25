@@ -32,6 +32,7 @@ const Sidebar: React.FC = () => {
 
   return (
     <Box
+      id='sidebar'
       sx={{
         width: 240,
         position: 'fixed',
