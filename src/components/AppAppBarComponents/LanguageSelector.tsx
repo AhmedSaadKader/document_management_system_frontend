@@ -5,7 +5,9 @@ import { useTutorial } from '../../tutorial/TutorialContext';
 import { driverObj } from '../../tutorial/Tutorial';
 import { languageTutorialSteps } from '../../tutorial/TutorialSteps';
 
-export const useLanguageSelector = (isTutorialMode: unknown) => {
+const LanguageSelector: React.FC = () => {
+  const [language, setLanguage] = useState(i18n.language || 'en');
+  const { isTutorialMode } = useTutorial();
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -22,15 +24,6 @@ export const useLanguageSelector = (isTutorialMode: unknown) => {
   const handleClose = () => {
     setIsOpen(false);
   };
-
-  return { isOpen, handleOpen, handleClose };
-};
-
-const LanguageSelector: React.FC = () => {
-  const [language, setLanguage] = useState(i18n.language || 'en');
-  const { isTutorialMode } = useTutorial();
-  const { isOpen, handleOpen, handleClose } =
-    useLanguageSelector(isTutorialMode);
 
   useEffect(() => {
     const direction = language === 'ar' ? 'rtl' : 'ltr';
@@ -56,7 +49,7 @@ const LanguageSelector: React.FC = () => {
         marginRight: 2,
         border: isTutorialMode ? '2px solid red' : 'none',
       }}
-      open={isOpen}
+      // open={isOpen}
       onOpen={handleOpen}
       onClose={handleClose}
     >

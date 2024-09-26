@@ -54,7 +54,8 @@ export const languageTutorialSteps = [
     element: '#language-option',
     popover: {
       title: 'Select Language',
-      description: 'Choose from the available languages.',
+      description:
+        '<pre><code class="language-javascript"> console.log(\'Selected language:\', i18n.language); </code></pre>',
     },
   },
   // Add more steps as needed
