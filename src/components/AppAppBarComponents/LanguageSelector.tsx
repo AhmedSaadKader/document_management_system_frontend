@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Select, MenuItem, SelectChangeEvent } from '@mui/material';
 import i18n from '../../i18n';
-import { useTutorial } from '../../tutorial/TutorialContext';
-import { driverObj } from '../../tutorial/Tutorial';
-import { languageTutorialSteps } from '../../tutorial/TutorialSteps';
+import { useTutorial } from '../../tutorial/driverjs/TutorialContext';
+import { LanguageSelectortourSteps } from '../../tutorial/react-joydrops/LanguageSelectorTour';
+import JoyRideWithConfiguration from '../../tutorial/react-joydrops/JoyRideStepsConfiguration';
 
 const LanguageSelector: React.FC = () => {
   const [language, setLanguage] = useState(i18n.language || 'en');
   const { isTutorialMode } = useTutorial();
   const [isOpen, setIsOpen] = useState(false);
+  const [shouldShowJoyride, setShouldShowJoyride] = useState(false); // New state
 
   useEffect(() => {
     if (isTutorialMode && isOpen) {
-      // Trigger tutorial step related to language selection
-      driverObj(languageTutorialSteps).drive();
+      setShouldShowJoyride(true);
+    } else {
+      setShouldShowJoyride(false);
     }
   }, [isTutorialMode, isOpen]);
 
@@ -38,27 +40,44 @@ const LanguageSelector: React.FC = () => {
   };
 
   return (
-    <Select
-      id='language-selector'
-      value={language}
-      onChange={handleLanguageChange}
-      variant='outlined'
-      size='small'
-      sx={{
-        color: '#fff',
-        marginRight: 2,
-        border: isTutorialMode ? '2px solid red' : 'none',
-      }}
-      // open={isOpen}
-      onOpen={handleOpen}
-      onClose={handleClose}
-    >
-      <MenuItem id='language-option' value='en'>
-        En
-      </MenuItem>
-      <MenuItem value='ar'>Ar</MenuItem>
-      <MenuItem value='fr'>Fr</MenuItem>
-    </Select>
+    <>
+      {shouldShowJoyride && (
+        <>
+          <JoyRideWithConfiguration
+            steps={LanguageSelectortourSteps}
+            shouldShowJoyride={shouldShowJoyride}
+          />
+          <div id='language-code'></div>
+        </>
+      )}
+      {/* Render Joyride conditionally */}
+      <Select
+        id='language-selectors'
+        value={language}
+        onChange={handleLanguageChange}
+        variant='outlined'
+        size='small'
+        sx={{
+          color: '#fff',
+          marginRight: 2,
+          border: isTutorialMode ? '2px solid red' : 'none',
+        }}
+        onOpen={handleOpen}
+        onClose={handleClose}
+        onClick={() => {
+          // Add onClick handler
+          if (isTutorialMode) {
+            setShouldShowJoyride(true);
+          }
+        }}
+      >
+        <MenuItem id='language-option' value='en'>
+          En
+        </MenuItem>
+        <MenuItem value='ar'>Ar</MenuItem>
+        <MenuItem value='fr'>Fr</MenuItem>
+      </Select>
+    </>
   );
 };
 

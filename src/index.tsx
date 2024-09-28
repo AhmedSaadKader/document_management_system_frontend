@@ -7,7 +7,7 @@ import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';
-import { TutorialProvider } from './tutorial/TutorialContext';
+import { TutorialProvider } from './tutorial/driverjs/TutorialContext';
 
 // Determine if the current language is RTL
 const direction = i18n.language === 'ar' ? 'rtl' : 'ltr';

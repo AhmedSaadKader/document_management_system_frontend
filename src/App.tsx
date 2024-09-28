@@ -14,7 +14,14 @@ import { AuthProvider, useAuth } from './context/auth_context';
 import { ThemeProvider } from './context/theme_context';
 import Dashboard from './pages/Dashboard';
 import ProfilePage from './pages/Profile';
-import { CircularProgress, Box, useMediaQuery } from '@mui/material';
+import {
+  CircularProgress,
+  Box,
+  useMediaQuery,
+  Fab,
+  Menu,
+  MenuItem,
+} from '@mui/material';
 import WorkspacePage from './pages/Workspace';
 import AllWorkspacesPage from './pages/AllWorkspaces';
 import AllDocumentsPage from './pages/AllDocuments';
@@ -24,6 +31,11 @@ import MobileDrawer from './components/AppAppBarComponents/MobileDrawer';
 import SharedWorkspaces from './pages/SharedWorkspaces';
 import FavoritesList from './pages/FavoritesList';
 import ResetPassword from './pages/ResetPassword';
+import TutorialPage from './tutorial/driverjs/CodeDisplay';
+import { Tour } from '@mui/icons-material';
+import { useTutorial } from './tutorial/driverjs/TutorialContext';
+import { t } from 'i18next';
+import TutorialFab from './tutorial/react-joydrops/TutorialFab';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -176,6 +188,18 @@ const MainContent: React.FC = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path='/tutorial'
+          element={
+            <ProtectedRoute>
+              <TutorialPage
+                title={'tutorial'}
+                backend={true}
+                filePath={'src/controllers/document_controller.ts'}
+              />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </Box>
   );
@@ -186,6 +210,7 @@ function App() {
     <AuthProvider>
       <ThemeProvider>
         <Router>
+          <TutorialFab />
           <AppAppBar />
           <Box sx={{ display: 'flex' }}>
             <SidebarRoute />

@@ -1,4 +1,5 @@
-import { driverObj } from './Tutorial';
+import React from 'react';
+import TutorialPage from './CodeDisplay';
 
 export const generalTutorialSteps = [
   {
@@ -39,6 +40,14 @@ export const appBarTutorialSteps = [
       title: 'Navigation',
       description: 'This is the main navigation bar of the application.',
     },
+  },
+  {
+    element: '#custom-code-container',
+    popover: {
+      title: 'xxx',
+      // description: <TutorialPage />,
+    },
+    // content: <TutorialPage />,
   },
 ];
 

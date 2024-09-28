@@ -19,13 +19,14 @@ import { useTranslation } from 'react-i18next';
 import { useThemeMode } from '../../context/theme_context';
 import ThemeToggle from './ThemeToggle';
 import { Tour } from '@mui/icons-material';
-import { useTutorial } from '../../tutorial/TutorialContext';
-import { driverObj } from '../../tutorial/Tutorial';
-import {
-  appBarTutorialSteps,
-  darkModeTutorialSteps,
-  languageTutorialSteps,
-} from '../../tutorial/TutorialSteps';
+import { useTutorial } from '../../tutorial/driverjs/TutorialContext';
+// import { driverObj } from '../../tutorial/driverjs/Tutorial';
+// import {
+//   appBarTutorialSteps,
+//   darkModeTutorialSteps,
+//   languageTutorialSteps,
+// } from '../../tutorial/driverjs/TutorialSteps';
+// import TourComponent from '../../tutorial/react-joydrops/Joydrops';
 
 const drawerWidth = 240;
 
@@ -50,19 +51,12 @@ function AppAppBar() {
     setAnchorEl(null);
   };
   return (
-    <Box
-      onClick={
-        isTutorialMode
-          ? () => driverObj(appBarTutorialSteps).drive()
-          : undefined
-      }
-    >
+    <Box>
       <AppBar
         position={isMdUp ? 'fixed' : 'static'}
         component='nav'
         sx={{
           display: 'flex',
-          border: isTutorialMode ? '2px solid red' : 'none',
         }}
       >
         <Toolbar>
@@ -105,15 +99,16 @@ function AppAppBar() {
             startIcon={<Tour />}
             onClick={(event) => {
               event.stopPropagation();
-              driverObj(appBarTutorialSteps).destroy();
+              // driverObj(appBarTutorialSteps).destroy();
               setIsTutorialMode(!isTutorialMode);
             }}
             sx={{ mr: 2 }}
           >
             {t('appBar.takeTour')}
           </Button>
+          {/* <TourComponent /> */}
           <Box
-            id='language-selector'
+            // id='language-selectors'
             onClick={
               isTutorialMode
                 ? (event) => {
@@ -123,6 +118,7 @@ function AppAppBar() {
                   }
                 : undefined
             }
+            id='language-selector'
           >
             <LanguageSelector />
           </Box>
