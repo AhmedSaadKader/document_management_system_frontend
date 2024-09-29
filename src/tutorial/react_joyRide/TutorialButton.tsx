@@ -1,12 +1,13 @@
 import React from 'react';
 import { Tour } from '@mui/icons-material';
-import { Fab } from '@mui/material';
+import { Button } from '@mui/material';
 import { useTutorial } from '../driverjs/TutorialContext';
 import JoyRideWithConfiguration from './JoyRideStepsConfiguration';
 import { GeneralSteps, getRouteForStep } from './GeneralSteps';
 import { getRouteForLoginStep, RegisterLoginSteps } from './RegisterLoginSteps';
+import { DashboardSteps, getRouteForDashboardStep } from './DashboardSteps';
 
-const TutorialFab = () => {
+const TutorialButton = () => {
   const { isTutorialMode, setIsTutorialMode } = useTutorial();
 
   const handleTourClick = (event: React.MouseEvent) => {
@@ -15,7 +16,7 @@ const TutorialFab = () => {
   };
 
   return (
-    <div id='general-tutorial'>
+    <div>
       {isTutorialMode && (
         <>
           <JoyRideWithConfiguration
@@ -34,21 +35,24 @@ const TutorialFab = () => {
           />
         </>
       )}
+      {isTutorialMode && (
+        <>
+          <JoyRideWithConfiguration
+            steps={DashboardSteps}
+            shouldShowJoyride={isTutorialMode}
+            getRouteForStep={getRouteForDashboardStep}
+          />
+        </>
+      )}
       <div id='language-code'></div>
-      <Fab
-        color='primary'
-        aria-label='take a tour'
+      <Button
+        color='inherit'
+        startIcon={<Tour />}
         onClick={handleTourClick}
-        sx={{
-          position: 'fixed',
-          bottom: 16,
-          right: 16,
-        }}
-      >
-        <Tour />
-      </Fab>
+        sx={{ mr: 2 }}
+      ></Button>
     </div>
   );
 };
 
-export default TutorialFab;
+export default TutorialButton;

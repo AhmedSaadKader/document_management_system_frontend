@@ -24,10 +24,6 @@ import MobileDrawer from './components/AppAppBarComponents/MobileDrawer';
 import SharedWorkspaces from './pages/SharedWorkspaces';
 import FavoritesList from './pages/FavoritesList';
 import ResetPassword from './pages/ResetPassword';
-import TutorialPage from './tutorial/react_joyRide/CodeDisplay';
-import TutorialFab from './tutorial/react_joyRide/TutorialFab';
-import MermaidContainer from './tutorial/MermaidContainer';
-import ERDiagram from './tutorial/ERDiagram';
 import WebAppTour from './tutorial/react_joyRide/WebAppTour';
 
 interface ProtectedRouteProps {
@@ -226,13 +222,13 @@ const MainContent: React.FC = () => {
 };
 
 function App() {
-  const isMdUp = useMediaQuery((theme: any) => theme.breakpoints.up('md'));
+  // const isMdUp = useMediaQuery((theme: any) => theme.breakpoints.up('md'));
 
   return (
     <AuthProvider>
       <ThemeProvider>
         <Router>
-          {isMdUp && <TutorialFab />}
+          {/* {isMdUp && <TutorialFab />} */}
           <AppAppBar />
           <Box sx={{ display: 'flex' }}>
             <SidebarRoute />

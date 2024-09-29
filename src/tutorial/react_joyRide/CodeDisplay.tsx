@@ -59,6 +59,8 @@ const TutorialPage: React.FC<TutorialPageProps> = ({
   };
 
   const scrollToLine = (line: number) => {
+    if (!editorRef.current) return;
+
     if (editorRef.current) {
       const view = editorRef.current;
       const pos = view.state.doc.line(line).from;
@@ -95,7 +97,7 @@ const TutorialPage: React.FC<TutorialPageProps> = ({
         ) : (
           <CodeMirror
             value={fileContent}
-            height='400px'
+            height='300px'
             theme='dark'
             extensions={[javascript({ typescript: true })]}
             editable={false}

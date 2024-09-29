@@ -13,6 +13,7 @@ i18n.use(initReactI18next).init({
           workspaces: 'Workspaces',
           documents: 'Documents',
           recycleBin: 'Recycle Bin',
+          taketour: 'Take Tour',
         },
         userMenu: {
           profile: 'Profile',
@@ -25,6 +26,12 @@ i18n.use(initReactI18next).init({
           download: 'Download',
           preview: 'Preview',
           close: 'Close',
+        },
+        pagination: {
+          previous: 'Previous',
+          page: 'Page',
+          of: 'Of',
+          next: 'Next',
         },
         document: {
           documentFormNameLabel: 'New Document Name',
@@ -74,6 +81,7 @@ i18n.use(initReactI18next).init({
           no: 'No',
           save: 'Save',
           yes: 'Yes',
+          loadingWorkspaces: 'Loading Workspaces...',
         },
         landingPage: {
           welcome: 'Welcome to Your Document Management System',
@@ -134,6 +142,8 @@ i18n.use(initReactI18next).init({
           recycleBin: 'Recycle Bin',
           noSharedWorkspaces: 'No shared workspaces',
           publicWorkspaces: 'Public Workspaces',
+          noPublicWorkspaces: 'No public workspaces',
+          loadingPublicWorkspaces: 'Loading public workspaces...',
         },
         profile: {
           profile: 'Profile',
@@ -159,6 +169,7 @@ i18n.use(initReactI18next).init({
           workspaces: 'Tous les espaces de travail',
           documents: 'Tous les documents',
           recycleBin: 'Corbeille',
+          taketour: 'Faire le tour',
         },
         userMenu: {
           profile: 'Profil',
@@ -171,6 +182,12 @@ i18n.use(initReactI18next).init({
           download: 'Télécharger',
           preview: 'Aperçu',
           close: 'Fermer',
+        },
+        pagination: {
+          previous: 'Précédent',
+          page: 'Page',
+          of: 'Sur',
+          next: 'Suivant',
         },
         document: {
           documentFormNameLabel: 'Nom du nouveau document',
@@ -221,6 +238,7 @@ i18n.use(initReactI18next).init({
           no: 'Non',
           save: 'Enregistrer',
           yes: 'Oui',
+          loadingWorkspaces: 'Chargement des espaces de travail...',
         },
         landingPage: {
           welcome: 'Bienvenue dans votre système de gestion de documents',
@@ -286,6 +304,9 @@ i18n.use(initReactI18next).init({
           recycleBin: 'Corbeille',
           nosharedWorkspaces: "Pas d'espaces de travail partagés",
           publicWorkspaces: 'Espaces de travail publics',
+          noPublicWorkspaces: 'Aucun espace de travail public',
+          loadingPublicWorkspaces:
+            'Chargement des espaces de travail publics...',
         },
         profile: {
           profile: 'Profil',
@@ -310,6 +331,7 @@ i18n.use(initReactI18next).init({
           login: 'تسجيل الدخول',
           workspaces: 'كل مساحات العمل',
           documents: 'كل المستندات',
+          taketour: 'أخذ جولة',
           recycleBin: 'سلة المحذوفات',
         },
         userMenu: {
@@ -323,6 +345,12 @@ i18n.use(initReactI18next).init({
           download: 'تنزيل',
           preview: 'معاينة',
           close: 'إغلاق',
+        },
+        pagination: {
+          previous: 'السابق',
+          page: 'الصفحة',
+          of: 'من',
+          next: 'التالي',
         },
         document: {
           documentFormNameLabel: 'اسم المستند الجديد',
@@ -373,6 +401,7 @@ i18n.use(initReactI18next).init({
           no: 'لا',
           save: 'حفظ',
           yes: 'نعم',
+          loadingWorkspaces: 'جارٍ تحميل مساحات العمل...',
         },
         landingPage: {
           welcome: 'أهلاً بك في نظام إدارة المستندات الخاص بك',
@@ -435,6 +464,8 @@ i18n.use(initReactI18next).init({
           recycleBin: 'سلة المحذوفات',
           nosharedWorkspaces: 'لا مساحات عمل مشتركة',
           publicWorkspaces: 'مساحات العمل العامة',
+          noPublicWorkspaces: 'لا توجد مساحات عمل عامة',
+          loadingPublicWorkspaces: 'جارٍ تحميل المساحات العامة للعمل...',
         },
         profile: {
           profile: 'الملف الشخصي',

@@ -82,12 +82,12 @@ function LandingPage() {
           </Grid>
         </Grid>
       </Container>
-      <Box sx={{ py: 2, textAlign: 'center', backgroundColor: 'primary.main' }}>
+      {/* <Box sx={{ py: 2, textAlign: 'center', backgroundColor: 'primary.main' }}>
         <Typography variant='body2' color='white'>
           &copy; {new Date().getFullYear()} Document Management System. All
           rights reserved.
         </Typography>
-      </Box>
+      </Box> */}
     </Box>
   );
 }

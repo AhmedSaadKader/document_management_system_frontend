@@ -25,7 +25,7 @@ export const LanguageSelectortourSteps: Step[] = [
     data: { isCode: false },
   },
   {
-    target: '#language-code',
+    target: '#language-selector',
     content: 'Technologies used: \n Packages used: ',
     data: { isCode: false },
   },
@@ -33,5 +33,17 @@ export const LanguageSelectortourSteps: Step[] = [
     target: '#language-code',
     content: <TutorialPageSwitcher pages={tutorialPages} />,
     data: { isCode: true },
+    disableBeacon: false,
   },
 ];
+
+export const getRouteForLanguageStep = (index: number) => {
+  // Define the mapping of step indices to routes
+  const routeMap: { [key: number]: string } = {
+    0: '/',
+    1: '/',
+    2: '/',
+    3: '/',
+  };
+  return routeMap[index] || '/';
+};

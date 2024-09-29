@@ -3,7 +3,7 @@ import { UserData } from '../pages/SignUp';
 
 class ApiClient {
   private static readonly baseUrl = process.env.REACT_APP_API_URL;
-  private static readonly itemsPerPage = 15;
+  private static readonly itemsPerPage = 6;
 
   private static async request(
     endpoint: string,
@@ -103,13 +103,19 @@ class ApiClient {
     search?: string;
     sortBy?: string;
     order?: 'asc' | 'desc';
+    page?: number;
+    limit?: number;
   }): Promise<any> {
     const query = new URLSearchParams(queryParams as any).toString();
     return this.request(`/documents/filter?${query}`, 'GET');
   }
 
-  static async getPublicWorkspaces() {
-    return this.request('/workspaces/public', 'GET');
+  static async getPublicWorkspaces(page = 1): Promise<any> {
+    const query = new URLSearchParams({
+      page: page.toString(),
+      limit: this.itemsPerPage.toString(),
+    });
+    return this.request(`/workspaces/public?${query}`, 'GET');
   }
 
   static async fetchWorkspace(
@@ -151,8 +157,11 @@ class ApiClient {
     return this.request('/documents/recycle-bin', 'GET');
   }
 
-  static async fetchAllWorkspaces(): Promise<any> {
-    return this.request('/workspaces', 'GET');
+  static async fetchAllWorkspaces(
+    page: number = 1,
+    limit: number = 10
+  ): Promise<any> {
+    return this.request(`/workspaces?page=${page}&limit=${limit}`, 'GET');
   }
 
   static async deleteDocument(documentId: string): Promise<any> {

@@ -9,7 +9,11 @@ import {
   Code,
   Storage,
   CloudQueue,
+  Security,
+  CodeOff,
+  Tour,
   SvgIconComponent,
+  DataObject,
 } from '@mui/icons-material';
 
 interface TechIconProps {
@@ -40,6 +44,7 @@ const WebAppTour = () => {
         <CardHeader title='Web App Technologies Overview' />
         <CardContent>
           <Grid container spacing={2}>
+            {/* Frontend Section */}
             <Grid item xs={12} sm={6} md={4}>
               <Card className='frontend-tech'>
                 <CardHeader title='Frontend' />
@@ -53,9 +58,13 @@ const WebAppTour = () => {
                   <TechIcon icon={Laptop} label='React' />
                   <TechIcon icon={Code} label='TypeScript' />
                   <TechIcon icon={Laptop} label='Material UI' />
+                  <TechIcon icon={CodeOff} label='Codemirror' />
+                  <TechIcon icon={Tour} label='React-Joyride' />
                 </CardContent>
               </Card>
             </Grid>
+
+            {/* Backend Section */}
             <Grid item xs={12} sm={6} md={4}>
               <Card className='backend-tech'>
                 <CardHeader title='Backend' />
@@ -69,9 +78,12 @@ const WebAppTour = () => {
                   <TechIcon icon={CloudQueue} label='Node.js' />
                   <TechIcon icon={Code} label='TypeScript' />
                   <TechIcon icon={Code} label='Jest Testing' />
+                  <TechIcon icon={Security} label='bcrypt + JWT' />
                 </CardContent>
               </Card>
             </Grid>
+
+            {/* Cloud & Hosting Section */}
             <Grid item xs={12} sm={6} md={4}>
               <Card className='cloud-tech'>
                 <CardHeader title='Cloud & Hosting' />
@@ -88,6 +100,8 @@ const WebAppTour = () => {
                 </CardContent>
               </Card>
             </Grid>
+
+            {/* User Experience Section */}
             <Grid item xs={12} sm={6} md={4}>
               <Card className='user-experience'>
                 <CardHeader title='User Experience' />
@@ -103,6 +117,8 @@ const WebAppTour = () => {
                 </CardContent>
               </Card>
             </Grid>
+
+            {/* Mobile Compatibility Section */}
             <Grid item xs={12} sm={6} md={4}>
               <Card className='mobile-compatibility'>
                 <CardHeader title='Mobile Compatibility' />
@@ -114,6 +130,24 @@ const WebAppTour = () => {
                   }}
                 >
                   <TechIcon icon={PhoneAndroid} label='Responsive Design' />
+                </CardContent>
+              </Card>
+            </Grid>
+
+            {/* Database & Migrations Section */}
+            <Grid item xs={12} sm={6} md={4}>
+              <Card className='db-tech'>
+                <CardHeader title='Databases & Migrations' />
+                <CardContent
+                  style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <TechIcon icon={Storage} label='PostgreSQL' />
+                  <TechIcon icon={Storage} label='MongoDB' />
+                  <TechIcon icon={Code} label='db-migrate' />
                 </CardContent>
               </Card>
             </Grid>

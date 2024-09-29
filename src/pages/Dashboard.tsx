@@ -20,9 +20,9 @@ const Dashboard = () => {
         <Typography variant='h5' color='textSecondary' gutterBottom>
           {t('dashboard.greeting')} {localStorage.getItem('first_name')}
         </Typography>
-        <Typography variant='h4' gutterBottom>
+        {/* <Typography variant='h4' gutterBottom>
           {t('dashboard.title')}
-        </Typography>
+        </Typography> */}
         <Grid item xs={12} sm={6} md={4}>
           <PublicWorkspaces />
         </Grid>

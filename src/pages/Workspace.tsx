@@ -35,7 +35,6 @@ const WorkspacePage: React.FC = () => {
   useEffect(() => {
     const fetchWorkspace = async () => {
       try {
-        console.log('fetch workspace');
         const { workspace, role } = await ApiClient.fetchWorkspace(
           workspaceId as string,
           {

@@ -42,40 +42,6 @@ export const GeneralSteps: Step[] = [
     disableBeacon: false,
     data: { isCode: true },
   },
-  {
-    target: '#national_id',
-    content:
-      'When a user wants to register, they need to provide a 14-digit unique National ID. \
-      On the frontend, the input field is validated to ensure that the provided National ID is exactly 14 digits and is unique',
-    disableBeacon: false,
-    data: { isCode: false },
-  },
-  {
-    target: '#national_id',
-    content: <TutorialPageSwitcher pages={signUpPages} />,
-    disableBeacon: false,
-    data: { isCode: true },
-  },
-  {
-    target: '#email',
-    content:
-      'When a user wants to register, they need to provide a 14-digit unique National ID',
-    disableBeacon: false,
-    data: { isCode: false },
-  },
-
-  {
-    target: '#password-reset',
-    content: 'password-reset button',
-    disableBeacon: false,
-    data: { isCode: false },
-  },
-  {
-    target: '#password-reset-field',
-    content: 'password-reset page',
-    disableBeacon: false,
-    data: { isCode: true },
-  },
 ];
 
 export const getRouteForStep = (index: number) => {
@@ -84,9 +50,6 @@ export const getRouteForStep = (index: number) => {
     0: '/',
     1: '/',
     2: '/',
-    3: '/signup',
-    4: '/signup',
-    5: '/reset-password',
   };
   return routeMap[index] || '/';
 };

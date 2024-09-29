@@ -3,7 +3,10 @@ import { Select, MenuItem, SelectChangeEvent } from '@mui/material';
 import i18n from '../../i18n';
 import { useTutorial } from '../../tutorial/driverjs/TutorialContext';
 import JoyRideWithConfiguration from '../../tutorial/react_joyRide/JoyRideStepsConfiguration';
-import { LanguageSelectortourSteps } from '../../tutorial/react_joyRide/LanguageSelectorTour';
+import {
+  getRouteForLanguageStep,
+  LanguageSelectortourSteps,
+} from '../../tutorial/react_joyRide/LanguageSelectorTour';
 
 const LanguageSelector: React.FC = () => {
   const [language, setLanguage] = useState(i18n.language || 'en');
@@ -43,11 +46,13 @@ const LanguageSelector: React.FC = () => {
     <>
       {shouldShowJoyride && (
         <>
-          <JoyRideWithConfiguration
-            steps={LanguageSelectortourSteps}
-            shouldShowJoyride={shouldShowJoyride}
-          />
-          <div id='language-code'></div>
+          <div id='language-code'>
+            <JoyRideWithConfiguration
+              steps={LanguageSelectortourSteps}
+              shouldShowJoyride={shouldShowJoyride}
+              getRouteForStep={getRouteForLanguageStep}
+            />
+          </div>
         </>
       )}
       {/* Render Joyride conditionally */}

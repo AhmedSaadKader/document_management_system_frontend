@@ -12,15 +12,18 @@ const MermaidContainer: React.FC = () => {
         B[Node.js + Express.js]
         C[Authentication Middleware]
     end
-    subgraph Databases
-        D[(MongoDB)]
-        E[(PostgreSQL/MySQL)]
-    end
     subgraph Services
         F[Document Service]
         G[User Service]
         H[Workspace Service]
         I[Search Service]
+    end
+    subgraph Storage
+        J[S3 Bucket Storage]
+    end
+    subgraph Databases
+        D[(MongoDB)]
+        E[(PostgreSQL/MySQL)]
     end
     A <--> B
     B --> C
@@ -29,9 +32,11 @@ const MermaidContainer: React.FC = () => {
     C --> H
     C --> I
     F <--> D
-    G <--> E
+    F --> J
     H <--> D
     I <--> D
+    G <--> E
+
   `;
 
   return (

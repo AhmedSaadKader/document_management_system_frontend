@@ -96,10 +96,8 @@ export const getRouteForLoginStep = (index: number) => {
     1: '/signup',
     2: '/signup',
     3: '/signup',
-    4: '/signup',
-    5: '/signin',
-    6: '/signin',
-    7: '/reset-password',
+    4: '/signin',
+    5: '/reset-password',
   };
   return routeMap[index] || '/';
 };

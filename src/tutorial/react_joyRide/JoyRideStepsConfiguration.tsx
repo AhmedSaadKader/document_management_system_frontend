@@ -33,23 +33,6 @@ const JoyRideWithConfiguration: React.FC<JoyRideWithConfigurationProps> = ({
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    // Check if the current route matches the expected route for the current step
-    const currentStep = steps[stepIndex];
-    if (currentStep && currentStep.target) {
-      const targetElement = document.querySelector(
-        currentStep.target as string
-      );
-      if (!targetElement) {
-        // If the target element is not found, navigate to the correct route
-        const route = getRouteForStep(stepIndex);
-        if (route && location.pathname !== route) {
-          navigate(route);
-        }
-      }
-    }
-  }, [stepIndex, location]);
-
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { action, index, status, type } = data;
 
@@ -93,11 +76,12 @@ const JoyRideWithConfiguration: React.FC<JoyRideWithConfigurationProps> = ({
       steps={steps}
       run={run}
       continuous={true}
-      scrollToFirstStep={true}
+      // scrollToFirstStep={true}
       stepIndex={stepIndex}
       showProgress={true}
       showSkipButton={true}
       callback={handleJoyrideCallback}
+      // scrollOffset={100}
       styles={{
         options: {
           zIndex: 10000,
@@ -112,6 +96,7 @@ const JoyRideWithConfiguration: React.FC<JoyRideWithConfigurationProps> = ({
           color: theme.palette.text.primary,
           maxWidth: '80%',
           maxHeight: '70%',
+          // top: 0,
         },
         buttonNext: {
           backgroundColor: theme.palette.primary.contrastText,

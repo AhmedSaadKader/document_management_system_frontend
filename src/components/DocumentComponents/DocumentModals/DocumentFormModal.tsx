@@ -97,7 +97,7 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
     const fetchWorkspaces = async () => {
       try {
         const response = await ApiClient.fetchAllWorkspaces();
-        setWorkspaces(response);
+        setWorkspaces(response.workspaces);
       } catch (error) {
         console.error(error);
       }

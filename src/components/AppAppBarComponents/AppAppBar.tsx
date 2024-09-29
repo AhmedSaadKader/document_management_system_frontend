@@ -20,6 +20,7 @@ import { useThemeMode } from '../../context/theme_context';
 import ThemeToggle from './ThemeToggle';
 import { Tour } from '@mui/icons-material';
 import { useTutorial } from '../../tutorial/driverjs/TutorialContext';
+import TutorialButton from '../../tutorial/react_joyRide/TutorialButton';
 // import { driverObj } from '../../tutorial/driverjs/Tutorial';
 // import {
 //   appBarTutorialSteps,
@@ -37,7 +38,7 @@ function AppAppBar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { mode, toggleColorMode } = useThemeMode();
   const isMdUp = useMediaQuery((theme: any) => theme.breakpoints.up('md'));
-  const { isTutorialMode, setIsTutorialMode } = useTutorial();
+  const { isTutorialMode } = useTutorial();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -93,28 +94,16 @@ function AppAppBar() {
               DMS
             </Link>
           </Typography>
+          <div id='general-tutorial'></div>
           <Box sx={{ flexGrow: 1 }} />
-          <Button
-            color='inherit'
-            startIcon={<Tour />}
-            onClick={(event) => {
-              event.stopPropagation();
-              // driverObj(appBarTutorialSteps).destroy();
-              setIsTutorialMode(!isTutorialMode);
-            }}
-            sx={{ mr: 2 }}
-          >
-            {t('appBar.takeTour')}
-          </Button>
-          {/* <TourComponent /> */}
+          <TutorialButton />
+
           <Box
             // id='language-selectors'
             onClick={
               isTutorialMode
                 ? (event) => {
                     event.stopPropagation();
-                    // driverObj(languageTutorialSteps).drive();
-                    // driverObj(languageTutorialSteps).moveNext();
                   }
                 : undefined
             }

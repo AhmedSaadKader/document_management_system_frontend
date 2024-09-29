@@ -34,7 +34,7 @@ const AllDocumentsPage = () => {
           sortBy,
           order,
         });
-        setDocuments(data);
+        setDocuments(data.documents);
       } catch (error) {
         console.error(error);
       }

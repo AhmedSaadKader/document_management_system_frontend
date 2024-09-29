@@ -57,7 +57,7 @@ const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
   return (
     <Box>
       {isSidebar ? (
-        <ListItemButton onClick={handleOpen}>
+        <ListItemButton id='sidebar-create-workspace' onClick={handleOpen}>
           <ListItemIcon>
             <Add />
           </ListItemIcon>
