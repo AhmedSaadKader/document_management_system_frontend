@@ -9,11 +9,18 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useTutorial } from '../tutorial/driverjs/TutorialContext';
+import {
+  getRouteForLoginStep,
+  RegisterLoginSteps,
+} from '../tutorial/react_joyRide/RegisterLoginSteps';
+import JoyRideWithConfiguration from '../tutorial/react_joyRide/JoyRideStepsConfiguration';
 
 function LandingPage() {
   const { t } = useTranslation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const { isTutorialMode } = useTutorial();
 
   return (
     <Box
@@ -26,6 +33,15 @@ function LandingPage() {
         flexDirection: 'column',
       }}
     >
+      {/* {isTutorialMode && (
+        <>
+          <JoyRideWithConfiguration
+            steps={RegisterLoginSteps}
+            shouldShowJoyride={isTutorialMode}
+            getRouteForStep={getRouteForLoginStep}
+          />
+        </>
+      )} */}
       <Container sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
         <Grid
           container
@@ -36,6 +52,7 @@ function LandingPage() {
         >
           <Grid item xs={12} md={6}>
             <Typography
+              className='login-tutorial'
               variant={isMobile ? 'h3' : 'h2'}
               color='primary'
               gutterBottom

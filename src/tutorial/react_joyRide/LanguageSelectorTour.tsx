@@ -1,5 +1,4 @@
 import React from 'react';
-import TutorialPage from '../driverjs/CodeDisplay';
 import TutorialPageSwitcher from './TutorialPageSwitcher';
 import { Step } from 'react-joyride';
 

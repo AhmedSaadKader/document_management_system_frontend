@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Select, MenuItem, SelectChangeEvent } from '@mui/material';
 import i18n from '../../i18n';
 import { useTutorial } from '../../tutorial/driverjs/TutorialContext';
-import { LanguageSelectortourSteps } from '../../tutorial/react-joydrops/LanguageSelectorTour';
-import JoyRideWithConfiguration from '../../tutorial/react-joydrops/JoyRideStepsConfiguration';
+import JoyRideWithConfiguration from '../../tutorial/react_joyRide/JoyRideStepsConfiguration';
+import { LanguageSelectortourSteps } from '../../tutorial/react_joyRide/LanguageSelectorTour';
 
 const LanguageSelector: React.FC = () => {
   const [language, setLanguage] = useState(i18n.language || 'en');

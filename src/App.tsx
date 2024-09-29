@@ -14,14 +14,7 @@ import { AuthProvider, useAuth } from './context/auth_context';
 import { ThemeProvider } from './context/theme_context';
 import Dashboard from './pages/Dashboard';
 import ProfilePage from './pages/Profile';
-import {
-  CircularProgress,
-  Box,
-  useMediaQuery,
-  Fab,
-  Menu,
-  MenuItem,
-} from '@mui/material';
+import { CircularProgress, Box, useMediaQuery } from '@mui/material';
 import WorkspacePage from './pages/Workspace';
 import AllWorkspacesPage from './pages/AllWorkspaces';
 import AllDocumentsPage from './pages/AllDocuments';
@@ -31,11 +24,11 @@ import MobileDrawer from './components/AppAppBarComponents/MobileDrawer';
 import SharedWorkspaces from './pages/SharedWorkspaces';
 import FavoritesList from './pages/FavoritesList';
 import ResetPassword from './pages/ResetPassword';
-import TutorialPage from './tutorial/driverjs/CodeDisplay';
-import { Tour } from '@mui/icons-material';
-import { useTutorial } from './tutorial/driverjs/TutorialContext';
-import { t } from 'i18next';
-import TutorialFab from './tutorial/react-joydrops/TutorialFab';
+import TutorialPage from './tutorial/react_joyRide/CodeDisplay';
+import TutorialFab from './tutorial/react_joyRide/TutorialFab';
+import MermaidContainer from './tutorial/MermaidContainer';
+import ERDiagram from './tutorial/ERDiagram';
+import WebAppTour from './tutorial/react_joyRide/WebAppTour';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -59,13 +52,13 @@ const SidebarRoute: React.FC = () => {
   const { isAuthenticated } = useAuth();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const isMdUp = useMediaQuery((theme: any) => theme.breakpoints.up('md')); // 'md' breakpoint
+  const isMdUp = useMediaQuery((theme: any) => theme.breakpoints.up('md'));
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const excludedRoutes = ['/signin', '/signup'];
+  const excludedRoutes = ['/signin', '/signup', '/reset-password'];
 
   if (excludedRoutes.includes(location.pathname)) {
     return null;
@@ -92,6 +85,30 @@ const LandingRoute: React.FC = () => {
   return <LandingPage />;
 };
 
+const SignInRoute: React.FC = () => {
+  const { isAuthenticated } = useAuth();
+  if (isAuthenticated) {
+    return <Navigate to='/dashboard' />;
+  }
+  return <SignIn />;
+};
+
+const SignUpRoute: React.FC = () => {
+  const { isAuthenticated } = useAuth();
+  if (isAuthenticated) {
+    return <Navigate to='/dashboard' />;
+  }
+  return <SignUp />;
+};
+
+const ResetPasswordRoute: React.FC = () => {
+  const { isAuthenticated } = useAuth();
+  if (isAuthenticated) {
+    return <Navigate to='/dashboard' />;
+  }
+  return <ResetPassword />;
+};
+
 const MainContent: React.FC = () => {
   const location = useLocation();
   const isMdUp = useMediaQuery((theme: any) => theme.breakpoints.up('md'));
@@ -114,10 +131,10 @@ const MainContent: React.FC = () => {
     >
       <Routes>
         <Route path='/' element={<LandingRoute />} />
-        <Route path='/signin' element={<SignIn />} />
-        <Route path='/reset-password' element={<ResetPassword />} />
+        <Route path='/signin' element={<SignInRoute />} />
+        <Route path='/reset-password' element={<ResetPasswordRoute />} />
 
-        <Route path='/signup' element={<SignUp />} />
+        <Route path='/signup' element={<SignUpRoute />} />
         <Route
           path='/dashboard'
           element={
@@ -192,11 +209,14 @@ const MainContent: React.FC = () => {
           path='/tutorial'
           element={
             <ProtectedRoute>
-              <TutorialPage
+              {/* <TutorialPage
                 title={'tutorial'}
                 backend={true}
                 filePath={'src/controllers/document_controller.ts'}
-              />
+              /> */}
+              {/* <MermaidContainer /> */}
+              {/* <ERDiagram /> */}
+              <WebAppTour />
             </ProtectedRoute>
           }
         />
@@ -206,11 +226,13 @@ const MainContent: React.FC = () => {
 };
 
 function App() {
+  const isMdUp = useMediaQuery((theme: any) => theme.breakpoints.up('md'));
+
   return (
     <AuthProvider>
       <ThemeProvider>
         <Router>
-          <TutorialFab />
+          {isMdUp && <TutorialFab />}
           <AppAppBar />
           <Box sx={{ display: 'flex' }}>
             <SidebarRoute />

@@ -4,7 +4,6 @@ import { UserData } from '../pages/SignUp';
 class ApiClient {
   private static readonly baseUrl = process.env.REACT_APP_API_URL;
   private static readonly itemsPerPage = 15;
-  private static readonly token = localStorage.getItem('authToken') || '';
 
   private static async request(
     endpoint: string,

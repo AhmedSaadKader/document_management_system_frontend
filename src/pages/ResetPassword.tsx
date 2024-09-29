@@ -51,6 +51,7 @@ export default function ResetPassword() {
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
       <Box
+        id='password-reset-field'
         sx={{
           marginTop: 8,
           display: 'flex',

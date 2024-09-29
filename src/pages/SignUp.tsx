@@ -171,7 +171,7 @@ export default function SignUp() {
   };
 
   return (
-    <Container component='main' maxWidth='xs'>
+    <Container component='main' maxWidth='xs' id='signup'>
       <CssBaseline />
       <Box
         sx={{

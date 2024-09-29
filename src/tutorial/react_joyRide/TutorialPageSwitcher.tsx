@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Typography, Tabs, Tab, Paper } from '@mui/material';
-import TutorialPage from '../driverjs/CodeDisplay';
+import React, { useState } from 'react';
+import { Box, Tabs, Tab } from '@mui/material';
+import TutorialPage from './CodeDisplay';
+import { TutorialPageProps } from './CodeDisplay';
 
-interface TutorialPageSwitcherProps {
-  pages: {
-    title: string;
-    backend: boolean;
-    filePath: string;
-  }[];
+export interface TutorialPageSwitcherProps {
+  pages: TutorialPageProps[];
 }
 
 const TutorialPageSwitcher: React.FC<TutorialPageSwitcherProps> = ({
@@ -19,16 +16,8 @@ const TutorialPageSwitcher: React.FC<TutorialPageSwitcherProps> = ({
     setSelectedPageIndex(newIndex);
   };
 
-  useEffect(() => {
-    console.log(pages[selectedPageIndex].filePath);
-  }, [selectedPageIndex]);
-
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant='h4' gutterBottom>
-        Tutorial Page Switcher
-      </Typography>
-
       {/* Tabs for switching between tutorial pages */}
       <Tabs
         value={selectedPageIndex}
@@ -46,8 +35,10 @@ const TutorialPageSwitcher: React.FC<TutorialPageSwitcherProps> = ({
       {/* <Paper elevation={3} sx={{ p: 2, mt: 2 }}> */}
       <TutorialPage
         title={pages[selectedPageIndex].title}
+        description={pages[selectedPageIndex].description}
         backend={pages[selectedPageIndex].backend}
         filePath={pages[selectedPageIndex].filePath}
+        lineNumber={pages[selectedPageIndex].lineNumber || 1}
       />
       {/* </Paper> */}
     </Box>

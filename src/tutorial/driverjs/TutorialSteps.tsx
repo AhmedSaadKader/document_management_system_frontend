@@ -1,5 +1,4 @@
 import React from 'react';
-import TutorialPage from './CodeDisplay';
 
 export const generalTutorialSteps = [
   {
