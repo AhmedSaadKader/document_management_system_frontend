@@ -127,6 +127,8 @@ i18n.use(initReactI18next).init({
           invalidEmail: 'Invalid Email',
           passwordRequired: 'Password required',
           passwordTooShort: 'Password too short',
+          otp: 'OTP',
+          newPassword: 'New Password',
         },
         dashboard: {
           greeting: 'Hello, ',
@@ -290,6 +292,8 @@ i18n.use(initReactI18next).init({
           invalidEmail: 'Adresse e-mail invalide',
           passwordRequired: 'Mot de passe requis',
           passwordTooShort: 'Mot de passe trop court',
+          otp: 'OTP',
+          newPassword: 'Nouveau mot de passe',
         },
         dashboard: {
           greeting: 'Bonjour, ',
@@ -452,6 +456,8 @@ i18n.use(initReactI18next).init({
           invalidEmail: 'بريد إلكتروني غير صالح',
           passwordRequired: 'كلمة المرور مطلوبة',
           passwordTooShort: 'كلمة المرور قصيرة جدًا',
+          otp: 'كلمة المرور ذات الاستعمال الواحد',
+          newPassword: 'كلمة السر الجديد',
         },
         dashboard: {
           greeting: 'مرحبا ',
