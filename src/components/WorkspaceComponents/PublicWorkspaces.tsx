@@ -54,7 +54,7 @@ const PublicWorkspaces: React.FC = () => {
         <Typography id='public-workspaces' variant='h6' gutterBottom>
           {t('dashboard.publicWorkspaces')}
         </Typography>
-        {loading || (
+        {loading || publicWorkspaces.length == 0 || (
           <div id='pagination'>
             <IconButton onClick={handlePreviousPage} disabled={page === 1}>
               <SkipPrevious />
