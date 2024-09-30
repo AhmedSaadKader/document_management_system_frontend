@@ -40,13 +40,27 @@ const WorkspaceDetailsModal: React.FC<WorkspaceDetailsModalProps> = ({
               <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
                 {t('workspace.name')}:
               </Typography>
-              <Typography variant='body1'>{workspace.workspaceName}</Typography>
+              <Typography
+                variant='body1'
+                whiteSpace='nowrap'
+                overflow='hidden'
+                textOverflow='ellipsis'
+              >
+                {workspace.workspaceName}
+              </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
               <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
                 {t('workspace.owner')}:
               </Typography>
-              <Typography variant='body1'>{workspace.userEmail}</Typography>
+              <Typography
+                whiteSpace='nowrap'
+                overflow='hidden'
+                textOverflow='ellipsis'
+                variant='body1'
+              >
+                {workspace.userEmail}
+              </Typography>
             </Grid>
           </Grid>
 
@@ -55,7 +69,12 @@ const WorkspaceDetailsModal: React.FC<WorkspaceDetailsModalProps> = ({
               <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
                 {t('workspace.description')}:
               </Typography>
-              <Typography variant='body1'>
+              <Typography
+                whiteSpace='nowrap'
+                overflow='hidden'
+                textOverflow='ellipsis'
+                variant='body1'
+              >
                 {workspace.description || t('workspace.noDescription')}
               </Typography>
             </Grid>
@@ -63,7 +82,12 @@ const WorkspaceDetailsModal: React.FC<WorkspaceDetailsModalProps> = ({
               <Typography variant='subtitle2' sx={{ fontWeight: 'bold' }}>
                 {t('workspace.public')}:
               </Typography>
-              <Typography variant='body1'>
+              <Typography
+                variant='body1'
+                whiteSpace='nowrap'
+                overflow='hidden'
+                textOverflow='ellipsis'
+              >
                 {workspace.isPublic ? t('workspace.yes') : t('workspace.no')}
               </Typography>
             </Grid>

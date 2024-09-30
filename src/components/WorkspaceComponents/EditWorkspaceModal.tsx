@@ -16,10 +16,12 @@ import { Workspace } from '../../models/Workspace';
 
 interface EditWorkspaceModalProps {
   workspace: Workspace;
+  setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const EditWorkspaceModal: React.FC<EditWorkspaceModalProps> = ({
   workspace,
+  setRefresh,
 }) => {
   const [open, setOpen] = useState(false);
   const [workspaceName, setWorkspaceName] = useState(workspace.workspaceName);
@@ -40,6 +42,7 @@ const EditWorkspaceModal: React.FC<EditWorkspaceModalProps> = ({
       workspace.description = response.description;
       workspace.isPublic = response.isPublic; // Make sure to update the public status
       setOpen(false);
+      setRefresh(true);
     } catch (error) {
       console.error(error);
     }

@@ -16,6 +16,10 @@ import {
   getRouteForWorkspacedStep,
   WorkspacedSteps,
 } from './steps/WorkspaceSteps';
+import {
+  getRouteForSearchAndDocumentStep,
+  SearchAndDocumentSteps,
+} from './steps/SearchAndDocumentSteps';
 
 const TutorialButton = () => {
   const { isTutorialMode, setIsTutorialMode } = useTutorial();
@@ -51,6 +55,15 @@ const TutorialButton = () => {
             steps={WorkspacedSteps}
             shouldShowJoyride={isTutorialMode}
             getRouteForStep={getRouteForWorkspacedStep}
+          />
+        </>
+      )}
+      {isTutorialMode && (
+        <>
+          <JoyRideWithConfiguration
+            steps={SearchAndDocumentSteps}
+            shouldShowJoyride={isTutorialMode}
+            getRouteForStep={getRouteForSearchAndDocumentStep}
           />
         </>
       )}

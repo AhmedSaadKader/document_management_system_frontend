@@ -19,6 +19,7 @@ const WorkspacePage: React.FC = () => {
   const [sortBy, setSortBy] = useState('');
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
   const { t } = useTranslation();
+  const [refresh, setRefresh] = useState(false);
 
   const updateSearchFilters = (
     e: { target: { value: React.SetStateAction<string> } },
@@ -47,12 +48,14 @@ const WorkspacePage: React.FC = () => {
         );
         setWorkspace(workspace);
         setRole(role);
+        setRefresh(false);
       } catch (error) {
+        setRefresh(false);
         console.error(error);
       }
     };
     fetchWorkspace();
-  }, [debouncedSearch, sortBy, order, workspaceId]);
+  }, [debouncedSearch, sortBy, order, workspaceId, refresh]);
 
   const onDocumentAdded = (newDocument: any) => {
     setWorkspace((prevWorkspace: any) => ({
@@ -80,6 +83,7 @@ const WorkspacePage: React.FC = () => {
             owner={workspace.userEmail}
             canEdit={role === 'editor' || role === 'owner'}
             canDelete={role === 'owner'}
+            setRefresh={setRefresh}
           />
           <DocumentSearchFilter
             search={search}

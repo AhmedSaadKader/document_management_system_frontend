@@ -41,11 +41,6 @@ export const LanguageSelectortourSteps: Step[] = [
 
 export const getRouteForLanguageStep = (index: number) => {
   // Define the mapping of step indices to routes
-  const routeMap: { [key: number]: string } = {
-    0: '/',
-    1: '/',
-    2: '/',
-    3: '/',
-  };
+  const routeMap: { [key: number]: string } = {};
   return routeMap[index] || '/';
 };

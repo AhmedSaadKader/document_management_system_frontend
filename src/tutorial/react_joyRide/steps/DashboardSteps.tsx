@@ -38,20 +38,10 @@ export const DashboardSteps: Step[] = [
     content: <TutorialPageSwitcher pages={dashboarPages} />,
     data: { isCode: true },
   },
-  {
-    target: '#sidebar-create-workspace',
-    content:
-      'When you create a workspace you have the option to make it public, although by default it is private. If it is public it will appear in the public directories',
-    disableBeacon: false,
-    data: { isCode: false },
-  },
 ];
 
 export const getRouteForDashboardStep = (index: number) => {
   // Define the mapping of step indices to routes
-  const routeMap: { [key: number]: string } = {
-    0: '/',
-    1: '/',
-  };
+  const routeMap: { [key: number]: string } = {};
   return routeMap[index] || '/';
 };

@@ -5,7 +5,6 @@ import {
   IconButton,
   useMediaQuery,
   Theme,
-  Button,
 } from '@mui/material';
 import ShareWorkspaceModal from './ShareWorkspaceModal';
 import ApiClient from '../../services/APIClient';
@@ -21,6 +20,7 @@ interface WorkspaceHeaderProps {
   owner: string;
   canEdit: boolean;
   canDelete: boolean;
+  setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
@@ -29,6 +29,7 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
   owner,
   canEdit,
   canDelete,
+  setRefresh,
 }) => {
   const [isFavorited, setIsFavorited] = useState(false);
   const isMobile = useMediaQuery((theme: Theme) =>
@@ -126,7 +127,9 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
 
       <Box sx={{ display: 'flex', gap: 1, flexShrink: 0 }}>
         {canEdit && <WorkspaceDetailsModal workspace={workspace} />}
-        {canEdit && <EditWorkspaceModal workspace={workspace} />}
+        {canEdit && (
+          <EditWorkspaceModal workspace={workspace} setRefresh={setRefresh} />
+        )}
         {canShare && <ShareWorkspaceModal workspaceId={workspace._id} />}
         <IconButton id='favorite-button' onClick={handleFavoriteClick}>
           {isFavorited ? <Favorite color='error' /> : <FavoriteBorder />}
