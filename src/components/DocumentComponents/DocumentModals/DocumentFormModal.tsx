@@ -42,6 +42,7 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
   const [tags, setTags] = useState<string>('');
   const { t } = useTranslation();
   const theme = useTheme();
+  const [isLoading, setIsLoading] = useState(false); // Loading state
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -58,6 +59,7 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
       console.error('No file selected');
       return;
     }
+    setIsLoading(true);
 
     const formData = new FormData();
     formData.append('file', selectedFile);
@@ -88,6 +90,8 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
       setOpen(false);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false); // Reset loading state
     }
   };
 
@@ -170,8 +174,9 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
                 variant='contained'
                 onClick={handleAddDocument}
                 sx={{ mt: 2 }}
+                disabled={isLoading}
               >
-                {t('document.upload')}
+                {isLoading ? t('document.uploading') : t('document.upload')}
               </Button>
             </>
           )}

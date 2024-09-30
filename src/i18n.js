@@ -50,6 +50,7 @@ i18n.use(initReactI18next).init({
           selectWorkspace: 'Select Workspace',
           noDocumentsAvailable: 'No documents available.',
           upload: 'Upload',
+          uploading: 'Uploading',
         },
         workspace: {
           allWorkspaces: 'All Workspaces',
@@ -206,6 +207,7 @@ i18n.use(initReactI18next).init({
           selectWorkspace: 'Sélectionner un espace de travail',
           noDocumentsAvailable: 'Aucun document disponible.',
           upload: 'télécharger',
+          uploading: 'Téléchargement en cours',
         },
         workspace: {
           allWorkspaces: 'Tous les espaces de travail',
@@ -369,6 +371,7 @@ i18n.use(initReactI18next).init({
           selectWorkspace: 'اختر مساحة عمل',
           noDocumentsAvailable: 'لا توجد مستندات متاحة',
           upload: 'اضافة المستند',
+          uploading: 'جارٍ التحميل',
         },
         workspace: {
           allWorkspaces: 'كل مساحات العمل',
