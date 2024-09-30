@@ -3,9 +3,19 @@ import { Tour } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import { useTutorial } from '../driverjs/TutorialContext';
 import JoyRideWithConfiguration from './JoyRideStepsConfiguration';
-import { GeneralSteps, getRouteForStep } from './GeneralSteps';
-import { getRouteForLoginStep, RegisterLoginSteps } from './RegisterLoginSteps';
-import { DashboardSteps, getRouteForDashboardStep } from './DashboardSteps';
+import { GeneralSteps, getRouteForStep } from './steps/GeneralSteps';
+import {
+  getRouteForLoginStep,
+  RegisterLoginSteps,
+} from './steps/RegisterLoginSteps';
+import {
+  DashboardSteps,
+  getRouteForDashboardStep,
+} from './steps/DashboardSteps';
+import {
+  getRouteForWorkspacedStep,
+  WorkspacedSteps,
+} from './steps/WorkspaceSteps';
 
 const TutorialButton = () => {
   const { isTutorialMode, setIsTutorialMode } = useTutorial();
@@ -32,6 +42,15 @@ const TutorialButton = () => {
             steps={RegisterLoginSteps}
             shouldShowJoyride={isTutorialMode}
             getRouteForStep={getRouteForLoginStep}
+          />
+        </>
+      )}
+      {isTutorialMode && (
+        <>
+          <JoyRideWithConfiguration
+            steps={WorkspacedSteps}
+            shouldShowJoyride={isTutorialMode}
+            getRouteForStep={getRouteForWorkspacedStep}
           />
         </>
       )}

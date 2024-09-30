@@ -24,7 +24,7 @@ const TutorialPage: React.FC<TutorialPageProps> = ({
   description,
   backend,
   filePath,
-  lineNumber = 50,
+  lineNumber = 10,
 }) => {
   const [fileContent, setFileContent] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -39,7 +39,7 @@ const TutorialPage: React.FC<TutorialPageProps> = ({
     if (!isLoading && editorRef.current) {
       setTimeout(() => {
         scrollToLine(lineNumber);
-      }, 100); // Small delay to ensure editor is ready
+      }, 200); // Small delay to ensure editor is ready
     }
   }, [isLoading, lineNumber]);
 
@@ -97,10 +97,10 @@ const TutorialPage: React.FC<TutorialPageProps> = ({
         ) : (
           <CodeMirror
             value={fileContent}
-            height='300px'
+            height='400px'
             theme='dark'
             extensions={[javascript({ typescript: true })]}
-            editable={false}
+            editable={true}
             style={{
               fontFamily: '"Fira Code", "Fira Mono", monospace',
               fontSize: '14px',

@@ -8,12 +8,14 @@ import DocumentSearchFilter from '../components/DocumentComponents/DocumentSearc
 import { useTranslation } from 'react-i18next';
 import ApiClient from '../services/APIClient';
 import { Workspace } from '../models/Workspace';
+import useDebounce from '../services/Debounce';
 
 const WorkspacePage: React.FC = () => {
   const [workspace, setWorkspace] = useState<Workspace | null>(null);
   const [role, setRole] = useState<string>('viewer');
   const { workspaceId } = useParams<{ workspaceId: string }>();
   const [search, setSearch] = useState('');
+  const debouncedSearch = useDebounce(search, 300);
   const [sortBy, setSortBy] = useState('');
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
   const { t } = useTranslation();
@@ -38,7 +40,7 @@ const WorkspacePage: React.FC = () => {
         const { workspace, role } = await ApiClient.fetchWorkspace(
           workspaceId as string,
           {
-            search,
+            search: debouncedSearch,
             sortBy,
             order,
           }
@@ -50,7 +52,7 @@ const WorkspacePage: React.FC = () => {
       }
     };
     fetchWorkspace();
-  }, [search, sortBy, order, workspaceId]);
+  }, [debouncedSearch, sortBy, order, workspaceId]);
 
   const onDocumentAdded = (newDocument: any) => {
     setWorkspace((prevWorkspace: any) => ({

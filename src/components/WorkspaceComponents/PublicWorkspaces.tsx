@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Typography, Button, Box, CircularProgress } from '@mui/material';
+import {
+  Grid,
+  Typography,
+  Button,
+  Box,
+  CircularProgress,
+  IconButton,
+} from '@mui/material';
 import ApiClient from '../../services/APIClient';
 import { Workspace } from '../../models/Workspace';
 import { useTranslation } from 'react-i18next';
 import WorkspaceCard from './WorkspaceCard';
+import { SkipNext, SkipPrevious } from '@mui/icons-material';
 
 const PublicWorkspaces: React.FC = () => {
   const { t } = useTranslation();
   const [publicWorkspaces, setPublicWorkspaces] = useState<Workspace[]>([]);
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState<boolean>(true); // Add loading state
 
   useEffect(() => {
@@ -22,7 +30,7 @@ const PublicWorkspaces: React.FC = () => {
       } catch (error) {
         console.error(error);
       } finally {
-        setLoading(false); // Stop loading after fetching data
+        setLoading(false);
       }
     };
     fetchPublicWorkspaces();
@@ -46,17 +54,19 @@ const PublicWorkspaces: React.FC = () => {
         <Typography id='public-workspaces' variant='h6' gutterBottom>
           {t('dashboard.publicWorkspaces')}
         </Typography>
-        <div>
-          <Button onClick={handlePreviousPage} disabled={page === 1}>
-            {t('pagination.previous')}
-          </Button>
-          <span>
-            {t('pagination.page')} {page} {t('pagination.of')} {totalPages}
-          </span>
-          <Button onClick={handleNextPage} disabled={page === totalPages}>
-            {t('pagination.next')}
-          </Button>
-        </div>
+        {loading || (
+          <div id='pagination'>
+            <IconButton onClick={handlePreviousPage} disabled={page === 1}>
+              <SkipPrevious />
+            </IconButton>
+            <span>
+              {t('pagination.page')} {page} {t('pagination.of')} {totalPages}
+            </span>
+            <IconButton onClick={handleNextPage} disabled={page === totalPages}>
+              <SkipNext />
+            </IconButton>
+          </div>
+        )}
       </Box>
 
       {loading ? (

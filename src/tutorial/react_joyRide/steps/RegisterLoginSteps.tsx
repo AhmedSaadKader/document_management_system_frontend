@@ -1,7 +1,7 @@
 import React from 'react';
-import TutorialPageSwitcher from './TutorialPageSwitcher';
+import TutorialPageSwitcher from '../TutorialPageSwitcher';
 import { Step } from 'react-joyride';
-import { TutorialPageProps } from './CodeDisplay';
+import { TutorialPageProps } from '../CodeDisplay';
 
 const signUpPages: TutorialPageProps[] = [
   {

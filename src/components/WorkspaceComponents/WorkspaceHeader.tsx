@@ -74,6 +74,7 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
 
   return (
     <Box
+      id='workspace-header'
       sx={{
         display: 'flex',
         flexDirection: isMobile ? 'column' : 'row',
@@ -104,6 +105,7 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
           {workspace.workspaceName}
         </Typography>
         <Typography
+          id='workspace-description'
           variant='subtitle1'
           sx={{
             overflow: 'hidden',
@@ -117,7 +119,7 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
         >
           {workspace.description || 'No description available.'}
         </Typography>
-        <Typography variant='body2' color='textSecondary'>
+        <Typography id='workspace-owner' variant='body2' color='textSecondary'>
           {owner}
         </Typography>
       </Box>
@@ -126,7 +128,7 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
         {canEdit && <WorkspaceDetailsModal workspace={workspace} />}
         {canEdit && <EditWorkspaceModal workspace={workspace} />}
         {canShare && <ShareWorkspaceModal workspaceId={workspace._id} />}
-        <IconButton onClick={handleFavoriteClick}>
+        <IconButton id='favorite-button' onClick={handleFavoriteClick}>
           {isFavorited ? <Favorite color='error' /> : <FavoriteBorder />}
         </IconButton>
         {!workspace.deleted && canDelete && (
