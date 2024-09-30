@@ -92,9 +92,11 @@ const PublicWorkspaces: React.FC = () => {
               </Grid>
             ))
           ) : (
-            <Typography variant='body1'>
-              {t('dashboard.noPublicWorkspaces')}
-            </Typography>
+            <Grid item xs={12} sm={6} md={4}>
+              <Typography variant='body1'>
+                {t('dashboard.noPublicWorkspaces')}
+              </Typography>
+            </Grid>
           )}
         </Grid>
       )}
