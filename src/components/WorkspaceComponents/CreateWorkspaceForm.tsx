@@ -47,6 +47,8 @@ const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
         isPublic,
       });
       navigate(`/workspace/${data._id}`);
+      setWorkspaceName('');
+      setDescription('');
       handleClose();
     } catch (error) {
       console.error('Error creating workspace:', error);
