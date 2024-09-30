@@ -56,7 +56,6 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
   const handleDeleteClick = async () => {
     try {
       await ApiClient.softDeleteWorkspace(workspace._id);
-      console.log('hi');
       navigate('/');
     } catch (error) {
       console.error('Error deleting workspace:', error);
