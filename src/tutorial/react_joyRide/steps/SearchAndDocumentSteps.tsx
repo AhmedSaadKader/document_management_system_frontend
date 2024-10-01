@@ -25,14 +25,14 @@ const SearchAndDocumentPages: TutorialPageProps[] = [
     description: ['Search states initialized here'],
     backend: false,
     filePath: 'src/pages/Workspace.tsx',
-    lineNumber: 30,
+    lineNumber: 12,
   },
   {
     title: 'Search in backend',
     description: ['Filtering and searching for documents in backend'],
     backend: true,
     filePath: 'src/controllers/document_controller.ts',
-    lineNumber: 150,
+    lineNumber: 90,
   },
   {
     title: 'S3 utils',
