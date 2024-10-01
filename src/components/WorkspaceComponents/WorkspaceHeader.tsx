@@ -35,6 +35,7 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('sm')
   );
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -63,6 +64,7 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
   };
 
   const handleFavoriteClick = async () => {
+    setIsLoading(true);
     try {
       if (isFavorited) {
         await ApiClient.removeFavorite(workspace._id);
@@ -72,6 +74,8 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
       setIsFavorited(!isFavorited);
     } catch (error) {
       console.error('Error updating favorites:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -133,7 +137,11 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
           <EditWorkspaceModal workspace={workspace} setRefresh={setRefresh} />
         )}
         {canShare && <ShareWorkspaceModal workspaceId={workspace._id} />}
-        <IconButton id='favorite-button' onClick={handleFavoriteClick}>
+        <IconButton
+          disabled={isLoading}
+          id='favorite-button'
+          onClick={handleFavoriteClick}
+        >
           {isFavorited ? <Favorite color='error' /> : <FavoriteBorder />}
         </IconButton>
         {!workspace.deleted && canDelete && (
