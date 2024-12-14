@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import {
   Grid,
   Typography,
-  Button,
   Box,
   CircularProgress,
   IconButton,
@@ -54,7 +53,7 @@ const PublicWorkspaces: React.FC = () => {
         <Typography id='public-workspaces' variant='h6' gutterBottom>
           {t('dashboard.publicWorkspaces')}
         </Typography>
-        {loading || publicWorkspaces.length == 0 || (
+        {!loading && publicWorkspaces.length > 0 && (
           <div id='pagination'>
             <IconButton onClick={handlePreviousPage} disabled={page === 1}>
               <SkipPrevious />
@@ -70,7 +69,6 @@ const PublicWorkspaces: React.FC = () => {
       </Box>
 
       {loading ? (
-        // Show loading spinner when fetching data
         <Box
           display='flex'
           justifyContent='center'
@@ -79,8 +77,7 @@ const PublicWorkspaces: React.FC = () => {
         >
           <CircularProgress />
           <Typography variant='body1' sx={{ ml: 2 }}>
-            {t('dashboard.loadingPublicWorkspaces')}{' '}
-            {/* Add translation key for loading */}
+            {t('dashboard.loadingPublicWorkspaces')}
           </Typography>
         </Box>
       ) : (
@@ -92,7 +89,7 @@ const PublicWorkspaces: React.FC = () => {
               </Grid>
             ))
           ) : (
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid item xs={12}>
               <Typography variant='body1'>
                 {t('dashboard.noPublicWorkspaces')}
               </Typography>
