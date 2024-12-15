@@ -136,23 +136,25 @@ const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
                 <MenuItem value='No'>{t('workspace.no')}</MenuItem>
               </Select>
             </FormControl>
-            {workspaces && workspaces.length > 0 && (
-              <FormControl fullWidth margin='normal'>
-                <InputLabel>{t('workspace.parentWorkspace')}</InputLabel>
-                <Select
-                  label={t('workspace.parentWorkspace')}
-                  value={parentWorkspaceId}
-                  onChange={(e) => setParentWorkspaceId(e.target.value)}
-                >
-                  <MenuItem value=''>{t('workspace.none')}</MenuItem>
-                  {workspaces.map((workspace) => (
-                    <MenuItem key={workspace._id} value={workspace._id}>
-                      {workspace.workspaceName}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            )}
+            <FormControl fullWidth margin='normal'>
+              <InputLabel>{t('workspace.parentWorkspace')}</InputLabel>
+              <Select
+                label={t('workspace.parentWorkspace')}
+                value={parentWorkspaceId}
+                onChange={(e) => setParentWorkspaceId(e.target.value)}
+              >
+                <MenuItem value=''>{t('workspace.none')}</MenuItem>
+                {workspaces && workspaces.length > 0 && (
+                  <div>
+                    {workspaces.map((workspace) => (
+                      <MenuItem key={workspace._id} value={workspace._id}>
+                        {workspace.workspaceName}
+                      </MenuItem>
+                    ))}
+                  </div>
+                )}
+              </Select>
+            </FormControl>
 
             {error && (
               <Typography color='error' variant='body2' gutterBottom>
