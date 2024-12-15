@@ -107,9 +107,7 @@ const WorkspacePage: React.FC = () => {
               />
             )}
             {role !== 'viewer' && (
-              <Tooltip title='Add Child Workspace'>
-                <CreateWorkspaceForm parentId={workspace._id} />
-              </Tooltip>
+              <CreateWorkspaceForm parentId={workspace._id} />
             )}
           </Box>
           <Grid container spacing={3} sx={{ mt: 3, mx: 1 }}>

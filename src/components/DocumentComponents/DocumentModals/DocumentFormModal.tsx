@@ -21,11 +21,13 @@ import ApiClient from '../../../services/APIClient';
 import { Add } from '@mui/icons-material';
 import { useAuth } from '../../../context/auth_context';
 import { Workspace } from '../../../models/Workspace';
+import { analytics } from '../../../firebase';
+import { logEvent } from 'firebase/analytics';
 
 interface DocumentFormModalProps {
   workspaceId?: string; // Optional prop to differentiate between dashboard and workspace page
   isSidebar: boolean;
-  onDocumentAdded: (newDocument: any) => void;
+  onDocumentAdded?: (newDocument: any) => void;
 }
 
 const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
@@ -80,24 +82,51 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
       );
 
       if (!response.ok) {
+        if (analytics) {
+          logEvent(analytics, 'document_upload_failed', {
+            document_name: documentName,
+            document_type: selectedFile.type,
+            file_size: selectedFile.size,
+            upload_method: 'manual',
+            debug_mode: process.env.REACT_APP_DEBUG_MODE,
+          });
+        }
         throw new Error('Failed to add document');
       }
 
       const addedDocument = await response.json();
-      onDocumentAdded(addedDocument.document);
+      if (onDocumentAdded) onDocumentAdded(addedDocument.document);
       setDocumentName('');
       setTags('');
       setSelectedFile(null);
       setOpen(false);
+      if (analytics) {
+        logEvent(analytics, 'document_upload', {
+          document_name: documentName,
+          document_type: selectedFile.type,
+          file_size: selectedFile.size,
+          upload_method: 'manual',
+          debug_mode: process.env.REACT_APP_DEBUG_MODE,
+        });
+      }
     } catch (error) {
+      if (analytics) {
+        logEvent(analytics, 'document_upload_failed', {
+          document_name: documentName,
+          document_type: selectedFile.type,
+          file_size: selectedFile.size,
+          upload_method: 'manual',
+          debug_mode: process.env.REACT_APP_DEBUG_MODE,
+        });
+      }
       console.error(error);
     } finally {
-      setIsLoading(false); // Reset loading state
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (!isAuthenticated || workspaceId) return; // Skip fetching workspaces if we're on the workspace page
+    if (!isAuthenticated || workspaceId) return;
 
     const fetchWorkspaces = async () => {
       try {
