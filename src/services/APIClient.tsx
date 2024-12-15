@@ -84,6 +84,7 @@ class ApiClient {
     workspaceName: string;
     description: string;
     isPublic: boolean;
+    parentWorkspaceId: string | null;
   }): Promise<any> {
     return this.request('/workspaces', 'POST', workspaceData);
   }
@@ -162,6 +163,31 @@ class ApiClient {
     limit: number = 10
   ): Promise<any> {
     return this.request(`/workspaces?page=${page}&limit=${limit}`, 'GET');
+  }
+
+  static async addChildWorkspace(
+    parentWorkspaceId: string,
+    childWorkspaceData: any
+  ): Promise<any> {
+    return this.request(
+      `/workspaces/${parentWorkspaceId}/children`,
+      'POST',
+      childWorkspaceData
+    );
+  }
+
+  static async removeChildWorkspace(
+    parentWorkspaceId: string,
+    childWorkspaceId: string
+  ): Promise<any> {
+    return this.request(
+      `/workspaces/${parentWorkspaceId}/children/${childWorkspaceId}`,
+      'DELETE'
+    );
+  }
+
+  static async fetchChildWorkspaces(workspaceId: string): Promise<any> {
+    return this.request(`/workspaces/${workspaceId}/children`, 'GET');
   }
 
   static async deleteDocument(documentId: string): Promise<any> {

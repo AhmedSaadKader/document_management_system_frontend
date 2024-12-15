@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Tooltip, Typography } from '@mui/material';
 import WorkspaceHeader from '../components/WorkspaceComponents/WorkspaceHeader';
 import DocumentForm from '../components/DocumentComponents/DocumentModals/DocumentFormModal';
 import DocumentList from '../components/DocumentComponents/DocumentList';
@@ -8,9 +8,14 @@ import DocumentSearchFilter from '../components/DocumentComponents/DocumentSearc
 import { useTranslation } from 'react-i18next';
 import ApiClient from '../services/APIClient';
 import { Workspace } from '../models/Workspace';
+import CreateWorkspaceForm from '../components/WorkspaceComponents/CreateWorkspaceForm';
 
 const WorkspacePage: React.FC = () => {
   const [workspace, setWorkspace] = useState<Workspace | null>(null);
+  const [childWorkspaces, setChildWorkspaces] = useState<Workspace[]>([]);
+  const [parentWorkspace, setParentWorkspace] = useState<Workspace | null>(
+    null
+  );
   const [role, setRole] = useState<string>('viewer');
   const { workspaceId } = useParams<{ workspaceId: string }>();
   const [search, setSearch] = useState('');
@@ -35,16 +40,16 @@ const WorkspacePage: React.FC = () => {
   useEffect(() => {
     const fetchWorkspace = async () => {
       try {
-        const { workspace, role } = await ApiClient.fetchWorkspace(
-          workspaceId as string,
-          {
+        const { workspace, role, childWorkspaces, parentWorkspace } =
+          await ApiClient.fetchWorkspace(workspaceId as string, {
             search,
             sortBy,
             order,
-          }
-        );
+          });
         setWorkspace(workspace);
         setRole(role);
+        setChildWorkspaces(childWorkspaces || []);
+        setParentWorkspace(parentWorkspace || null);
       } catch (error) {
         console.error(error);
       }
@@ -78,6 +83,8 @@ const WorkspacePage: React.FC = () => {
             owner={workspace.userEmail}
             canEdit={role === 'editor' || role === 'owner'}
             canDelete={role === 'owner'}
+            childWorkspaces={childWorkspaces}
+            parentWorkspace={parentWorkspace}
           />
           <DocumentSearchFilter
             search={search}
@@ -85,14 +92,20 @@ const WorkspacePage: React.FC = () => {
             order={order}
             updateSearchFilters={updateSearchFilters}
           />
-          {role !== 'viewer' && (
-            <DocumentForm
-              workspaceId={workspaceId!}
-              isSidebar={false}
-              onDocumentAdded={onDocumentAdded}
-            />
-          )}
-
+          <Box display='flex' alignItems='center' gap={2}>
+            {role !== 'viewer' && (
+              <DocumentForm
+                workspaceId={workspaceId!}
+                isSidebar={false}
+                onDocumentAdded={onDocumentAdded}
+              />
+            )}
+            {role !== 'viewer' && (
+              <Tooltip title='Add Child Workspace'>
+                <CreateWorkspaceForm parentId={workspace._id} />
+              </Tooltip>
+            )}
+          </Box>
           <Grid container spacing={3} sx={{ mt: 3, mx: 1 }}>
             <DocumentList
               documents={workspace.documents}

@@ -82,6 +82,8 @@ i18n.use(initReactI18next).init({
           save: 'Save',
           yes: 'Yes',
           loadingWorkspaces: 'Loading Workspaces...',
+          parentWorkspace: 'Parent Workspace',
+          none: 'None'
         },
         landingPage: {
           welcome: 'Welcome to Your Document Management System',
@@ -119,7 +121,7 @@ i18n.use(initReactI18next).init({
           emailRequired: 'Email is required',
           returnToSignup: 'Return to Signup',
           nationalIDRequired: 'National ID required',
-          invalidNationalID: 'Invalid National ID',
+          invalidNationalID: 'Invalid National ID. National ID has to be 14 digits',
           firstNameRequired: 'First name is required',
           lastNameRequired: 'Last name is required',
           invalidEmail: 'Invalid Email',
@@ -239,6 +241,8 @@ i18n.use(initReactI18next).init({
           save: 'Enregistrer',
           yes: 'Oui',
           loadingWorkspaces: 'Chargement des espaces de travail...',
+          parentWorkspace: 'Espace de travail parent',
+          none: 'Aucun'
         },
         landingPage: {
           welcome: 'Bienvenue dans votre système de gestion de documents',
@@ -402,6 +406,8 @@ i18n.use(initReactI18next).init({
           save: 'حفظ',
           yes: 'نعم',
           loadingWorkspaces: 'جارٍ تحميل مساحات العمل...',
+          parentWorkspace: 'مساحة العمل الأم',
+          none: 'عدم وجود'
         },
         landingPage: {
           welcome: 'أهلاً بك في نظام إدارة المستندات الخاص بك',

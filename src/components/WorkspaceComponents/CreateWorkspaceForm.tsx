@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   TextField,
   Button,
@@ -18,25 +18,47 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import ApiClient from '../../services/APIClient';
 import { Add } from '@mui/icons-material';
+import { Workspace } from '../../models/Workspace';
 
 interface CreateWorkspaceFormProps {
-  isSidebar: boolean;
+  isSidebar?: boolean;
+  parentId?: string;
 }
 
 const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
   isSidebar = false,
+  parentId = '',
 }) => {
   const [workspaceName, setWorkspaceName] = useState('');
   const [description, setDescription] = useState('');
+  const [isPublic, setIsPublic] = useState(false);
+  const [parentWorkspaceId, setParentWorkspaceId] = useState(parentId);
+  const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [error, setError] = useState('');
   const [open, setOpen] = useState(false);
-  const [isPublic, setIsPublic] = useState(false);
+
   const navigate = useNavigate();
   const { t } = useTranslation();
   const theme = useTheme();
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    if (open) {
+      const fetchWorkspaces = async () => {
+        try {
+          const response = await ApiClient.fetchAllWorkspaces();
+          setWorkspaces(response.workspaces);
+          console.log(response);
+          console.log(workspaces);
+        } catch (err) {
+          console.error('Error fetching workspaces:', err);
+        }
+      };
+      fetchWorkspaces();
+    }
+  }, [open]);
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -45,8 +67,13 @@ const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
         workspaceName,
         description,
         isPublic,
+        parentWorkspaceId: parentWorkspaceId || null,
       });
       navigate(`/workspace/${data._id}`);
+      setDescription('');
+      setWorkspaceName('');
+      setIsPublic(true);
+      setParentWorkspaceId('');
       handleClose();
     } catch (error) {
       console.error('Error creating workspace:', error);
@@ -111,6 +138,24 @@ const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
                 <MenuItem value='No'>{t('workspace.no')}</MenuItem>
               </Select>
             </FormControl>
+            {workspaces && workspaces.length > 0 && (
+              <FormControl fullWidth margin='normal'>
+                <InputLabel>{t('workspace.parentWorkspace')}</InputLabel>
+                <Select
+                  label={t('workspace.parentWorkspace')}
+                  value={parentWorkspaceId}
+                  onChange={(e) => setParentWorkspaceId(e.target.value)}
+                >
+                  <MenuItem value=''>{t('workspace.none')}</MenuItem>
+                  {workspaces.map((workspace) => (
+                    <MenuItem key={workspace._id} value={workspace._id}>
+                      {workspace.workspaceName}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            )}
+
             {error && (
               <Typography color='error' variant='body2' gutterBottom>
                 {error}

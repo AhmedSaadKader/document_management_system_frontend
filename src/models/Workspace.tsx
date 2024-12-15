@@ -7,6 +7,8 @@ export interface Workspace {
   userId: string;
   userEmail: string;
   isPublic: boolean;
+  childWorkspaces: Workspace[];
+  parentWorkspace: Workspace;
   documents: Document[];
   permissions: Array<{
     userEmail: string;
@@ -20,4 +22,6 @@ export interface Workspace {
 export type WorkspaceWithRole = {
   workspace: Workspace;
   role: string;
+  childWorkspaces?: Workspace[];
+  parentWorkspace?: Workspace | null;
 };

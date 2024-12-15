@@ -5,15 +5,22 @@ import {
   IconButton,
   useMediaQuery,
   Theme,
-  Button,
+  Tooltip,
+  Chip,
 } from '@mui/material';
 import ShareWorkspaceModal from './ShareWorkspaceModal';
 import ApiClient from '../../services/APIClient';
-import { Delete, Favorite, FavoriteBorder } from '@mui/icons-material';
+import {
+  Delete,
+  Favorite,
+  FavoriteBorder,
+  AccountTree,
+} from '@mui/icons-material';
 import EditWorkspaceModal from './EditWorkspaceModal';
 import { Workspace } from '../../models/Workspace';
 import WorkspaceDetailsModal from './WorkspaceDetailsModal';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import CreateWorkspaceForm from './CreateWorkspaceForm';
 
 interface WorkspaceHeaderProps {
   workspace: Workspace;
@@ -21,6 +28,8 @@ interface WorkspaceHeaderProps {
   owner: string;
   canEdit: boolean;
   canDelete: boolean;
+  childWorkspaces?: Workspace[];
+  parentWorkspace?: Workspace | null;
 }
 
 const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
@@ -29,6 +38,8 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
   owner,
   canEdit,
   canDelete,
+  childWorkspaces = [],
+  parentWorkspace = null,
 }) => {
   const [isFavorited, setIsFavorited] = useState(false);
   const isMobile = useMediaQuery((theme: Theme) =>
@@ -92,6 +103,21 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
           maxWidth: isMobile ? '100%' : 'calc(100% - 200px)',
         }}
       >
+        {parentWorkspace && (
+          <Link
+            to={`/workspace/${parentWorkspace._id}`}
+            key={workspace._id}
+            style={{ textDecoration: 'none', color: 'inherit' }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <AccountTree fontSize='small' />
+              <Typography variant='body2' color='textSecondary'>
+                {parentWorkspace.workspaceName}
+              </Typography>
+            </Box>
+          </Link>
+        )}
+
         <Typography
           variant={isMobile ? 'h5' : 'h4'}
           sx={{
@@ -120,6 +146,25 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
         <Typography variant='body2' color='textSecondary'>
           {owner}
         </Typography>
+
+        {childWorkspaces.length > 0 && (
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mt: 1 }}>
+            {childWorkspaces.map((childWorkspace) => (
+              <Link
+                to={`/workspace/${childWorkspace._id}`}
+                key={workspace._id}
+                style={{ textDecoration: 'none', color: 'inherit' }}
+              >
+                <Chip
+                  key={childWorkspace._id}
+                  label={childWorkspace.workspaceName}
+                  size='small'
+                  variant='outlined'
+                />
+              </Link>
+            ))}
+          </Box>
+        )}
       </Box>
 
       <Box sx={{ display: 'flex', gap: 1, flexShrink: 0 }}>
@@ -130,11 +175,7 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
           {isFavorited ? <Favorite color='error' /> : <FavoriteBorder />}
         </IconButton>
         {!workspace.deleted && canDelete && (
-          <IconButton
-            // variant='outlined'
-            // color='error'
-            onClick={handleDeleteClick}
-          >
+          <IconButton onClick={handleDeleteClick}>
             <Delete />
           </IconButton>
         )}

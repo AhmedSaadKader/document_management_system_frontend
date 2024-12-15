@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next';
 import ApiClient from '../../../services/APIClient';
 import { Add } from '@mui/icons-material';
 import { useAuth } from '../../../context/auth_context';
+import { Workspace } from '../../../models/Workspace';
 
 interface DocumentFormModalProps {
   workspaceId?: string; // Optional prop to differentiate between dashboard and workspace page
@@ -36,7 +37,7 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
   const [open, setOpen] = useState(false);
   const [selectedWorkspaceId, setSelectedWorkspaceId] =
     useState<string>(workspaceId);
-  const [workspaces, setWorkspaces] = useState<any[]>([]);
+  const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [documentName, setDocumentName] = useState('');
   const [tags, setTags] = useState<string>('');

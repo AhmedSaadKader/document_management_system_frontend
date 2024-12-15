@@ -10,19 +10,20 @@ const PublicWorkspaces: React.FC = () => {
   const [publicWorkspaces, setPublicWorkspaces] = useState<Workspace[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [loading, setLoading] = useState<boolean>(true); // Add loading state
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchPublicWorkspaces = async () => {
-      setLoading(true); // Start loading before fetching data
+      setLoading(true);
       try {
         const response = await ApiClient.getPublicWorkspaces(page);
         setPublicWorkspaces(response.workspaces);
         setTotalPages(response.totalPages);
+        console.log(response);
       } catch (error) {
         console.error(error);
       } finally {
-        setLoading(false); // Stop loading after fetching data
+        setLoading(false);
       }
     };
     fetchPublicWorkspaces();
