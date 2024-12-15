@@ -7,6 +7,8 @@ import {
   Theme,
   Tooltip,
   Chip,
+  Tooltip,
+  Chip,
 } from '@mui/material';
 import ShareWorkspaceModal from './ShareWorkspaceModal';
 import ApiClient from '../../services/APIClient';
@@ -28,6 +30,7 @@ interface WorkspaceHeaderProps {
   owner: string;
   canEdit: boolean;
   canDelete: boolean;
+  setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
   childWorkspaces?: Workspace[];
   parentWorkspace?: Workspace | null;
 }
@@ -41,6 +44,8 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
   childWorkspaces = [],
   parentWorkspace = null,
   setRefresh,
+  childWorkspaces = [],
+  parentWorkspace = null,
 }) => {
   const [isFavorited, setIsFavorited] = useState(false);
   const isMobile = useMediaQuery((theme: Theme) =>
