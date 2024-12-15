@@ -144,15 +144,11 @@ const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
                 onChange={(e) => setParentWorkspaceId(e.target.value)}
               >
                 <MenuItem value=''>{t('workspace.none')}</MenuItem>
-                {workspaces && workspaces.length > 0 && (
-                  <div>
-                    {workspaces.map((workspace) => (
-                      <MenuItem key={workspace._id} value={workspace._id}>
-                        {workspace.workspaceName}
-                      </MenuItem>
-                    ))}
-                  </div>
-                )}
+                {workspaces.map((workspace) => (
+                  <MenuItem key={workspace._id} value={workspace._id}>
+                    {workspace.workspaceName}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
 
