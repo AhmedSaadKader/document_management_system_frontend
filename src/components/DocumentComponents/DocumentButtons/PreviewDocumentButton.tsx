@@ -38,7 +38,6 @@ const PreviewDocumentButton = ({ document }: PreviewDocumentButtonProps) => {
       // const contentDisposition = response.headers.get('Content-Disposition');
       // const fileType = response.headers.get('Content-Type') || '';
       const fileType = document.fileType;
-      console.log(fileType);
 
       // Handle streaming (audio/video)
       if (fileType.startsWith('audio/') || fileType.startsWith('video/')) {
