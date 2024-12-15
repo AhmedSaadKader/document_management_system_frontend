@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -25,6 +25,25 @@ import SharedWorkspaces from './pages/SharedWorkspaces';
 import FavoritesList from './pages/FavoritesList';
 import ResetPassword from './pages/ResetPassword';
 import WebAppTour from './tutorial/react_joyRide/WebAppTour';
+import { logPageView } from './firebase';
+
+const AnalyticsTracker = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    try {
+      // Explicit console logs
+      console.log('Current Path:', location.pathname);
+
+      // Log page view
+      logPageView(location.pathname);
+    } catch (error) {
+      console.error('Analytics tracking error:', error);
+    }
+  }, [location]);
+
+  return null;
+};
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -228,6 +247,7 @@ function App() {
     <AuthProvider>
       <ThemeProvider>
         <Router>
+          <AnalyticsTracker />
           {/* {isMdUp && <TutorialFab />} */}
           <AppAppBar />
           <Box sx={{ display: 'flex' }}>
