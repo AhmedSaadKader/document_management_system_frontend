@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Typography, Button, Box, CircularProgress } from '@mui/material';
+import {
+  Grid,
+  Typography,
+  Box,
+  CircularProgress,
+  IconButton,
+} from '@mui/material';
 import ApiClient from '../../services/APIClient';
 import { Workspace } from '../../models/Workspace';
 import { useTranslation } from 'react-i18next';
 import WorkspaceCard from './WorkspaceCard';
+import { SkipNext, SkipPrevious } from '@mui/icons-material';
 
 const PublicWorkspaces: React.FC = () => {
   const { t } = useTranslation();
@@ -47,21 +54,22 @@ const PublicWorkspaces: React.FC = () => {
         <Typography id='public-workspaces' variant='h6' gutterBottom>
           {t('dashboard.publicWorkspaces')}
         </Typography>
-        <div>
-          <Button onClick={handlePreviousPage} disabled={page === 1}>
-            {t('pagination.previous')}
-          </Button>
-          <span>
-            {t('pagination.page')} {page} {t('pagination.of')} {totalPages}
-          </span>
-          <Button onClick={handleNextPage} disabled={page === totalPages}>
-            {t('pagination.next')}
-          </Button>
-        </div>
+        {!loading && publicWorkspaces.length > 0 && (
+          <div id='pagination'>
+            <IconButton onClick={handlePreviousPage} disabled={page === 1}>
+              <SkipPrevious />
+            </IconButton>
+            <span>
+              {t('pagination.page')} {page} {t('pagination.of')} {totalPages}
+            </span>
+            <IconButton onClick={handleNextPage} disabled={page === totalPages}>
+              <SkipNext />
+            </IconButton>
+          </div>
+        )}
       </Box>
 
       {loading ? (
-        // Show loading spinner when fetching data
         <Box
           display='flex'
           justifyContent='center'
@@ -70,8 +78,7 @@ const PublicWorkspaces: React.FC = () => {
         >
           <CircularProgress />
           <Typography variant='body1' sx={{ ml: 2 }}>
-            {t('dashboard.loadingPublicWorkspaces')}{' '}
-            {/* Add translation key for loading */}
+            {t('dashboard.loadingPublicWorkspaces')}
           </Typography>
         </Box>
       ) : (
@@ -83,9 +90,11 @@ const PublicWorkspaces: React.FC = () => {
               </Grid>
             ))
           ) : (
-            <Typography variant='body1'>
-              {t('dashboard.noPublicWorkspaces')}
-            </Typography>
+            <Grid item xs={12}>
+              <Typography variant='body1'>
+                {t('dashboard.noPublicWorkspaces')}
+              </Typography>
+            </Grid>
           )}
         </Grid>
       )}

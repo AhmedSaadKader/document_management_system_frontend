@@ -3,8 +3,11 @@ import { Tour } from '@mui/icons-material';
 import { Fab } from '@mui/material';
 import { useTutorial } from '../driverjs/TutorialContext';
 import JoyRideWithConfiguration from './JoyRideStepsConfiguration';
-import { GeneralSteps, getRouteForStep } from './GeneralSteps';
-import { getRouteForLoginStep, RegisterLoginSteps } from './RegisterLoginSteps';
+import { GeneralSteps, getRouteForStep } from './steps/GeneralSteps';
+import {
+  getRouteForLoginStep,
+  RegisterLoginSteps,
+} from './steps/RegisterLoginSteps';
 
 const TutorialFab = () => {
   const { isTutorialMode, setIsTutorialMode } = useTutorial();

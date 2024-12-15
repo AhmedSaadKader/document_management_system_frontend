@@ -13,7 +13,7 @@ import { useTutorial } from '../tutorial/driverjs/TutorialContext';
 import {
   getRouteForLoginStep,
   RegisterLoginSteps,
-} from '../tutorial/react_joyRide/RegisterLoginSteps';
+} from '../tutorial/react_joyRide/steps/RegisterLoginSteps';
 import JoyRideWithConfiguration from '../tutorial/react_joyRide/JoyRideStepsConfiguration';
 
 function LandingPage() {

@@ -50,6 +50,7 @@ i18n.use(initReactI18next).init({
           selectWorkspace: 'Select Workspace',
           noDocumentsAvailable: 'No documents available.',
           upload: 'Upload',
+          uploading: 'Uploading',
         },
         workspace: {
           allWorkspaces: 'All Workspaces',
@@ -57,6 +58,7 @@ i18n.use(initReactI18next).init({
           createNewWorkspace: 'Create New Workspace',
           workspaceName: 'Workspace Name',
           description: 'Description',
+          noDescription: 'No description',
           createWorkspace: 'Create Workspace',
           loadingWorkspace: 'Loading workspace...',
           viewDetails: 'View Details',
@@ -127,6 +129,8 @@ i18n.use(initReactI18next).init({
           invalidEmail: 'Invalid Email',
           passwordRequired: 'Password required',
           passwordTooShort: 'Password too short',
+          otp: 'OTP',
+          newPassword: 'New Password',
         },
         dashboard: {
           greeting: 'Hello, ',
@@ -208,6 +212,7 @@ i18n.use(initReactI18next).init({
           selectWorkspace: 'Sélectionner un espace de travail',
           noDocumentsAvailable: 'Aucun document disponible.',
           upload: 'télécharger',
+          uploading: 'Téléchargement en cours',
         },
         workspace: {
           allWorkspaces: 'Tous les espaces de travail',
@@ -216,6 +221,7 @@ i18n.use(initReactI18next).init({
           createNewWorkspace: 'Créer un nouvel espace de travail',
           workspaceName: "Nom de l'espace de travail",
           description: 'Description',
+          noDescription: 'Aucune description',
           createWorkspace: 'Créer un espace de travail',
           loadingWorkspace: "Chargement de l'espace de travail...",
           viewDetails: 'Voir les détails',
@@ -290,6 +296,8 @@ i18n.use(initReactI18next).init({
           invalidEmail: 'Adresse e-mail invalide',
           passwordRequired: 'Mot de passe requis',
           passwordTooShort: 'Mot de passe trop court',
+          otp: 'OTP',
+          newPassword: 'Nouveau mot de passe',
         },
         dashboard: {
           greeting: 'Bonjour, ',
@@ -373,6 +381,7 @@ i18n.use(initReactI18next).init({
           selectWorkspace: 'اختر مساحة عمل',
           noDocumentsAvailable: 'لا توجد مستندات متاحة',
           upload: 'اضافة المستند',
+          uploading: 'جارٍ التحميل',
         },
         workspace: {
           allWorkspaces: 'كل مساحات العمل',
@@ -381,6 +390,7 @@ i18n.use(initReactI18next).init({
           createNewWorkspace: 'إنشاء مساحة عمل جديدة',
           workspaceName: 'اسم مساحة العمل',
           description: 'الوصف',
+          noDescription: 'لا يوجد وصف',
           createWorkspace: 'إنشاء مساحة عمل',
           loadingWorkspace: 'جارٍ تحميل مساحة العمل...',
           viewDetails: 'عرض التفاصيل',
@@ -452,6 +462,8 @@ i18n.use(initReactI18next).init({
           invalidEmail: 'بريد إلكتروني غير صالح',
           passwordRequired: 'كلمة المرور مطلوبة',
           passwordTooShort: 'كلمة المرور قصيرة جدًا',
+          otp: 'كلمة المرور ذات الاستعمال الواحد',
+          newPassword: 'كلمة السر الجديد',
         },
         dashboard: {
           greeting: 'مرحبا ',

@@ -43,6 +43,7 @@ const JoyRideWithConfiguration: React.FC<JoyRideWithConfigurationProps> = ({
         const nextIndex = action === 'prev' ? prevIndex - 1 : prevIndex + 1;
         const nextRoute = getRouteForStep(nextIndex);
         if (
+          nextRoute &&
           location.pathname !== nextRoute &&
           location.pathname !== '/dashboard'
         ) {
@@ -76,12 +77,12 @@ const JoyRideWithConfiguration: React.FC<JoyRideWithConfigurationProps> = ({
       steps={steps}
       run={run}
       continuous={true}
-      // scrollToFirstStep={true}
+      scrollToFirstStep={false}
       stepIndex={stepIndex}
       showProgress={true}
       showSkipButton={true}
       callback={handleJoyrideCallback}
-      // scrollOffset={100}
+      scrollOffset={100}
       styles={{
         options: {
           zIndex: 10000,

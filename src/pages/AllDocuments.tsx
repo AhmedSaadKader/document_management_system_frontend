@@ -4,11 +4,13 @@ import DocumentList from '../components/DocumentComponents/DocumentList';
 import DocumentSearchFilter from '../components/DocumentComponents/DocumentSearchFilter';
 import { useTranslation } from 'react-i18next';
 import ApiClient from '../services/APIClient';
+import useDebounce from '../services/Debounce';
 
 const AllDocumentsPage = () => {
   const [documents, setDocuments] = useState<any[]>([]);
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState('');
+  const debouncedSearch = useDebounce(search, 300);
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
   const { t } = useTranslation();
 
@@ -30,7 +32,7 @@ const AllDocumentsPage = () => {
     const fetchDocuments = async () => {
       try {
         const data = await ApiClient.fetchDocuments({
-          search,
+          search: debouncedSearch,
           sortBy,
           order,
         });
@@ -40,7 +42,7 @@ const AllDocumentsPage = () => {
       }
     };
     fetchDocuments();
-  }, [search, sortBy, order]);
+  }, [debouncedSearch, sortBy, order]);
 
   const handleDocumentDeleted = (documentId: string) => {
     setDocuments((prevDocuments) =>

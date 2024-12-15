@@ -40,11 +40,15 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
   canDelete,
   childWorkspaces = [],
   parentWorkspace = null,
+  setRefresh,
 }) => {
   const [isFavorited, setIsFavorited] = useState(false);
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('sm')
   );
+  const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkIfFavorite = async () => {
@@ -64,13 +68,14 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
   const handleDeleteClick = async () => {
     try {
       await ApiClient.softDeleteWorkspace(workspace._id);
-      <Navigate to='/signin' />;
+      navigate('/');
     } catch (error) {
       console.error('Error deleting workspace:', error);
     }
   };
 
   const handleFavoriteClick = async () => {
+    setIsLoading(true);
     try {
       if (isFavorited) {
         await ApiClient.removeFavorite(workspace._id);
@@ -80,11 +85,14 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
       setIsFavorited(!isFavorited);
     } catch (error) {
       console.error('Error updating favorites:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <Box
+      id='workspace-header'
       sx={{
         display: 'flex',
         flexDirection: isMobile ? 'column' : 'row',
@@ -130,6 +138,7 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
           {workspace.workspaceName}
         </Typography>
         <Typography
+          id='workspace-description'
           variant='subtitle1'
           sx={{
             overflow: 'hidden',
@@ -143,7 +152,7 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
         >
           {workspace.description || 'No description available.'}
         </Typography>
-        <Typography variant='body2' color='textSecondary'>
+        <Typography id='workspace-owner' variant='body2' color='textSecondary'>
           {owner}
         </Typography>
 
@@ -169,9 +178,15 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
 
       <Box sx={{ display: 'flex', gap: 1, flexShrink: 0 }}>
         {canEdit && <WorkspaceDetailsModal workspace={workspace} />}
-        {canEdit && <EditWorkspaceModal workspace={workspace} />}
+        {canEdit && (
+          <EditWorkspaceModal workspace={workspace} setRefresh={setRefresh} />
+        )}
         {canShare && <ShareWorkspaceModal workspaceId={workspace._id} />}
-        <IconButton onClick={handleFavoriteClick}>
+        <IconButton
+          disabled={isLoading}
+          id='favorite-button'
+          onClick={handleFavoriteClick}
+        >
           {isFavorited ? <Favorite color='error' /> : <FavoriteBorder />}
         </IconButton>
         {!workspace.deleted && canDelete && (

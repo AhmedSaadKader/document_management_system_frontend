@@ -27,7 +27,7 @@ const DocumentSearchFilter = ({
 }: DocumentSearchFilterProps) => {
   const { t } = useTranslation();
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ p: 3 }} id='search-div'>
       <TextField
         label={t('document.searchDocuments')}
         variant='outlined'

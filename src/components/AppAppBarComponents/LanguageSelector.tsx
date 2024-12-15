@@ -6,7 +6,7 @@ import JoyRideWithConfiguration from '../../tutorial/react_joyRide/JoyRideStepsC
 import {
   getRouteForLanguageStep,
   LanguageSelectortourSteps,
-} from '../../tutorial/react_joyRide/LanguageSelectorTour';
+} from '../../tutorial/react_joyRide/steps/LanguageSelectorTour';
 
 const LanguageSelector: React.FC = () => {
   const [language, setLanguage] = useState(i18n.language || 'en');

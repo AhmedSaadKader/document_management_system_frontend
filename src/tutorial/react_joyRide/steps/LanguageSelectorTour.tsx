@@ -1,13 +1,15 @@
 import React from 'react';
-import TutorialPageSwitcher from './TutorialPageSwitcher';
+import TutorialPageSwitcher from '../TutorialPageSwitcher';
 import { Step } from 'react-joyride';
+import { TutorialPageProps } from '../CodeDisplay';
 
-const tutorialPages = [
+const tutorialPages: TutorialPageProps[] = [
   { title: 'i18n.js file', backend: false, filePath: 'src/i18n.js' },
   {
     title: 'Usage in index.js',
     backend: false,
     filePath: 'src/index.tsx',
+    lineNumber: 20,
   },
 ];
 
@@ -39,11 +41,6 @@ export const LanguageSelectortourSteps: Step[] = [
 
 export const getRouteForLanguageStep = (index: number) => {
   // Define the mapping of step indices to routes
-  const routeMap: { [key: number]: string } = {
-    0: '/',
-    1: '/',
-    2: '/',
-    3: '/',
-  };
+  const routeMap: { [key: number]: string } = {};
   return routeMap[index] || '/';
 };

@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import ApiClient from '../services/APIClient';
 import { Workspace } from '../models/Workspace';
 import CreateWorkspaceForm from '../components/WorkspaceComponents/CreateWorkspaceForm';
+import useDebounce from '../services/Debounce';
 
 const WorkspacePage: React.FC = () => {
   const [workspace, setWorkspace] = useState<Workspace | null>(null);
@@ -19,9 +20,11 @@ const WorkspacePage: React.FC = () => {
   const [role, setRole] = useState<string>('viewer');
   const { workspaceId } = useParams<{ workspaceId: string }>();
   const [search, setSearch] = useState('');
+  const debouncedSearch = useDebounce(search, 300);
   const [sortBy, setSortBy] = useState('');
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
   const { t } = useTranslation();
+  const [refresh, setRefresh] = useState(false);
 
   const updateSearchFilters = (
     e: { target: { value: React.SetStateAction<string> } },
@@ -42,7 +45,7 @@ const WorkspacePage: React.FC = () => {
       try {
         const { workspace, role, childWorkspaces, parentWorkspace } =
           await ApiClient.fetchWorkspace(workspaceId as string, {
-            search,
+            search: debouncedSearch,
             sortBy,
             order,
           });
@@ -50,12 +53,14 @@ const WorkspacePage: React.FC = () => {
         setRole(role);
         setChildWorkspaces(childWorkspaces || []);
         setParentWorkspace(parentWorkspace || null);
+        setRefresh(false);
       } catch (error) {
+        setRefresh(false);
         console.error(error);
       }
     };
     fetchWorkspace();
-  }, [search, sortBy, order, workspaceId]);
+  }, [debouncedSearch, sortBy, order, workspaceId, refresh]);
 
   const onDocumentAdded = (newDocument: any) => {
     setWorkspace((prevWorkspace: any) => ({
@@ -85,6 +90,7 @@ const WorkspacePage: React.FC = () => {
             canDelete={role === 'owner'}
             childWorkspaces={childWorkspaces}
             parentWorkspace={parentWorkspace}
+            setRefresh={setRefresh}
           />
           <DocumentSearchFilter
             search={search}

@@ -1,9 +1,9 @@
 import React from 'react';
-import TutorialPageSwitcher from './TutorialPageSwitcher';
+import TutorialPageSwitcher from '../TutorialPageSwitcher';
 import { Step } from 'react-joyride';
-import MermaidContainer from '../MermaidContainer';
-import ERDiagram from '../ERDiagram';
-import WebAppTour from './WebAppTour';
+import MermaidContainer from '../../MermaidContainer';
+import ERDiagram from '../../ERDiagram';
+import WebAppTour from '../WebAppTour';
 
 const signUpPages = [
   {
