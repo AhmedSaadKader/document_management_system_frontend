@@ -5,9 +5,6 @@ import {
   IconButton,
   useMediaQuery,
   Theme,
-  Tooltip,
-  Chip,
-  Tooltip,
   Chip,
 } from '@mui/material';
 import ShareWorkspaceModal from './ShareWorkspaceModal';
@@ -21,8 +18,7 @@ import {
 import EditWorkspaceModal from './EditWorkspaceModal';
 import { Workspace } from '../../models/Workspace';
 import WorkspaceDetailsModal from './WorkspaceDetailsModal';
-import { Link, Navigate } from 'react-router-dom';
-import CreateWorkspaceForm from './CreateWorkspaceForm';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface WorkspaceHeaderProps {
   workspace: Workspace;
@@ -41,8 +37,6 @@ const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
   owner,
   canEdit,
   canDelete,
-  childWorkspaces = [],
-  parentWorkspace = null,
   setRefresh,
   childWorkspaces = [],
   parentWorkspace = null,

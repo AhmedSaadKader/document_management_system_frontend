@@ -8,7 +8,6 @@ import DocumentSearchFilter from '../components/DocumentComponents/DocumentSearc
 import { useTranslation } from 'react-i18next';
 import ApiClient from '../services/APIClient';
 import { Workspace } from '../models/Workspace';
-import CreateWorkspaceForm from '../components/WorkspaceComponents/CreateWorkspaceForm';
 import useDebounce from '../services/Debounce';
 import CreateWorkspaceForm from '../components/WorkspaceComponents/CreateWorkspaceForm';
 
@@ -92,8 +91,6 @@ const WorkspacePage: React.FC = () => {
             childWorkspaces={childWorkspaces}
             parentWorkspace={parentWorkspace}
             setRefresh={setRefresh}
-            childWorkspaces={childWorkspaces}
-            parentWorkspace={parentWorkspace}
           />
           <DocumentSearchFilter
             search={search}
