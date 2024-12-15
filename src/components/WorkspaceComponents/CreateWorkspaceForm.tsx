@@ -50,8 +50,6 @@ const CreateWorkspaceForm: React.FC<CreateWorkspaceFormProps> = ({
         try {
           const response = await ApiClient.fetchAllWorkspaces();
           setWorkspaces(response.workspaces);
-          console.log(response);
-          console.log(workspaces);
         } catch (err) {
           console.error('Error fetching workspaces:', err);
         }
