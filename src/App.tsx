@@ -32,10 +32,6 @@ const AnalyticsTracker = () => {
 
   useEffect(() => {
     try {
-      // Explicit console logs
-      console.log('Current Path:', location.pathname);
-
-      // Log page view
       logPageView(location.pathname);
     } catch (error) {
       console.error('Analytics tracking error:', error);

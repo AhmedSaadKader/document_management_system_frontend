@@ -6,6 +6,8 @@ import React, {
   useEffect,
 } from 'react';
 import ApiClient from '../services/APIClient';
+import { logEvent } from 'firebase/analytics';
+import { analytics } from '../firebase';
 
 interface AuthContextProps {
   isAuthenticated: boolean;
@@ -93,7 +95,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const user = await ApiClient.fetchUser(email);
       setUser(user);
       setIsAuthenticated(true);
+      if (analytics) {
+        logEvent(analytics, 'login', {
+          method: 'email',
+          debug_mode: process.env.REACT_APP_DEBUG_MODE,
+        });
+      }
     } catch (error) {
+      if (analytics) {
+        logEvent(analytics, 'login_error', {
+          error_type: 'invalid_credentials',
+          debug_mode: process.env.REACT_APP_DEBUG_MODE,
+        });
+      }
       throw new Error((error as Error).message);
     }
   };
@@ -106,6 +120,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.removeItem('last_name');
     setUser(null);
     setIsAuthenticated(false);
+    if (analytics)
+      logEvent(analytics, 'logout', {
+        debug_mode: process.env.REACT_APP_DEBUG_MODE,
+      });
   };
 
   const signUp = async (userData: {

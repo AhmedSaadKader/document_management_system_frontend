@@ -13,13 +13,13 @@ import {
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: 'AIzaSyB82DYnOdOROdb8IwrPclid2xxT2b7IxI0',
-  authDomain: 'document-management-syst-76f5a.firebaseapp.com',
-  projectId: 'document-management-syst-76f5a',
-  storageBucket: 'document-management-syst-76f5a.firebasestorage.app',
-  messagingSenderId: '500078045870',
-  appId: '1:500078045870:web:009b3e7e3081ab62911b3f',
-  measurementId: 'G-3LFDER5M80',
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
@@ -48,16 +48,11 @@ isSupported()
 
 const logPageView = (pageName: string) => {
   if (analytics) {
-    logEvent(analytics, 'test_debug_event', {
+    logEvent(analytics, 'page_view', {
       page: pageName,
       timestamp: new Date().toISOString(),
       extra_info: 'Debugging Analytics',
-    });
-
-    // Log directly with gtag for additional verification
-    window.gtag('event', 'page_view', {
-      page_path: pageName,
-      debug_mode: true,
+      debug_mode: process.env.REACT_APP_DEBUG_MODE,
     });
   }
 };
