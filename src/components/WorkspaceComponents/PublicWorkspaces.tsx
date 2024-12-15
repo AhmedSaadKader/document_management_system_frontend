@@ -26,7 +26,6 @@ const PublicWorkspaces: React.FC = () => {
         const response = await ApiClient.getPublicWorkspaces(page);
         setPublicWorkspaces(response.workspaces);
         setTotalPages(response.totalPages);
-        console.log(response);
       } catch (error) {
         console.error(error);
       } finally {
