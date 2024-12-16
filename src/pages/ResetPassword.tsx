@@ -13,7 +13,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material/styles';
 import { useAuth } from '../context/auth_context';
-import OTPInput from '../components/OTPInput';
 
 export default function ResetPassword() {
   const { t } = useTranslation();
@@ -24,7 +23,6 @@ export default function ResetPassword() {
   const [emailError, setEmailError] = useState<string | null>(null);
   const [generalError, setGeneralError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [otpSent, setOtpSent] = useState<boolean>(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -40,7 +38,6 @@ export default function ResetPassword() {
     try {
       await resetPassword(email as string);
       setSuccessMessage(t('authPage.resetEmailSent'));
-      setOtpSent(true); // Show the OTP input after sending email
     } catch (error) {
       console.error(error);
       setGeneralError(t('authPage.resetPasswordError'));
@@ -66,7 +63,6 @@ export default function ResetPassword() {
           {t('authPage.resetPassword')}
         </Typography>
 
-        {/* Display success or error messages */}
         {successMessage && (
           <Alert severity='success' sx={{ width: '100%', mt: 2 }}>
             {successMessage}
@@ -78,39 +74,30 @@ export default function ResetPassword() {
           </Alert>
         )}
 
-        {!otpSent ? (
-          <Box
-            component='form'
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
+        <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <TextField
+            margin='normal'
+            required
+            fullWidth
+            id='email'
+            label={t('authPage.email')}
+            name='email'
+            autoComplete='email'
+            autoFocus
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            error={!!emailError}
+            helperText={emailError}
+          />
+          <Button
+            type='submit'
+            fullWidth
+            variant='contained'
+            sx={{ mt: 3, mb: 2 }}
           >
-            <TextField
-              margin='normal'
-              required
-              fullWidth
-              id='email'
-              label={t('authPage.email')}
-              name='email'
-              autoComplete='email'
-              autoFocus
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              error={!!emailError}
-              helperText={emailError}
-            />
-            <Button
-              type='submit'
-              fullWidth
-              variant='contained'
-              sx={{ mt: 3, mb: 2 }}
-            >
-              {t('authPage.sendResetLink')}
-            </Button>
-          </Box>
-        ) : (
-          <OTPInput email={email} />
-        )}
+            {t('authPage.sendResetLink')}
+          </Button>
+        </Box>
       </Box>
     </Container>
   );
