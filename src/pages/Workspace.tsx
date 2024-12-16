@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Grid, Tooltip, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import WorkspaceHeader from '../components/WorkspaceComponents/WorkspaceHeader';
 import DocumentForm from '../components/DocumentComponents/DocumentModals/DocumentFormModal';
 import DocumentList from '../components/DocumentComponents/DocumentList';

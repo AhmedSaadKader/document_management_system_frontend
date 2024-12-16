@@ -52,6 +52,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
       if (firebaseUser) {
         if (firebaseUser.emailVerified) {
+          const firstName = firebaseUser.displayName || 'User';
+          localStorage.setItem('first_name', firstName);
           setUser(firebaseUser.uid);
           setIsAuthenticated(true);
         } else {
