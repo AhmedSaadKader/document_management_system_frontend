@@ -1,26 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Grid, CircularProgress, Button } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Grid,
+  CircularProgress,
+  Button,
+  IconButton,
+} from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import ApiClient from '../services/APIClient';
 import WorkspaceCard from '../components/WorkspaceComponents/WorkspaceCard';
+import { SkipPrevious, SkipNext } from '@mui/icons-material';
 
 const AllWorkspacesPage = () => {
   const [workspaces, setWorkspaces] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true); // Add loading state
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const fetchWorkspaces = async () => {
+      setLoading(true);
       try {
-        const data = await ApiClient.fetchAllWorkspaces();
+        const data = await ApiClient.fetchAllWorkspaces(page);
         setWorkspaces(data.workspaces);
         setTotalPages(data.totalPages);
       } catch (error) {
         console.error(error);
       } finally {
-        setLoading(false); // Set loading to false after fetching
+        setLoading(false);
       }
     };
 
@@ -45,7 +54,6 @@ const AllWorkspacesPage = () => {
         {t('workspace.allWorkspaces')}
       </Typography>
       {loading ? (
-        // Display loading spinner while fetching data
         <Box
           display='flex'
           justifyContent='center'
@@ -55,21 +63,20 @@ const AllWorkspacesPage = () => {
           <CircularProgress />
           <Typography variant='body1' sx={{ ml: 2 }}>
             {t('workspace.loadingWorkspaces')}{' '}
-            {/* Add translation key for loading */}
           </Typography>
         </Box>
       ) : workspaces.length > 0 ? (
         <>
-          <div>
-            <Button onClick={handlePreviousPage} disabled={page === 1}>
-              {t('pagination.previous')}
-            </Button>
+          <div id='pagination'>
+            <IconButton onClick={handlePreviousPage} disabled={page === 1}>
+              <SkipPrevious />
+            </IconButton>
             <span>
               {t('pagination.page')} {page} {t('pagination.of')} {totalPages}
             </span>
-            <Button onClick={handleNextPage} disabled={page === totalPages}>
-              {t('pagination.next')}
-            </Button>
+            <IconButton onClick={handleNextPage} disabled={page === totalPages}>
+              <SkipNext />
+            </IconButton>
           </div>
           <Grid container spacing={3}>
             {workspaces.map((workspace) => (

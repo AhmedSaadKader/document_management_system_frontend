@@ -53,11 +53,6 @@ export default function SignIn() {
       setPasswordError(t('authPage.passwordRequired'));
       return;
     }
-    if (password.length < 6) {
-      // Example: minimum password length
-      setPasswordError(t('authPage.passwordTooShort'));
-      return;
-    }
 
     try {
       await signIn(email, password);

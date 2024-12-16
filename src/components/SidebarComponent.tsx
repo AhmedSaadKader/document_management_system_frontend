@@ -72,13 +72,7 @@ const Sidebar: React.FC = () => {
 
       <List>
         <CreateWorkspaceForm isSidebar={true} />
-        <DocumentFormModal
-          isSidebar={true}
-          onDocumentAdded={function (): void {
-            throw new Error('Function not implemented.');
-          }}
-          workspaceId={''}
-        />
+        <DocumentFormModal isSidebar={true} workspaceId={''} />
       </List>
 
       <Divider sx={{ my: 2 }} />

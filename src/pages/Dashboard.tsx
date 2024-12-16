@@ -1,12 +1,16 @@
 // pages/Dashboard.tsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Typography, Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import PublicWorkspaces from '../components/WorkspaceComponents/PublicWorkspaces';
+import { logPageView } from '../firebase';
 
 const Dashboard = () => {
   const { t } = useTranslation();
 
+  useEffect(() => {
+    logPageView('Dashboard');
+  }, []);
   return (
     <Box sx={{ display: 'flex' }}>
       <Box

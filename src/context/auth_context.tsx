@@ -5,7 +5,18 @@ import React, {
   ReactNode,
   useEffect,
 } from 'react';
-import ApiClient from '../services/APIClient';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut as firebaseSignOut,
+  sendPasswordResetEmail,
+  confirmPasswordReset,
+  sendEmailVerification,
+  updateProfile,
+} from 'firebase/auth';
+import { auth } from '../firebase';
+import { logEvent } from 'firebase/analytics';
+import { analytics } from '../firebase';
 
 interface AuthContextProps {
   isAuthenticated: boolean;
@@ -14,7 +25,6 @@ interface AuthContextProps {
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => void;
   signUp: (userData: {
-    national_id: string;
     first_name: string;
     last_name: string;
     email: string;
@@ -22,7 +32,6 @@ interface AuthContextProps {
   }) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   resetPasswordWithNewPassword: (
-    email: string,
     otp: string,
     newPassword: string
   ) => Promise<void>;
@@ -40,34 +49,112 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const initializeAuth = async () => {
-      const token = localStorage.getItem('authToken');
-      const email = localStorage.getItem('email');
-
-      if (token && email) {
-        try {
-          const user = await ApiClient.fetchUser(email);
-          setUser(user);
+    const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
+      if (firebaseUser) {
+        if (firebaseUser.emailVerified) {
+          setUser(firebaseUser.uid);
           setIsAuthenticated(true);
-        } catch (error) {
-          console.error('Failed to fetch user:', error);
-          localStorage.removeItem('authToken');
-          localStorage.removeItem('email');
-          localStorage.removeItem('national_id');
-          localStorage.removeItem('first_name');
-          localStorage.removeItem('last_name');
+        } else {
+          alert('Please verify your email to activate your account.');
+          await firebaseSignOut(auth);
           setUser(null);
+          setIsAuthenticated(false);
         }
+      } else {
+        setUser(null);
+        setIsAuthenticated(false);
       }
       setIsLoading(false);
-    };
+    });
 
-    initializeAuth();
+    return () => unsubscribe();
   }, []);
 
-  const resetPassword = async (email: string) => {
+  const signIn = async (email: string, password: string): Promise<void> => {
     try {
-      await ApiClient.requestReset(email);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const firebaseUser = userCredential.user;
+
+      if (!firebaseUser.emailVerified) {
+        await sendEmailVerification(firebaseUser);
+        alert(
+          'Your email is not verified. A new verification email has been sent. Please verify your email to proceed.'
+        );
+        throw new Error('Email not verified.');
+      }
+
+      setUser(firebaseUser);
+      setIsAuthenticated(true);
+
+      if (analytics) {
+        logEvent(analytics, 'login', {
+          method: 'email',
+          debug_mode: process.env.REACT_APP_DEBUG_MODE,
+        });
+      }
+    } catch (error) {
+      if (analytics) {
+        logEvent(analytics, 'login_error', {
+          error_type: 'invalid_credentials',
+          debug_mode: process.env.REACT_APP_DEBUG_MODE,
+        });
+      }
+      throw error;
+    }
+  };
+
+  const signOut = async () => {
+    try {
+      await firebaseSignOut(auth);
+      localStorage.removeItem('authToken');
+      setUser(null);
+      setIsAuthenticated(false);
+
+      if (analytics) {
+        logEvent(analytics, 'logout', {
+          debug_mode: process.env.REACT_APP_DEBUG_MODE,
+        });
+      }
+    } catch (error) {
+      console.error('Sign out error:', error);
+    }
+  };
+  const signUp = async ({
+    first_name,
+    last_name,
+    email,
+    password,
+  }: {
+    first_name: string;
+    last_name: string;
+    email: string;
+    password: string;
+  }): Promise<void> => {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    if (analytics)
+      logEvent(analytics, 'sign_up', {
+        method: 'email',
+        debug_mode: process.env.REACT_APP_DEBUG_MODE,
+      });
+    const user = userCredential.user;
+    await updateProfile(user, { displayName: `${first_name} ${last_name}` });
+    await sendEmailVerification(user);
+    alert(
+      'Please check your email for a verification link to activate your account.'
+    );
+  };
+
+  const resetPassword = async (email: string): Promise<void> => {
+    try {
+      await sendPasswordResetEmail(auth, email);
     } catch (error) {
       console.error('Error sending reset password email', error);
       throw error;
@@ -75,53 +162,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const resetPasswordWithNewPassword = async (
-    email: string,
     otp: string,
     newPassword: string
-  ) => {
+  ): Promise<void> => {
     try {
-      await ApiClient.updatePassword(email, otp, newPassword);
+      // Firebase uses a different method for password reset
+      // You would typically get the OTP (actionCode) from the password reset link
+      await confirmPasswordReset(auth, otp, newPassword);
     } catch (error) {
       console.error('Error resetting password', error);
       throw error;
-    }
-  };
-
-  const signIn = async (email: string, password: string): Promise<void> => {
-    try {
-      await ApiClient.login(email, password);
-      const user = await ApiClient.fetchUser(email);
-      setUser(user);
-      setIsAuthenticated(true);
-    } catch (error) {
-      throw new Error((error as Error).message);
-    }
-  };
-
-  const signOut = () => {
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('email');
-    localStorage.removeItem('national_id');
-    localStorage.removeItem('first_name');
-    localStorage.removeItem('last_name');
-    setUser(null);
-    setIsAuthenticated(false);
-  };
-
-  const signUp = async (userData: {
-    national_id: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    password: string;
-  }): Promise<void> => {
-    try {
-      await ApiClient.register(userData);
-      const user = await ApiClient.fetchUser(userData.email);
-      setUser(user);
-      setIsAuthenticated(true);
-    } catch (error) {
-      throw new Error((error as Error).message);
     }
   };
 
