@@ -10,6 +10,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { Delete, Restore } from '@mui/icons-material';
 import ApiClient from '../services/APIClient';
+import { auth } from '../firebase';
 
 const RecycleBinPage = () => {
   const [documents, setDocuments] = useState<any[]>([]);
@@ -39,12 +40,13 @@ const RecycleBinPage = () => {
 
   async function restoreDocument(documentId: string) {
     try {
+      const token = await auth.currentUser?.getIdToken();
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/documents/${documentId}/restore`,
         {
           method: 'PATCH',
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+            Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
         }
@@ -62,12 +64,13 @@ const RecycleBinPage = () => {
 
   async function permanentlyDeleteDocument(documentId: string) {
     try {
+      const token = await auth.currentUser?.getIdToken();
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/documents/${documentId}/delete`,
         {
           method: 'DELETE',
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+            Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
         }
