@@ -1,5 +1,5 @@
+import { auth } from '../firebase';
 import { WorkspaceWithRole } from '../models/Workspace';
-import { UserData } from '../pages/SignUp';
 
 class ApiClient {
   private static readonly baseUrl = process.env.REACT_APP_API_URL;
@@ -10,11 +10,13 @@ class ApiClient {
     method: 'GET' | 'POST' | 'DELETE' | 'PUT',
     body?: any
   ): Promise<any> {
+    const token = await auth.currentUser?.getIdToken();
+
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       method,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+        Authorization: `Bearer ${token}`,
       },
       body: body ? JSON.stringify(body) : undefined,
     });
@@ -25,59 +27,6 @@ class ApiClient {
     }
 
     return response.json();
-  }
-
-  static async generateOtp(userData: UserData): Promise<void> {
-    return this.request('/otp/generate', 'POST', userData);
-  }
-
-  static async verifyOtp(otpData: {
-    email: string;
-    otp: string;
-  }): Promise<void> {
-    return this.request('/otp/verify', 'POST', otpData);
-  }
-
-  static async register(userData: UserData): Promise<any> {
-    const data = await this.request('/users/register', 'POST', userData);
-    localStorage.setItem('authToken', data.token);
-    localStorage.setItem('email', data.email);
-    localStorage.setItem('national_id', data.national_id);
-    localStorage.setItem('first_name', data.first_name);
-    localStorage.setItem('last_name', data.last_name);
-    return data;
-  }
-
-  static async login(email: string, password: string): Promise<void> {
-    const data = await this.request('/users/login', 'POST', {
-      email,
-      password,
-    });
-    localStorage.setItem('authToken', data.token);
-    localStorage.setItem('email', data.email);
-    localStorage.setItem('national_id', data.national_id);
-    localStorage.setItem('first_name', data.first_name);
-    localStorage.setItem('last_name', data.last_name);
-  }
-
-  static async requestReset(email: string): Promise<void> {
-    return this.request(`/users/request-reset`, 'POST', { email });
-  }
-
-  static async updatePassword(
-    email: string,
-    otp: string,
-    password: string
-  ): Promise<void> {
-    return this.request(`/users/reset-password`, 'POST', {
-      email,
-      otp,
-      password,
-    });
-  }
-
-  static async fetchUser(email: string): Promise<any> {
-    return this.request(`/users/${email}`, 'GET');
   }
 
   static async createWorkspace(workspaceData: {
@@ -160,7 +109,7 @@ class ApiClient {
 
   static async fetchAllWorkspaces(
     page: number = 1,
-    limit: number = 10
+    limit: number = 9
   ): Promise<any> {
     return this.request(`/workspaces?page=${page}&limit=${limit}`, 'GET');
   }
