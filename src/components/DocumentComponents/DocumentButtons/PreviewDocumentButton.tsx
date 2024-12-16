@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Preview } from '@mui/icons-material';
 import DocumentPreviewModal from '../DocumentModals/DocumentPreviewModal';
 import { Document } from '../../../models/Document';
+import { auth } from '../../../firebase';
 
 interface PreviewDocumentButtonProps {
   document: Document;
@@ -20,12 +21,13 @@ const PreviewDocumentButton = ({ document }: PreviewDocumentButtonProps) => {
   const handlePreviewDocument = async () => {
     setLoading(true);
     try {
+      const token = await auth.currentUser?.getIdToken();
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/documents/${documentId}/preview`,
         {
           method: 'GET',
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );

@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Share } from '@mui/icons-material';
+import { auth } from '../../firebase';
 
 interface ShareWorkspaceModalProps {
   workspaceId: string;
@@ -28,12 +29,13 @@ const ShareWorkspaceModal: React.FC<ShareWorkspaceModalProps> = ({
 
   const handleShare = async () => {
     try {
+      const token = await auth.currentUser?.getIdToken();
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/workspaces/${workspaceId}/share`,
         {
           method: 'POST',
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+            Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ email, permission }),

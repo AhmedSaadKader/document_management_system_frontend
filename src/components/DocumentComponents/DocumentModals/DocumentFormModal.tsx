@@ -21,7 +21,7 @@ import ApiClient from '../../../services/APIClient';
 import { Add } from '@mui/icons-material';
 import { useAuth } from '../../../context/auth_context';
 import { Workspace } from '../../../models/Workspace';
-import { analytics } from '../../../firebase';
+import { analytics, auth } from '../../../firebase';
 import { logEvent } from 'firebase/analytics';
 
 interface DocumentFormModalProps {
@@ -70,12 +70,13 @@ const DocumentFormModal: React.FC<DocumentFormModalProps> = ({
     formData.append('tags', tags);
 
     try {
+      const token = await auth.currentUser?.getIdToken();
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/workspaces/${selectedWorkspaceId}/documents`,
         {
           method: 'POST',
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+            Authorization: `Bearer ${token}`,
           },
           body: formData,
         }

@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Download } from '@mui/icons-material';
+import { auth } from '../../../firebase';
 
 interface DownloadDocumentButtonProps {
   documentId: string;
@@ -15,12 +16,13 @@ const DownloadDocumentButton = ({
 
   const handleDownload = async () => {
     try {
+      const token = await auth.currentUser?.getIdToken();
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/documents/${documentId}/download`,
         {
           method: 'GET',
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
